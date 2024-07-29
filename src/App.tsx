@@ -13,10 +13,10 @@ function App() {
       <Pharmacy />
     </main>
     <footer>
-      <p>Created By: Morning Dove Nelson 2024</p>
+      <p></p>
     </footer>
     </>
   )
 }
 
-export default App
+export default App;
