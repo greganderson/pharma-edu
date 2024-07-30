@@ -1,16 +1,16 @@
 import React from "react";
+import routes from "../routes";
 import NavItem from "./NavItem";
 
 const Nav: React.FC = () => {
   return (
     <nav>
       <ul>
-        <NavItem name="Home" path="/" />
-        <NavItem name="NewDr" path="/NewDr" />
-        <NavItem name="NewRx" path="/NewRx" />
-        <NavItem name="RxItem" path="/RxItem" />
-        <NavItem name="SigCode" path="/SigCode" />
-        <NavItem name="X" path="/X" />
+        {
+          routes.map(route => (
+            <NavItem key={route.path} name={route.name} path={route.path} />
+          ))
+        }
       </ul>
     </nav>
   );
