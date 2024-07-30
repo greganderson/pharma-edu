@@ -1,7 +1,7 @@
 import React from "react";
 
 const RxItem: React.FC = () => {
-  return <div>Rx Item</div>;
+  return <h1>Rx Item</h1>;
 };
 
 export default RxItem;

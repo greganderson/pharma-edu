@@ -1,7 +1,7 @@
 import React from "react";
 
 const X: React.FC = () => {
-  return <div>X</div>;
+  return <h1>X</h1>;
 };
 
 export default X;

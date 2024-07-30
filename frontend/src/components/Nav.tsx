@@ -1,19 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-type NavbarProps = {
-  setActivePage: (page: string) => void;
-};
-
-const Nav: React.FC<NavbarProps> = ({ setActivePage }) => {
+const Nav: React.FC = () => {
   return (
     <nav>
       <ul>
-        <li><button onClick={() => setActivePage("Home")}>Home</button></li>
-        <li><button onClick={() => setActivePage("NewDr")}>New Dr</button></li>
-        <li><button onClick={() => setActivePage("NewRx")}>New Rx</button></li>
-        <li><button onClick={() => setActivePage("RxItem")}>Rx Item</button></li>
-        <li><button onClick={() => setActivePage("SigCode")}>Sig Code</button></li>
-        <li><button onClick={() => setActivePage("X")}>X</button></li>
+        <li><Link to="/home">Home</Link></li>
+        <li><Link to="/newdr">New Dr</Link></li>
+        <li><Link to="/newrx">New Rx</Link></li>
+        <li><Link to="/rxitem">Rx Item</Link></li>
+        <li><Link to="/sigcode">Sig Code</Link></li>
+        <li><Link to="/x">X</Link></li>
       </ul>
     </nav>
   );
