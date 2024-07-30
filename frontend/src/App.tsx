@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Nav from "./components/Nav";
-import Home from "./components/Home";
-import NewDr from "./components/NewDr";
-import NewRx from "./components/NewRx";
-import RxItem from "./components/RxItem";
-import SigCode from "./components/SigCode";
-import X from "./components/X";
+import Home from "./pages/Home";
+import NewDr from "./pages/NewDr";
+import NewRx from "./pages/NewRx";
+import RxItem from "./pages/RxItem";
+import SigCode from "./pages/SigCode";
+import X from "./pages/X";
 
 const App: React.FC = () => {
   return (
