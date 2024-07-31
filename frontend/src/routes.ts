@@ -1,9 +1,11 @@
 import Home from "./pages/Home";
 import NewDr from "./pages/NewDr";
+import NewPatient from "./pages/NewPatient";
 import NewRx from "./pages/NewRx";
 import RxItem from "./pages/RxItem";
 import SigCode from "./pages/SigCode";
-import X from "./pages/X";
+import TechInitials from "./pages/TechInitials";
+import X from "./pages/TechInitials";
 
 interface PharmacyRoutes {
   name: string;
@@ -16,6 +18,11 @@ const routes: PharmacyRoutes[] = [
     name: "Home",
     path: "/",
     component: Home,
+  },
+  {
+    name: "NewPatient",
+    path: "/newpatient",
+    component: NewPatient,
   },
   {
     name: "NewDr",
@@ -38,9 +45,9 @@ const routes: PharmacyRoutes[] = [
     component: SigCode,
   },
   {
-    name: "X",
-    path: "/x",
-    component: X,
+    name: "TechInitials",
+    path: "/techinitials",
+    component: TechInitials,
   },
 ];
 
