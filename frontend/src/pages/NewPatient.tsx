@@ -1,8 +1,15 @@
 import React from "react";
+import SearchBar from "../components/SearchBar";
 
 const NewPatient: React.FC = () => {
+  const handleSearch = (query: string) => {
+    console.log("Searching for patient", query);
+  };
+
   return (
-    <h1>NewPatient</h1>
+    <div>
+      <SearchBar placeholder="Search for a patient" onSearch={handleSearch} />
+    </div>
   );
 };
 
