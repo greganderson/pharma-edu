@@ -1,7 +1,12 @@
 import React from "react";
+import DixieTechLogo from "../assets/DixieTechLogo.png";
 
 const NewPatient: React.FC = () => {
-  return <h1>New Patient</h1>;
+  return (
+    <div>
+      <img src={DixieTechLogo} alt="Dixie Tech Logo" className="logo-image" />
+    </div>
+  );
 };
 
 export default NewPatient;

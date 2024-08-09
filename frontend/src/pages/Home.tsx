@@ -1,5 +1,5 @@
 import React from "react";
-import DixieTechLogo from "../assets/DixieTechLogo.png"; // Adjust the path as necessary
+import DixieTechLogo from "../assets/DixieTechLogo.png";
 
 const Home: React.FC = () => {
   return (
