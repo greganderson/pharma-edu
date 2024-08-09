@@ -17,22 +17,22 @@ const routes: PharmacyRoutes[] = [
     component: Home,
   },
   {
-    name: "NewRx",
+    name: "New Rx",
     path: "/newrx",
     component: NewRx,
   },
   {
-    name: "NewPatient",
+    name: "New Patient",
     path: "/newpatient",
     component: NewPatient,
   },
   {
-    name: "NewDr",
+    name: "New Dr",
     path: "/newdr",
     component: NewDr,
   },
   {
-    name: "RxItem",
+    name: "Rx Item",
     path: "/rxitem",
     component: RxItem,
   },

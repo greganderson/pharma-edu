@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from "react-route
 import Nav from "./components/Nav";
 import routes from "./routes";
 import DixieTechLogo from "./assets/DixieTechLogo.png";
+import PatientProfile from "./pages/PatientProfile";
+import AddNewPatient from "./pages/AddNewPatient";
+import DoctorProfile from "./pages/DoctorProfile";
+import RxItemProfile from "./pages/RxItemProfile";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -29,6 +33,10 @@ const App: React.FC = () => {
         {routes.map((route) => (
           <Route key={route.path} path={route.path} element={<route.component />} />
         ))}
+        <Route path="/patientprofile" element={<PatientProfile />} />
+        <Route path="/addnewpatient" element={<AddNewPatient />} />
+        <Route path="/doctorprofile" element={<DoctorProfile />} />
+        <Route path="/rxitemprofile" element={<RxItemProfile />} />
       </Routes>
     </Router>
   );
