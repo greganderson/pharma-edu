@@ -11,9 +11,23 @@ body {
   padding: 0;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2E3F59;
+  border-bottom: 1px solid #ccc;
+}
+
+.small-logo {
+  max-width: 200px;
+  height: auto;
+  margin-left: auto;
+}
+
 nav {
-  background-color: #333;
-  padding: 1rem;
+  background-color: #2E3F59;
+  padding: 2.5rem 0; /* Adjusted padding for better layout */
 }
 
 nav ul {
@@ -21,26 +35,27 @@ nav ul {
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: space-around; /* Distribute items evenly */
+  justify-content: space-around;
 }
 
 nav ul li {
   display: inline;
+  margin: 0 0.5rem;
 }
 
 nav ul li a {
   color: white;
   font-size: 1rem;
   text-decoration: none;
+  padding: 2.5rem 2rem; /* Adjusted padding for a box-like appearance */
+  border-radius: 4px;
+  background-color: #2E3F59;
+  border: 1px solid white; /* Add white border around each box */
+  transition: background-color 0.3s, border-color 0.3s; /* Smooth transition on hover */
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
-}
-
-.logo-image {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto; /* Center the image horizontally */
+  background-color: #4D79A9;
+  border-color: #ffffff;
+  text-decoration: none;
 }
