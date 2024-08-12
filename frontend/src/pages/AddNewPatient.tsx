@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface PatientDetails {
   last: string;
@@ -18,6 +19,8 @@ interface InsuranceInfo {
 }
 
 const AddNewPatient: React.FC = () => {
+  const navigate = useNavigate();
+
   const [patientDetails, setPatientDetails] = useState<PatientDetails>({
     last: "",
     first: "",
@@ -51,6 +54,10 @@ const AddNewPatient: React.FC = () => {
     }));
   };
 
+  const goToPatientProfile = () => {
+    navigate("/patientprofile");
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Patient Details:", patientDetails);
@@ -60,7 +67,6 @@ const AddNewPatient: React.FC = () => {
   return (
     <div className="add-new-patient-container">
       <h1>Add New Patient</h1>
-      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="patient-last-name">Last Name</label>
           <input
@@ -172,8 +178,13 @@ const AddNewPatient: React.FC = () => {
             onChange={handleInsuranceChange}
           />
         </div>
-        <button type="submit">Submit</button>
-      </form>
+        <button 
+          type="button"
+          onClick={goToPatientProfile}
+          className="navigate-button"
+        >
+          Save Info
+        </button>
     </div>
   );
 };
