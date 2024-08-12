@@ -11,7 +11,7 @@ import RxItemProfile from "./pages/RxItemProfile";
 const Header: React.FC = () => {
   const location = useLocation();
   const currentRoute = routes.find((route) => route.path === location.pathname);
-  const title = currentRoute ? currentRoute.name : "Home";
+  const title = currentRoute ? currentRoute.name : "Page Not Found"; // Default to a more descriptive title
   const isHomePage = location.pathname === "/";
 
   return (
@@ -33,6 +33,7 @@ const App: React.FC = () => {
         {routes.map((route) => (
           <Route key={route.path} path={route.path} element={<route.component />} />
         ))}
+        {/* Additional routes not included in the main navigation */}
         <Route path="/patientprofile" element={<PatientProfile />} />
         <Route path="/addnewpatient" element={<AddNewPatient />} />
         <Route path="/doctorprofile" element={<DoctorProfile />} />

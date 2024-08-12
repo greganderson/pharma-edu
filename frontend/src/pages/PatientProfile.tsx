@@ -1,9 +1,9 @@
 import React from "react";
 
-const PatienProfile: React.FC = () => {
+const PatientProfile: React.FC = () => {
   return (
     <h1>Patient Profile</h1>
   );
 };
 
-export default PatienProfile;
+export default PatientProfile;
