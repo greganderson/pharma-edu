@@ -15,9 +15,15 @@ const RxItem: React.FC = () => {
   };
 
   return (
-    <div>
-      <SearchBar placeholder="Search for an Rx item" onSearch={handleSearch} />
-      <button type="button" onClick={goToRxItemProfile} className="navigate-button">
+    <div className="new-rx-container">
+      <div className="search-bar">
+        <SearchBar placeholder="Search for an Rx item" onSearch={handleSearch} />
+      </div>
+      <button 
+        type="button" 
+        onClick={goToRxItemProfile} 
+        className="navigate-button"
+      >
         Go to Rx Item Profile
       </button>
     </div>

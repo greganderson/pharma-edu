@@ -60,6 +60,27 @@ nav ul li a:hover {
   text-decoration: none;
 }
 
+.new-patient-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.new-rx-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.new-dr-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -90,6 +111,10 @@ nav ul li a:hover {
 }
 
 .navigate-button {
+  align-self: flex-end; /* Align the button to the right */
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   color: white;
@@ -98,7 +123,6 @@ nav ul li a:hover {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 1rem;
 }
 
 .navigate-button:hover {

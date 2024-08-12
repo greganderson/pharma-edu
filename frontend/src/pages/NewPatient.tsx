@@ -15,9 +15,15 @@ const NewPatient: React.FC = () => {
   };
 
   return (
-    <div>
-      <SearchBar placeholder="Search for a patient" onSearch={handleSearch} />
-      <button type="button" onClick={goToPatientProfile} className="navigate-button">
+    <div className="new-patient-container">
+      <div className="search-bar">
+        <SearchBar placeholder="Search for a patient" onSearch={handleSearch} />
+      </div>
+      <button
+        type="button"
+        onClick={goToPatientProfile}
+        className="navigate-button"
+      >
         Go to Patient Profile
       </button>
     </div>
