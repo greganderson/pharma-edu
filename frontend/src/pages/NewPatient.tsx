@@ -10,8 +10,8 @@ const NewPatient: React.FC = () => {
     // Implement search logic here
   };
 
-  const goToPatientProfile = () => {
-    navigate("/patientprofile");
+  const goToAddNewPatient = () => {
+    navigate("/addnewpatient");
   };
 
   return (
@@ -21,10 +21,10 @@ const NewPatient: React.FC = () => {
       </div>
       <button
         type="button"
-        onClick={goToPatientProfile}
+        onClick={goToAddNewPatient}
         className="navigate-button"
       >
-        Go to Patient Profile
+        Add New Patient
       </button>
     </div>
   );

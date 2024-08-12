@@ -10,8 +10,8 @@ const RxItem: React.FC = () => {
     // Implement search logic here
   };
 
-  const goToRxItemProfile = () => {
-    navigate("/rxitemprofile");
+  const goToNewRx = () => {
+    navigate("/newrx");
   };
 
   return (
@@ -21,10 +21,10 @@ const RxItem: React.FC = () => {
       </div>
       <button 
         type="button" 
-        onClick={goToRxItemProfile} 
+        onClick={goToNewRx} 
         className="navigate-button"
       >
-        Go to Rx Item Profile
+        Add New Rx
       </button>
     </div>
   );

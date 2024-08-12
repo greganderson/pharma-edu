@@ -23,7 +23,7 @@ const NewDr: React.FC = () => {
           onClick={gotoDoctorProfile} 
           className="navigate-button"
         >
-          Go to Doctor Profile
+          Add New Doctor
         </button>
       </div>
     </div>
