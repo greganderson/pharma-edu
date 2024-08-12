@@ -9,6 +9,14 @@ interface PatientDetails {
   allergies: string;
 }
 
+interface InsuranceInfo {
+  bin: string;
+  pcn: string;
+  personCode: string;
+  id: string;
+  group: string;
+}
+
 const AddNewPatient: React.FC = () => {
   const [patientDetails, setPatientDetails] = useState<PatientDetails>({
     last: "",
@@ -17,12 +25,28 @@ const AddNewPatient: React.FC = () => {
     address: "",
     primaryDr: "",
     allergies: "",
-  })
+  });
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value } = event.target;
+  const [InsuranceInfo, setInsuranceInfo] = useState<InsuranceInfo>({
+    bin: "",
+    pcn: "",
+    personCode: "",
+    id: "",
+    group: "",
+  });
+
+  const handlePatientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setPatientDetails((prevDetails) => ({
       ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value } = event.target;
+    setInsuranceInfo((prevInfo) => ({
+      ...prevInfo,
       [name]: value,
     }));
   };
@@ -30,6 +54,7 @@ const AddNewPatient: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Patient Details:", patientDetails);
+    console.log("Insurance Info:", InsuranceInfo);
   };
 
   return (
@@ -43,7 +68,7 @@ const AddNewPatient: React.FC = () => {
             name="last"
             id="patient-last-name"
             value={patientDetails.last}
-            onChange={handleInputChange}
+            onChange={handlePatientChange}
           />
         </div>
         <div>
@@ -53,7 +78,7 @@ const AddNewPatient: React.FC = () => {
             name="first"
             id="patient-first-name"
             value={patientDetails.first}
-            onChange={handleInputChange}
+            onChange={handlePatientChange}
           />
         </div>
         <div>
@@ -63,7 +88,7 @@ const AddNewPatient: React.FC = () => {
             name="dob"
             id="patient-dob"
             value={patientDetails.dob}
-            onChange={handleInputChange}
+            onChange={handlePatientChange}
           />
         </div>
         <div>
@@ -73,7 +98,7 @@ const AddNewPatient: React.FC = () => {
             name="address"
             id="patient-address"
             value={patientDetails.address}
-            onChange={handleInputChange}
+            onChange={handlePatientChange}
           />
         </div>
         <div>
@@ -83,7 +108,7 @@ const AddNewPatient: React.FC = () => {
             name="primary-dr"
             id="patient-primary-dr"
             value={patientDetails.primaryDr}
-            onChange={handleInputChange}
+            onChange={handlePatientChange}
           />
         </div>
         <div>
@@ -93,7 +118,58 @@ const AddNewPatient: React.FC = () => {
             name="allergies"
             id="patient-allergies"
             value={patientDetails.allergies}
-            onChange={handleInputChange}
+            onChange={handlePatientChange}
+          />
+        </div>
+        <p>Insurance Info</p>
+        <div>
+          <label htmlFor="patient-bin">Bin</label>
+          <input
+            type="text"
+            name="bin"
+            id="patient-bin"
+            value={InsuranceInfo.bin}
+            onChange={handleInsuranceChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="patient-pcn">PCN</label>
+          <input
+            type="text"
+            name="pcn"
+            id="patient-pcn"
+            value={InsuranceInfo.pcn}
+            onChange={handleInsuranceChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="patient-person-code">Person Code</label>
+          <input
+            type="text"
+            name="personCode"
+            id="patient-person-code"
+            value={InsuranceInfo.personCode}
+            onChange={handleInsuranceChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="patient-id">ID #</label>
+          <input
+            type="text"
+            name="id"
+            id="patient-id"
+            value={InsuranceInfo.id}
+            onChange={handleInsuranceChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="patient-group">Group #</label>
+          <input
+            type="text"
+            name="group"
+            id="patient-group"
+            value={InsuranceInfo.group}
+            onChange={handleInsuranceChange}
           />
         </div>
         <button type="submit">Submit</button>
