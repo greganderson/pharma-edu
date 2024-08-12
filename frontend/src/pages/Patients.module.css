@@ -1,0 +1,30 @@
+.formContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.tableContainer {
+    width: 45%;
+}
+
+table {
+    width: 100%;
+    border-spacing: 10px;
+}
+
+td {
+    vertical-align: top;
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.buttonContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}

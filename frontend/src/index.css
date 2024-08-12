@@ -1,20 +1,63 @@
+<<<<<<< HEAD
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+=======
+>>>>>>> 6856b3d (Add seperate pages)
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+<<<<<<< HEAD
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+=======
+  margin: 0 auto;
+  padding: 0;
+
+  color: #000;
+  text-decoration: none;
+  background-color: #778496; /* #8EACBE;   #7b8da7*/
+  background-image: url("./RXbackground.png");
+  display: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:auto;
+>>>>>>> 6856b3d (Add seperate pages)
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+<<<<<<< HEAD
   -moz-osx-font-smoothing: grayscale;
 }
+=======
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #B0ACAC;
+  color: #000;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #8e8e90;
+}
+
+input {
+  border: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+
+>>>>>>> 6856b3d (Add seperate pages)

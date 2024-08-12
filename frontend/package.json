@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
+<<<<<<<< HEAD:frontend/package.json
   "name": "frontend",
+=======
+  "name": "pharmacy",
+>>>>>>> 6856b3d (Add seperate pages)
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +15,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1"
+=======
+    "bootstrap": "^5.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+>>>>>>> 6856b3d (Add seperate pages)
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
@@ -25,5 +36,12 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "typescript": "^5.2.2",
     "vite": "^5.3.4"
+<<<<<<< HEAD
+========
+  "dependencies": {
+    "react-router-dom": "^6.25.1"
+>>>>>>>> 6856b3d (Add seperate pages):package.json
+=======
+>>>>>>> 6856b3d (Add seperate pages)
   }
 }

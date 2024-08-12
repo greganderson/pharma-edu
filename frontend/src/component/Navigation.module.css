@@ -1,0 +1,78 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+nav {
+    /* background-color: #2e3f59; */
+    margin: 0;
+    padding: 20px 5vw;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.logo {
+    background-image: url("/DixieTechHomepageLogo.png");
+    display: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 150px;
+    height: 100px;
+    margin-right: 30px;
+}
+
+.navButton {
+    margin: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+    list-style-type: none;
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1;
+    justify-content: space-between;
+    width: 100%;
+}
+
+ul li {
+    list-style-type: none;
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 30px;
+    background-color: #D6DADA;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.navButton li {
+    width: 75px;
+    height: 40px;
+}
+
+.navButton :hover {
+    background-color: #b2b2b3;
+}
+
+
+
