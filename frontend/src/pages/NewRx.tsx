@@ -39,7 +39,6 @@ const NewRx: React.FC = () => {
 
   return (
     <div className="new-rx-container">
-      <h3>New Rx</h3>
       <div>
         <label htmlFor="rx-pt-name">Patient Last Name</label>
         <input
@@ -150,6 +149,7 @@ const NewRx: React.FC = () => {
           onChange={handleRxChange}
         />
       </div>
+      <h3>Scan Image</h3>
     </div>
   );
 };
