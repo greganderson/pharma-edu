@@ -147,7 +147,7 @@ const PatientProfile: React.FC = () => {
         <label htmlFor="patient-person-code">Person Code</label>
         <input
           type="text"
-          name="personCode"
+          name="person-code"
           id="patient-person-code"
           value={InsuranceInfo.personCode}
           onChange={handleInsuranceChange}
