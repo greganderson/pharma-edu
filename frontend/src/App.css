@@ -12,6 +12,8 @@ body {
 }
 
 .header {
+  color: white;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -127,4 +129,8 @@ nav ul li a:hover {
 
 .navigate-button:hover {
   background-color: #4D79A9;
+}
+
+.logo-image {
+  background-color: #2E3F59;
 }
