@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface DoctorProfile {
+interface DoctorDetails {
   last: string;
   first: string;
   drType: string;
@@ -12,7 +12,7 @@ interface DoctorProfile {
 }
 
 const DoctorProfile: React.FC = () => {
-  const [DoctorDetails, setDoctorDetails] = useState<DoctorDetails>({
+  const [doctorDetails, setDoctorDetails] = useState<DoctorDetails>({
     last: "",
     first: "",
     drType: "",
@@ -39,7 +39,7 @@ const DoctorProfile: React.FC = () => {
           type="text"
           name="last"
           id="doctor-last-name"
-          value={DoctorDetails.last}
+          value={doctorDetails.last}
           onChange={handleDoctorChange}
         />
       </div>
@@ -49,7 +49,7 @@ const DoctorProfile: React.FC = () => {
           type="text"
           name="first"
           id="doctor-first-name"
-          value={DoctorDetails.first}
+          value={doctorDetails.first}
           onChange={handleDoctorChange}
         />
       </div>
@@ -57,9 +57,9 @@ const DoctorProfile: React.FC = () => {
         <label htmlFor="doctor-dr-type">Dr Type</label>
         <input
           type="text"
-          name="dr-type"
+          name="drType"
           id="doctor-dr-type"
-          value={DoctorDetails.drType}
+          value={doctorDetails.drType}
           onChange={handleDoctorChange}
         />
       </div>
@@ -69,7 +69,7 @@ const DoctorProfile: React.FC = () => {
           type="text"
           name="address"
           id="doctor-address"
-          value={DoctorDetails.address}
+          value={doctorDetails.address}
           onChange={handleDoctorChange}
         />
       </div>
@@ -79,7 +79,7 @@ const DoctorProfile: React.FC = () => {
           type="text"
           name="dea"
           id="doctor-dea"
-          value={DoctorDetails.dea}
+          value={doctorDetails.dea}
           onChange={handleDoctorChange}
         />
       </div>
@@ -89,7 +89,7 @@ const DoctorProfile: React.FC = () => {
           type="text"
           name="phone"
           id="doctor-phone"
-          value={DoctorDetails.phone}
+          value={doctorDetails.phone}
           onChange={handleDoctorChange}
         />
       </div>
@@ -99,7 +99,7 @@ const DoctorProfile: React.FC = () => {
           type="text"
           name="npi"
           id="doctor-npi"
-          value={DoctorDetails.npi}
+          value={doctorDetails.npi}
           onChange={handleDoctorChange}
         />
       </div>

@@ -30,7 +30,7 @@ const PatientProfile: React.FC = () => {
     allergies: "",
   });
 
-  const [InsuranceInfo, setInsuranceInfo] = useState<InsuranceInfo>({
+  const [insuranceInfo, setInsuranceInfo] = useState<InsuranceInfo>({
     bin: "",
     pcn: "",
     personCode: "",
@@ -47,7 +47,7 @@ const PatientProfile: React.FC = () => {
   };
 
   const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value } = event.target;
+    const { name, value } = event.target;
     setInsuranceInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
@@ -59,7 +59,7 @@ const PatientProfile: React.FC = () => {
   };
 
   return (
-    <div className="add-new-patient-container">
+    <div className="patient-profile-container">
       <h3>Patient Name</h3>
       <h3>General Information</h3>
       <div>
@@ -106,7 +106,7 @@ const PatientProfile: React.FC = () => {
         <label htmlFor="patient-primary-dr">Primary Dr</label>
         <input
           type="text"
-          name="primary-dr"
+          name="primaryDr"
           id="patient-primary-dr"
           value={patientDetails.primaryDr}
           onChange={handlePatientChange}
@@ -129,7 +129,7 @@ const PatientProfile: React.FC = () => {
           type="text"
           name="bin"
           id="patient-bin"
-          value={InsuranceInfo.bin}
+          value={insuranceInfo.bin}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -139,7 +139,7 @@ const PatientProfile: React.FC = () => {
           type="text"
           name="pcn"
           id="patient-pcn"
-          value={InsuranceInfo.pcn}
+          value={insuranceInfo.pcn}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -147,9 +147,9 @@ const PatientProfile: React.FC = () => {
         <label htmlFor="patient-person-code">Person Code</label>
         <input
           type="text"
-          name="person-code"
+          name="personCode"
           id="patient-person-code"
-          value={InsuranceInfo.personCode}
+          value={insuranceInfo.personCode}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -159,7 +159,7 @@ const PatientProfile: React.FC = () => {
           type="text"
           name="id"
           id="patient-id"
-          value={InsuranceInfo.id}
+          value={insuranceInfo.id}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -169,7 +169,7 @@ const PatientProfile: React.FC = () => {
           type="text"
           name="group"
           id="patient-group"
-          value={InsuranceInfo.group}
+          value={insuranceInfo.group}
           onChange={handleInsuranceChange}
         />
       </div>

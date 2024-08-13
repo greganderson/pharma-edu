@@ -21,7 +21,7 @@ interface InsuranceInfo {
 const AddNewPatient: React.FC = () => {
   const navigate = useNavigate();
 
-  const [PatientDetails, setPatientDetails] = useState<PatientDetails>({
+  const [patientDetails, setPatientDetails] = useState<PatientDetails>({
     last: "",
     first: "",
     dob: "",
@@ -30,7 +30,7 @@ const AddNewPatient: React.FC = () => {
     allergies: "",
   });
 
-  const [InsuranceInfo, setInsuranceInfo] = useState<InsuranceInfo>({
+  const [insuranceInfo, setInsuranceInfo] = useState<InsuranceInfo>({
     bin: "",
     pcn: "",
     personCode: "",
@@ -66,7 +66,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="last"
           id="patient-last-name"
-          value={PatientDetails.last}
+          value={patientDetails.last}
           onChange={handlePatientChange}
         />
       </div>
@@ -76,7 +76,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="first"
           id="patient-first-name"
-          value={PatientDetails.first}
+          value={patientDetails.first}
           onChange={handlePatientChange}
         />
       </div>
@@ -86,7 +86,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="dob"
           id="patient-dob"
-          value={PatientDetails.dob}
+          value={patientDetails.dob}
           onChange={handlePatientChange}
         />
       </div>
@@ -96,7 +96,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="address"
           id="patient-address"
-          value={PatientDetails.address}
+          value={patientDetails.address}
           onChange={handlePatientChange}
         />
       </div>
@@ -104,9 +104,9 @@ const AddNewPatient: React.FC = () => {
         <label htmlFor="patient-primary-dr">Primary Dr</label>
         <input
           type="text"
-          name="primary-dr"
+          name="primaryDr"
           id="patient-primary-dr"
-          value={PatientDetails.primaryDr}
+          value={patientDetails.primaryDr}
           onChange={handlePatientChange}
         />
       </div>
@@ -116,7 +116,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="allergies"
           id="patient-allergies"
-          value={PatientDetails.allergies}
+          value={patientDetails.allergies}
           onChange={handlePatientChange}
         />
       </div>
@@ -127,7 +127,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="bin"
           id="patient-bin"
-          value={InsuranceInfo.bin}
+          value={insuranceInfo.bin}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -137,7 +137,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="pcn"
           id="patient-pcn"
-          value={InsuranceInfo.pcn}
+          value={insuranceInfo.pcn}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -145,9 +145,9 @@ const AddNewPatient: React.FC = () => {
         <label htmlFor="patient-person-code">Person Code</label>
         <input
           type="text"
-          name="person-code"
+          name="personCode"
           id="patient-person-code"
-          value={InsuranceInfo.personCode}
+          value={insuranceInfo.personCode}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -157,7 +157,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="id"
           id="patient-id"
-          value={InsuranceInfo.id}
+          value={insuranceInfo.id}
           onChange={handleInsuranceChange}
         />
       </div>
@@ -167,7 +167,7 @@ const AddNewPatient: React.FC = () => {
           type="text"
           name="group"
           id="patient-group"
-          value={InsuranceInfo.group}
+          value={insuranceInfo.group}
           onChange={handleInsuranceChange}
         />
       </div>
