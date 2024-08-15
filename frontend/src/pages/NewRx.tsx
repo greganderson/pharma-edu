@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-const NewRx: React.FC = () => {
-  return <h1>New Rx</h1>;
-};
-
-export default NewRx;
-=======
 import React, { useState } from 'react';
 
 // import Modal from '../component/Modal'
@@ -186,4 +177,3 @@ const NewRx:React.FC = () => {
 }
 
 export default NewRx;
->>>>>>> 6856b3d (Add seperate pages)

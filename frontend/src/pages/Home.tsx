@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-const Home: React.FC = () => {
-  return <h1>Home</h1>;
-};
-
-export default Home;
-=======
 import React from 'react';
 
 // import Navigation from '../component/Navigation';
@@ -22,4 +13,3 @@ const Home:React.FC = () => {
 }
 
 export default Home;
->>>>>>> 6856b3d (Add seperate pages)

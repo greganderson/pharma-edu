@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-const Patients: React.FC = () => {
-  return <h1>Patients</h1>;
-};
-
-export default Patients;
-=======
 import React, { useState } from 'react';
 
 import styles from './Patients.module.css';
@@ -192,4 +183,3 @@ const Patients:React.FC = () => {
 }
 
 export default Patients;
->>>>>>> 6856b3d (Add seperate pages)
