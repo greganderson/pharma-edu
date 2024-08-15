@@ -35,7 +35,7 @@ const routes: PharmacyRoutes[] = [
 =======
 import NewRx from './pages/NewRx';
 import Patients from './pages/Patients';
-import Perscriber from "./pages/Perscriber";
+import Prescriber from "./pages/Prescriber/Prescriber";
 import RxSearch from './pages/RxSearch';
 import RxQueue from './pages/RxQueue';
 import Login from './pages/Login';
@@ -49,7 +49,7 @@ interface PharmacyRoutes {
 const routes: PharmacyRoutes[] = [
     {
         routeName: "NewRx",
-        path: "/newrx",
+        path: "/new-rx",
         component: NewRx
     },
     {
@@ -58,18 +58,18 @@ const routes: PharmacyRoutes[] = [
         component: Patients
     },
     {
-        routeName: "Perscriber",
-        path: "/perscriber",
-        component: Perscriber
+        routeName: "Prescriber",
+        path: "/prescriber/*",
+        component: Prescriber
     },
     {
         routeName: "RxSearch",
-        path: "/rxsearch",
+        path: "/rx-search",
         component: RxSearch
     },
     {
         routeName: "RxQueue",
-        path: "/rxqueue",
+        path: "/rx-queue",
         component: RxQueue
     },
     {

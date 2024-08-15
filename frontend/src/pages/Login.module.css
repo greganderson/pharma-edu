@@ -1,23 +1,17 @@
-html, body {
+/* html, body {
     height: 100%;
-    margin: 0;
+    margin: 0; */
     /* display: flex;
     justify-content: center;
     align-items: center; */
-}
 
-main {
-    display: flex;
+
+.mainBox {
+    max-width: 500px;
+    min-height: 500px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    max-width: 500px;
-    min-height: 500px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    background-color: #D9D9D9;
 }
 
 .logo {
@@ -34,7 +28,7 @@ main {
     color: #2e3f59;
 }
 
-form {
+.loginForm {
     display: flex;
     flex-flow: column nowrap;
     width: 100%;
@@ -44,7 +38,7 @@ form {
     margin-bottom: 15px;
 }
 
-input[type="text"] {
+.inputfields input[type="text"] {
     width: 60%;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -56,6 +50,6 @@ input[type="text"] {
     margin-right: 18%;
 }
 
-button {
+.LoginButton button {
     padding: 10%;
 }

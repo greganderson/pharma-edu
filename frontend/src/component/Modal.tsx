@@ -12,10 +12,15 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
         return null;
     }
 
+    // Prevent closing when clicking inside the modal content
+    const handleContentClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+    };
+
     return (
-        <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
-                <button type="submit" onClick={onClose} className={styles.modalClose}>
+        <div className={styles.modalOverlay} onClick={onClose}>
+            <div className={styles.modalContent} onClick={handleContentClick}>
+                <button type="button" onClick={onClose} className={styles.modalClose}>
                     &times;
                 </button>
                 {children}
@@ -24,4 +29,4 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
     );
 };
 
-export default Modal;   
+export default Modal; 

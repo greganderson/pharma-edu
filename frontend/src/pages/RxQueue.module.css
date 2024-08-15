@@ -1,0 +1,10 @@
+.RxQueueMain {
+    width: 90%;
+    margin: 5vh auto 5vh auto;
+    justify-content: center;
+}
+
+
+.RxQueueTable {
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}

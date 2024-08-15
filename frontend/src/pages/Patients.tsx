@@ -20,16 +20,13 @@ const Patients:React.FC = () => {
         };
     
         return (
-                
-
-
             <main>
             <h1>View Patient</h1>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.formContainer}>
-                    <div className={styles.tableContainer}>
+            <form onSubmit={handleSubmit} className={styles.formContainer}>
+                <div>
+                    <div>
                         <h3>General Information</h3>
-                        <table>
+                        <table className={styles.tableContainer}>
                             <tbody>
                                 <tr>
                                     <td>

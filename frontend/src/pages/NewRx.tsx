@@ -9,9 +9,11 @@ export default NewRx;
 =======
 import React, { useState } from 'react';
 
+// import Modal from '../component/Modal'
 import styles from './NewRx.module.css';
 
 const NewRx:React.FC = () => {
+
     const [submitted, setSubmitted] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -20,42 +22,25 @@ const NewRx:React.FC = () => {
     };
 
     return (
-        <main>
-            <h1>New Rx</h1>
-            <form onSubmit={handleSubmit}>
-                <table>
+        <main className={styles.mainNewRx}>
+            <h1 className={styles.NewRx_h1}>New Rx</h1>
+            <form onSubmit={handleSubmit} className={styles.NewRxForm}>
+                <table className={styles.enterPatientInfo}>
                     <tbody>
                         <tr>
                             <td>
                                 <label htmlFor='patient'>Patient: </label>
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    id="patient"
-                                />
+                                <input type="text" id="patient" />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='perscriber'>Perscriber: </label>
+                                <label htmlFor='prescriber'>Prescriber: </label>
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    id="perscriber"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='allergies'>Allergies: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="allergies"
-                                />
+                                <input type="text" id="prescriber" />
                             </td>
                         </tr>
                         <tr>
@@ -63,87 +48,69 @@ const NewRx:React.FC = () => {
                                 <label htmlFor='item'>Item: </label>
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    id="item"
-                                />
+                                <input type="text" id="item" />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='sigcode'>Sig Code: </label>
+                                <label htmlFor='directions'>Directions: </label>
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    id="sigcode"
-                                />
+                                <textarea id="directions"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='instructions'>Instructions: </label>
+                                <label htmlFor='allergies'>Allergies: </label>
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    id="instructions"
-                                />
+                                <textarea id="allergies"></textarea>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <table className={styles.quantityTable}>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label htmlFor='qtyWritten'>Quantity Written: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="qtyWritten"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='qtyDispensed'>Quantity Dispensed: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="qtyDispensed"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='refills'>Refills: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="refills"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='techInitials'>Tech Initials: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="techInitials"
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className={styles.techNquantity}>
+                    <table className={styles.quantityTable}>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label htmlFor="qtyWritten">Quantity Written: </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="qtyWritten" />
+                                </td>
+                                <td>
+                                    <label htmlFor="qtyDispensed">Quantity Dispensed: </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="qtyDispensed" />
+                                </td>
+                                <td>
+                                    <label htmlFor="refills">Refills: </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="refills" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table className={styles.techInitials}>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label htmlFor='techInitials'>Tech Initials: </label>
+                                    <input type="text" id="techInitials" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                <div className={styles.displayPatientInfo}></div>
+                </form>
 
+                <div className={styles.displayPatientInfo}><h6>Patient Information: </h6></div>
+
+                <form onSubmit={handleSubmit} className={styles.RxDateInfo}>
                 <table>
                     <tbody>
                         <tr>
@@ -197,7 +164,7 @@ const NewRx:React.FC = () => {
                             </td>
                             <td>
                                 <input
-                                    type="date"
+                                    type="text"
                                     id="rxNumber"
                                 />
                             </td>
@@ -205,11 +172,15 @@ const NewRx:React.FC = () => {
                     </tbody>
                 </table>
             </form>
+            <div className={styles.displayRxScan}>
+                <p>Scan Image</p>
+            </div>
 
-            <div className={styles.displayRxScan}></div>
-
-            <button type='submit'>Print Label</button>
-            <button type='submit'>Scan Rx</button>
+            <div className={styles.NewRxButtons}>
+                <button type="submit">Save Rx</button>
+                <button type='submit'>Print Label</button>
+                <button type='submit'>Scan Rx</button>
+            </div>
         </main>
     );
 }

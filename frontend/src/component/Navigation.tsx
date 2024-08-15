@@ -1,6 +1,5 @@
 import React from 'react';
 import NavItem from './NavItem';
-// import route from "../routes";
 
 import styles from './Navigation.module.css';
 
@@ -10,12 +9,11 @@ const Navigation:React.FC = () => {
         <nav>
             <div className={styles.logo}></div>
             <ul className={styles.navButton}>
-                {/* <NavItem routeName='Home' path="/" /> */}
-                <NavItem routeName="New Rx" path="/newrx" />
+                <NavItem routeName="New Rx" path="/new-rx" />
                 <NavItem routeName="Patients" path="/patients" />
-                <NavItem routeName="Perscriber" path="/perscriber" />
-                <NavItem routeName="Rx Item" path="/rxsearch" />
-                <NavItem routeName="Perscription Queue" path="/rxqueue" />
+                <NavItem routeName="Prescriber" path="/prescriber" />
+                <NavItem routeName="Rx Item" path="/rx-search" />
+                <NavItem routeName="Perscription Queue" path="/rx-queue" />
                 <NavItem routeName="Logout" path="/login" />
             </ul>
         </nav>

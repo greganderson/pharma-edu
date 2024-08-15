@@ -1,7 +1,7 @@
 #root {
   margin: 0;
   padding: 0;
-  text-align: center;
+  /* text-align: center; */
   color: #000;
   text-decoration: none;
   /* display: flex;
@@ -10,9 +10,9 @@
   width: 100%; */
 }
 
-.centerRoutes {
+/* .centerRoutes {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
-}
+} */
