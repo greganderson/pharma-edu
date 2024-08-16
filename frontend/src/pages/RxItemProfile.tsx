@@ -28,7 +28,7 @@ const RxItemProfile: React.FC = () => {
   return (
     <div className="rx-item-profile-container">
       <div>
-        <label htmlFor="rx-medication-name">Medication Name</label>
+        <label htmlFor="rx-medication-name">Name</label>
         <input
           type="text"
           name="medicationName"
@@ -38,7 +38,7 @@ const RxItemProfile: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="rx-medication-strength">Medication Strength</label>
+        <label htmlFor="rx-medication-strength">Strength</label>
         <input
           type="text"
           name="medicationStrength"
@@ -48,7 +48,7 @@ const RxItemProfile: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="rx-ndc">NDC: National Drug Code</label>
+        <label htmlFor="rx-ndc">NDC</label>
         <input
           type="text"
           name="ndc"

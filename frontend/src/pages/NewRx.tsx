@@ -6,8 +6,7 @@ interface RxDetails {
   drName: string;
   dateOfRx: string;
   medication: string;
-  sigCode: string;
-  instructions: string;
+  directions: string;
   quantityWritten: string;
   quantityDispensed: string;
   refills: string;
@@ -21,8 +20,7 @@ const NewRx: React.FC = () => {
     drName: "",
     dateOfRx: "",
     medication: "",
-    sigCode: "",
-    instructions: "",
+    directions: "",
     quantityWritten: "",
     quantityDispensed: "",
     refills: "",
@@ -90,22 +88,12 @@ const NewRx: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="rx-sig-code">Sig Code</label>
+        <label htmlFor="rx-directions">Directions</label>
         <input
           type="text"
-          name="sigCode"
-          id="rx-sig-code"
-          value={rxDetails.sigCode}
-          onChange={handleRxChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="rx-instructions">Instructions</label>
-        <input
-          type="text"
-          name="instructions"
-          id="rx-instructions"
-          value={rxDetails.instructions}
+          name="directions"
+          id="rx-directions"
+          value={rxDetails.directions}
           onChange={handleRxChange}
         />
       </div>

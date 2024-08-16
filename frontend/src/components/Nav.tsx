@@ -7,7 +7,7 @@ const Nav: React.FC = () => {
   const navRoutes = routes.filter(
     (route) =>
       ![
-        "Add New Patient",
+        "Add Patient",
         "Patient Profile",
         "Doctor Profile",
         "Rx Item Profile",

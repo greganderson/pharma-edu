@@ -18,7 +18,7 @@ interface InsuranceInfo {
   group: string;
 }
 
-const AddNewPatient: React.FC = () => {
+const AddPatient: React.FC = () => {
   const navigate = useNavigate();
 
   const [patientDetails, setPatientDetails] = useState<PatientDetails>({
@@ -182,4 +182,4 @@ const AddNewPatient: React.FC = () => {
   );
 };
 
-export default AddNewPatient;
+export default AddPatient;
