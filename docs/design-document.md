@@ -1,12 +1,8 @@
 # API Design Document
 
 TODO: Verify parameters and paths
-TODO: Make sure wording is consistent, especially with Rx and prescription, doctor and prescriber
-TODO: Make sure the APIs are all in a logical order
 TODO: Fix any of the datetimes to be actual examples
-TODO: Make sure commas are all good on anything json
 TODO: Fix any ?'s
-TODO: Add backticks to request parameters
 
 ## Overview
 
@@ -42,6 +38,59 @@ All API calls should be made with the user ID in the header:
 ```
 
 ## Endpoints
+
+### Logging In/Out
+
+#### POST /login
+
+##### Description
+
+Logs the user in. NOTE: None of this will be secured, don't use actual real passwords.
+
+##### Request Parameters
+
+- **Path Parameters:**
+  - None
+- **Query Parameters:**
+  - None
+- **Body Parameters:**
+  - `username`: string
+  - `password`: string
+
+##### Response
+
+- Status Codes:
+  - 200 Created: Successfully logged in.
+  - 400 Bad Request: Malformed body sent to the API.
+
+##### Response Example
+
+```json
+{
+  "x-user-id": 123
+}
+```
+
+#### POST /logout
+
+##### Description
+
+Logs the user out. The user logged out is determined by the `X-User-Id` header.
+
+##### Request Parameters
+
+- **Path Parameters:**
+  - None.
+- **Query Parameters:**
+  - None.
+- **Body Parameters:**
+  - None.
+
+##### Response
+
+- Status Codes:
+  - 204 No Content: Successfully logged out.
+  - 401 Unauthorized: Missing the required `X-User-Id` header
 
 ### Patients
 
@@ -88,7 +137,7 @@ Gets the patient profile, including a list of the prescriptions the patient curr
 ##### Request Parameters
 
 - **Path Parameters:**
-  - patient_id: ID of the patient.
+  - `patient_id`: ID of the patient.
 - **Query Parameters:**
   - None.
 
@@ -117,16 +166,10 @@ Gets the patient profile, including a list of the prescriptions the patient curr
   "insurance_group_number": ?,
   "prescriptions": [
     {
-      "rx_id": 13,
+      "rx_number": 13,
       "rx_item_name": "Red Pill",
       "quantity": 30,
       "refills": 3
-    },
-    {
-      "rx_id": 29,
-      "rx_item_name": "Blue Pill",
-      "quantity": 10,
-      "refills": 0
     }
   ]
 }
@@ -145,17 +188,17 @@ Creates a patient.
 - **Query Parameters:**
   - None
 - **Body Parameters:**
-  - first_name: string
-  - last_name: string
-  - date_of_birth: string
-  - address: string
-  - primary_doctor_id: string
-  - allergies: string
-  - insurance_bin: "...",
-  - insurance_pcn: "...",
-  - insurance_person_code: "...",
-  - insurance_id: "...",
-  - insurance_group_number: "..."
+  - `first_name`: string
+  - `last_name`: string
+  - `date_of_birth`: string
+  - `address`: string
+  - `primary_prescriber_id`: string
+  - `allergies`: string
+  - `insurance_bin`: "...",
+  - `insurance_pcn`: "...",
+  - `insurance_person_code`: "...",
+  - `insurance_id`: "...",
+  - `insurance_group_number`: "..."
 
 ##### Response
 
@@ -176,7 +219,7 @@ Creates a patient.
 
 ##### Description
 
-Updates a patient. All parameters are optional and only those fields will be updated.
+Updates a patient. All fields are optional and only those fields will be updated.
 
 ##### Request Parameters
 
@@ -185,17 +228,17 @@ Updates a patient. All parameters are optional and only those fields will be upd
 - **Query Parameters:**
   - None
 - **Body Parameters:**:
-  - first_name?: string
-  - last_name?: string
-  - date_of_birth?: string
-  - address?: string
-  - primary_doctor_id?: string
-  - allergies?: string
-  - insurance_bin?: "...",
-  - insurance_pcn?: "...",
-  - insurance_person_code?: "...",
-  - insurance_id?: "...",
-  - insurance_group_number?: "..."
+  - `first_name?`: string
+  - `last_name?`: string
+  - `date_of_birth?`: string
+  - `address?`: string
+  - `primary_prescriber_id?`: string
+  - `allergies?`: string
+  - `insurance_bin?`: "...",
+  - `insurance_pcn?`: "...",
+  - `insurance_person_code?`: "...",
+  - `insurance_id?`: "...",
+  - `insurance_group_number?`: "..."
 
 ##### Response
 
@@ -214,7 +257,7 @@ Deletes a patient.
 ##### Request Parameters
 
 - **Path Parameters:**
-  - patient_id: ID of the patient to delete.
+  - `patient_id`: ID of the patient to delete.
 - **Query Parameters:**
   - None.
 - **Body Parameters:**
@@ -242,7 +285,7 @@ Get a list of all prescriptions.
 - **Query Parameters:**
   - `limit?`: An optional parameter to limit how many results are returned. Defaults to 100.
   - `patient_id?`: An optional patient ID to filter by.
-  - `status?`: An optional Rx status to filter by (PENDING, COMPLETED, SOLD).
+  - `status?`: An optional prescription status to filter by (PENDING, COMPLETED, SOLD).
 
 ##### Response
 
@@ -275,15 +318,15 @@ Creates a prescription.
 - **Query Parameters:**
   - None.
 - **Body Parameters:**
-  - patient_id: ID of the patient.
-  - prescriber_id: ID of the prescriber.
-  - rx_item_id: ID of the Rx item being prescribed.
-  - directions: The directions that will be on the printed label.
-  - quantity: The quantity of items in the Rx.
-  - quantity_dispensed: The quantity actually dispensed to the patient.
-  - refills: Number of refills.
-  - image_id: ID of the scanned image.
-  - tech_id: ID of the pharmacy technician filling the Rx.
+  - `patient_id`: ID of the patient.
+  - `prescriber_id`: ID of the prescriber.
+  - `rx_item_id`: ID of the Rx item being prescribed.
+  - `directions`: The directions that will be on the printed label.
+  - `quantity`: The quantity of items in the prescription.
+  - `quantity_dispensed`: The quantity actually dispensed to the patient.
+  - `refills`: Number of refills.
+  - `image_id`: ID of the scanned image.
+  - `tech_id`: ID of the pharmacy technician filling the prescription.
 
 ##### Response
 
@@ -309,20 +352,20 @@ Updates a prescription's refills and/or status. Both fields are optional.
 ##### Request Parameters
 
 - **Path Parameters:**
-  - rx_number: The Rx number to update.
+  - `rx_number`: The Rx number to update.
 - **Query Parameters:**
   - None.
 - **Body Parameters:**
-  - refills?: Number of refills.
-  - status?: Current status of the Rx, either PENDING, COMPLETED, or SOLD.
+  - `refills?`: Number of refills.
+  - `status?`: Current status of the prescription, either PENDING, COMPLETED, or SOLD.
 
 ##### Response
 
 - Status Codes:
-  - 204 No Content: Rx successfully updated.
+  - 204 No Content: Prescription successfully updated.
   - 400 Bad Request: Malformed body sent to the API.
   - 401 Unauthorized: Missing the required `X-User-Id` header
-  - 404 Not Found: Rx not found.
+  - 404 Not Found: Prescription not found.
 
 #### DELETE /prescriptions/:rx_number
 
@@ -333,7 +376,7 @@ Deletes a prescription.
 ##### Request Parameters
 
 - **Path Parameters:**
-  - rx_number: The Rx number of the Rx to delete.
+  - `rx_number`: The Rx number of the prescription to delete.
 - **Query Parameters:**
   - None.
 - **Body Parameters:**
@@ -342,9 +385,9 @@ Deletes a prescription.
 ##### Response
 
 - Status Codes:
-  - 204 No Content: Rx successfully deleted.
+  - 204 No Content: Prescription successfully deleted.
   - 401 Unauthorized: Missing the required `X-User-Id` header
-  - 404 Not Found: Rx not found.
+  - 404 Not Found: Prescription not found.
 
 ### Prescribers
 
@@ -399,7 +442,7 @@ Creates a prescriber.
 - **Body Parameters:**
   - `first_name`: First name of the prescriber.
   - `last_name`: Last name of the prescriber.
-  - `type`: Type of doctor (MD, DO, etc).
+  - `type`: Type of prescriber (MD, DO, etc).
   - `address`: Address of the prescriber's office.
   - `phone_number`: Phone number of the prescriber's office.
   - `dea`: ?
@@ -424,7 +467,7 @@ Creates a prescriber.
 
 ##### Description
 
-Updates a prescriber. All parameters are optional and only those fields will be updated.
+Updates a prescriber. All fields are optional and only those fields will be updated.
 
 ##### Request Parameters
 
@@ -435,7 +478,7 @@ Updates a prescriber. All parameters are optional and only those fields will be 
 - **Body Parameters:**
   - `first_name?`: First name of the prescriber.
   - `last_name?`: Last name of the prescriber.
-  - `type?`: Type of doctor (MD, DO, etc).
+  - `type?`: Type of prescriber (MD, DO, etc).
   - `address?`: Address of the prescriber's office.
   - `phone_number?`: Phone number of the prescriber's office.
   - `dea?`: ?
@@ -471,56 +514,122 @@ Deletes a prescriber.
   - 401 Unauthorized: Missing the required `X-User-Id` header
   - 404 Not Found: Prescriber not found.
 
-### [Additional Resource Name] Endpoint
+### Rx Items
 
-#### GET|POST|PATCH|DELETE /endpoint
+#### GET /rx-items
 
 ##### Description
 
-A brief description of what the endpoint does.
+Retrieves a list of Rx items. Because the number of records will be very small, there is no need to limit or filter the results that come back.
 
 ##### Request Parameters
 
 - **Path Parameters:**
-  - Describe any parameters that are part of the URL path.
+  - None.
 - **Query Parameters:**
-  - List any parameters that can be passed in the URL query string.
-- **Body Parameters:**
-  - Define the structure of the request body, if applicable.
+  - None.
 
 ##### Response
 
 - Status Codes:
-  - 200 OK: Description of the successful response.
-  - 201 Created: Description of the response when a resource is created.
-  - 204 No Content: Patient successfully updated.
-  - 400 Bad Request: Malformed body sent to the API.
+  - 200 OK: List of Rx items successfully returned.
   - 401 Unauthorized: Missing the required `X-User-Id` header
-  - 404 Not Found: Description of the response when the resource is not found.
 
 ##### Response Example
 
 ```json
-{
-  "id": 123,
-  "name": "Sample Resource",
-  "created_at": "2024-07-31T12:00:00Z"
-}
+[
+  {
+    "rx_item_id": 123,
+    "name": "Red Pill",
+    "strength": "750mg",
+    "ndc": ?,
+    "expiration": ?,
+    "lot_number": ?,
+    "dea_schedule": ?,
+    "drug_class": ?
+  }
+]
 ```
 
-Repeat the same structure as above for each resource.
+#### POST /rx-items
 
-## Security Considerations
+##### Description
 
-Detail any security measures, such as rate limiting, data encryption, and sensitive data handling.
+Creates an Rx item.
 
-## Rate Limiting
+##### Request Parameters
 
-Describe rate limits and how they are enforced (e.g., requests per minute/hour).
+- **Path Parameters:**
+  - None.
+- **Query Parameters:**
+  - None.
+- **Body Parameters:**
+  - `name`: Name of the Rx item.
+  - `strength`: Strength of the Rx item (e.g. 500mg).
+  - `ndc`: ?
+  - `expiration`: ?
+  - `lot_number`: ?
+  - `dea_schedule`: ?
+  - `drug_class`: ?
 
-## Throttling and Quotas
+##### Response
 
-Explain any throttling or quota policies.
+- Status Codes:
+  - 201 Created: Rx item successfully created.
+  - 400 Bad Request: Malformed body sent to the API.
+  - 401 Unauthorized: Missing the required `X-User-Id` header
+
+#### PATCH /rx-items/:rx_item_id
+
+##### Description
+
+Updates an Rx item. All fields are optional and only those fields will be updated.
+
+##### Request Parameters
+
+- **Path Parameters:**
+  - `rx_item_id`: Rx item ID.
+- **Query Parameters:**
+  - None.
+- **Body Parameters:**
+  - `name?`: Name of the Rx item.
+  - `strength?`: Strength of the Rx item (e.g. 500mg).
+  - `ndc?`: ?
+  - `expiration?`: ?
+  - `lot_number?`: ?
+  - `dea_schedule?`: ?
+  - `drug_class?`: ?
+
+##### Response
+
+- Status Codes:
+  - 204 No Content: Rx item successfully updated.
+  - 400 Bad Request: Malformed body sent to the API.
+  - 401 Unauthorized: Missing the required `X-User-Id` header
+  - 404 Not Found: Rx item not found.
+
+#### DELETE /rx-item/:rx_item_id
+
+##### Description
+
+Deletes an Rx item.
+
+##### Request Parameters
+
+- **Path Parameters:**
+  - `rx_item_id`: Rx item ID.
+- **Query Parameters:**
+  - None.
+- **Body Parameters:**
+  - None.
+
+##### Response
+
+- Status Codes:
+  - 204 No Content: Rx item successfully deleted
+  - 401 Unauthorized: Missing the required `X-User-Id` header
+  - 404 Not Found: Rx item not found.
 
 ## Contact Information
 
@@ -528,5 +637,4 @@ Provide contact details for support and further inquiries.
 
 ## Open Questions
 
-- Will students need to be able to sign in somehow? If so, what all is attached to their account?
 - Will instructors need to be able to sign in? If so, will they need a separate page to do perform custom actions?
