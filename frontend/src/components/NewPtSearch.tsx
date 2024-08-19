@@ -17,10 +17,10 @@ const NewPtSearch: FunctionComponent<NewPtSearchType> = ({
       onClick={onNewPtSearchClick}
     >
       <div className="h-full w-full absolute !m-[0] top-[0px] right-[-2px] bottom-[-2px] left-[0px] rounded-3xs bg-darkslategray border-black border-[1px] border-solid box-border" />
-      <a className="[text-decoration:none] flex-1 relative leading-[41.12px] font-medium text-[inherit] z-[1] mq450:text-3xl mq450:leading-[25px] mq750:text-10xl mq750:leading-[33px]">
+      <div className="flex-1 relative leading-[41.12px] font-medium z-[1] mq450:text-3xl mq450:leading-[25px] mq1050:text-10xl mq1050:leading-[33px]">
         <p className="m-0">New Pt</p>
         <p className="m-0">(Search)</p>
-      </a>
+      </div>
     </div>
   );
 };
