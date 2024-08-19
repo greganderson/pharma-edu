@@ -1,4 +1,9 @@
-import { FunctionComponent, useCallback } from "react";
+import {
+  FunctionComponent,
+  useMemo,
+  type CSSProperties,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import NewRx1 from "./NewRx1";
 import NewPtSearch from "./NewPtSearch";
@@ -9,26 +14,38 @@ import ContinueToLabel from "./ContinueToLabel";
 export type NewRxType = {
   className?: string;
   newRx?: string;
+  /** Style props */
+  propPadding?: CSSProperties["padding"];
+  propTextDecoration?: CSSProperties["textDecoration"];
   /** Action props */
   onNewRxContainerClick?: () => void;
 };
 
 const NewRx: FunctionComponent<NewRxType> = ({
   className = "",
-  newRx = "New Rx",  // Default value for newRx
+  newRx = "New Rx",
+  propPadding,
+  propTextDecoration,
   onNewRxContainerClick,
 }) => {
   const navigate = useNavigate();
 
-  const onHomeContainerClick = useCallback(() => {
-    // Please sync "Home Page" to the project
-  }, []);
+  const newRxStyle: CSSProperties = useMemo(() => {
+    return {
+      padding: propPadding,
+    };
+  }, [propPadding]);
+
+  const newRx1Style: CSSProperties = useMemo(() => {
+    return {
+      textDecoration: propTextDecoration,
+    };
+  }, [propTextDecoration]);
 
   const handleClick = useCallback(() => {
     if (onNewRxContainerClick) {
       onNewRxContainerClick();
     } else {
-      // Default action if no onClick handler is provided
       navigate("/");
     }
   }, [onNewRxContainerClick, navigate]);
@@ -57,7 +74,7 @@ const NewRx: FunctionComponent<NewRxType> = ({
           alt=""
           src="/nav.svg"
         />
-        <NewRx1 newRx="Home" onNewRxContainerClick={onHomeContainerClick} />
+        <NewRx1 newRx="Home" onNewRxContainerClick={handleClick} />
         <NewRx1 newRx="New Rx" onNewRxContainerClick={handleClick} />
         <NewPtSearch />
         <div className="w-[415px] flex flex-row items-start justify-start [row-gap:20px] max-w-full mq450:flex-wrap">

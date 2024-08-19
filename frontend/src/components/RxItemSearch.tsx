@@ -1,4 +1,5 @@
 import { FunctionComponent, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 export type RxItemSearchType = {
   className?: string;
@@ -7,13 +8,16 @@ export type RxItemSearchType = {
 const RxItemSearch: FunctionComponent<RxItemSearchType> = ({
   className = "",
 }) => {
+  const navigate = useNavigate();
+
   const onRxItemSearchClick = useCallback(() => {
-    // Please sync "Rx Item" to the project
-  }, []);
+    // Default navigation or action for Rx Item search
+    navigate("/");
+  }, [navigate]);
 
   return (
     <div
-      className={`flex-1 flex flex-row items-start justify-start pt-[49px] pb-[52px] pl-px pr-0 box-border relative min-w-[136px] cursor-pointer z-[1] ml-[-11px] text-left text-17xl text-white font-roboto mq450:ml-0 ${className}`}
+      className={`flex-1 flex flex-row items-start justify-start pt-[49px] pb-[52px] pl-px pr-0 box-border relative min-w-[136px] cursor-pointer z-[2] ml-[-11px] text-left text-17xl text-white font-roboto mq450:ml-0 ${className}`}
       onClick={onRxItemSearchClick}
     >
       <div className="h-full w-full absolute !m-[0] top-[0px] bottom-[-2px] left-[0px] rounded-3xs bg-darkslategray border-black border-[1px] border-solid box-border" />

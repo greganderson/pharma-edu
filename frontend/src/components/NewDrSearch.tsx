@@ -17,7 +17,7 @@ const NewDrSearch: FunctionComponent<NewDrSearchType> = ({
 
   return (
     <div
-      className={`h-[184px] flex-1 relative min-w-[141px] cursor-pointer z-[2] text-left text-17xl text-white font-roboto ${className}`}
+      className={`h-[184px] flex-1 relative min-w-[141px] cursor-pointer z-[3] text-left text-17xl text-white font-roboto ${className}`}
       onClick={onNewDrSearchClick}
     >
       <div className="absolute h-[101.14%] w-[95.85%] top-[0%] right-[4.15%] bottom-[-1.14%] left-[0%] rounded-3xs bg-darkslategray border-black border-[1px] border-solid box-border" />
