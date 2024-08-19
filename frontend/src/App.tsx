@@ -1,46 +1,61 @@
-import React from "react";
+import { useEffect } from "react";
 import {
-  BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
+  useNavigationType,
   useLocation,
 } from "react-router-dom";
-import Nav from "./components/Nav";
-import routes from "./routes";
-import DixieTechLogo from "./assets/DixieTechLogo.png";
+import NewPatient from "./pages/NewPatient";
+import HomePage from "./pages/HomePage";
 
-const Header: React.FC = () => {
+function App() {
+  const action = useNavigationType();
   const location = useLocation();
-  const currentRoute = routes.find((route) => route.path === location.pathname);
-  const title = currentRoute ? currentRoute.name : "Page Not Found";
-  const isHomePage = location.pathname === "/";
+  const pathname = location.pathname;
+
+  useEffect(() => {
+    if (action !== "POP") {
+      window.scrollTo(0, 0);
+    }
+  }, [action, pathname]);
+
+  useEffect(() => {
+    let title = "";
+    let metaDescription = "";
+
+    switch (pathname) {
+      case "/":
+        title = "Home Page";
+        metaDescription = "Welcome to the Home Page";
+        break;
+      case "/new-patient":
+        title = "New Patient";
+        metaDescription = "Add a new patient to the system.";
+        break;
+      // Add other routes here as needed
+    }
+
+    if (title) {
+      document.title = title;
+    }
+
+    if (metaDescription) {
+      const metaDescriptionTag: HTMLMetaElement | null = document.querySelector(
+        'head > meta[name="description"]'
+      );
+      if (metaDescriptionTag) {
+        metaDescriptionTag.content = metaDescription;
+      }
+    }
+  }, [pathname]);
 
   return (
-    <div className="header">
-      <h1>{title}</h1>
-      {!isHomePage && (
-        <img src={DixieTechLogo} alt="Dixie Tech Logo" className="small-logo" />
-      )}
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/new-patient" element={<NewPatient />} />
+      {/* Add other routes here as needed */}
+    </Routes>
   );
-};
-
-const App: React.FC = () => {
-  return (
-    <Router basename="/pharma-edu/">
-      <Header />
-      <Nav />
-      <Routes>
-        {routes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={<route.component />}
-          />
-        ))}
-      </Routes>
-    </Router>
-  );
-};
+}
 
 export default App;
