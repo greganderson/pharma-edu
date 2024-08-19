@@ -9,7 +9,7 @@ module.exports = {
         gray: "#040404",
         darkslategray: "#2e3f59",
       },
-      spacing: {}, // Since spacing is empty in both, it remains as is
+      spacing: {}, // Keeping it in case you want to add custom spacing later
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         "hind-siliguri": ["'Hind Siliguri'", "sans-serif"],
@@ -37,5 +37,5 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-  plugins: [], // Keeping plugins array even if empty, in case you add plugins later
+  plugins: [], // Empty array to add plugins if needed later
 };
