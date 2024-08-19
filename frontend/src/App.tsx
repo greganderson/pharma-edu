@@ -26,9 +26,13 @@ function App() {
         title = "Add Patient";
         metaDescription = "Add a new patient to the system.";
         break;
-      case "/newpatient":  // Add this case for the NewPatient route
+      case "/newpatient":
         title = "New Patient";
         metaDescription = "Add details for a new patient.";
+        break;
+      case "/newdr":  // Add this case for the NewDr route
+        title = "New Doctor";
+        metaDescription = "Add details for a new doctor.";
         break;
       default:
         title = "App";
