@@ -1,12 +1,5 @@
 import Home from "./pages/HomePage";
-import NewDr from "./pages/NewDr";
-import NewPatient from "./pages/NewPatient";
-import NewRx from "./components/NewRx";
-import RxItem from "./pages/RxItem";
 import AddPatient from "./pages/AddPatient";
-import DoctorProfile from "./pages/DoctorProfile";
-import PatientProfile from "./pages/PatientProfile";
-import RxItemProfile from "./pages/RxItemProfile";
 
 interface PharmacyRoutes {
   name: string;
@@ -17,48 +10,13 @@ interface PharmacyRoutes {
 const routes: PharmacyRoutes[] = [
   {
     name: "Home",
-    path: "/",
+    path: "/",  // This corresponds to /pharma-edu/
     component: Home,
   },
   {
-    name: "New Rx",
-    path: "/newrx",
-    component: NewRx,
-  },
-  {
-    name: "New Patient",
-    path: "/newpatient",
-    component: NewPatient,
-  },
-  {
-    name: "New Dr",
-    path: "/newdr",
-    component: NewDr,
-  },
-  {
-    name: "Rx Item",
-    path: "/rxitem",
-    component: RxItem,
-  },
-  {
     name: "Add Patient",
-    path: "/addpatient",
+    path: "/addpatient",  // This corresponds to /pharma-edu/addpatient
     component: AddPatient,
-  },
-  {
-    name: "Doctor Profile",
-    path: "/doctorprofile",
-    component: DoctorProfile,
-  },
-  {
-    name: "Patient Profile",
-    path: "/patientprofile",
-    component: PatientProfile,
-  },
-  {
-    name: "Rx Item Profile",
-    path: "/rxitemprofile",
-    component: RxItemProfile,
   },
 ];
 
