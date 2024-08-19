@@ -1,8 +1,8 @@
 import { FunctionComponent, useCallback } from "react";
 import NewRx from "./NewRx";
-import NewPtSearch from "./NewPtSearch";
-import NewDrSearch from "./NewDrSearch";
-import RxItemSearch from "./RxItemSearch";
+import NewPtSearch from "../pages/NewPtSearch";
+import NewDrSearch from "../pages/NewDrSearch";
+import RxItemSearch from "../pages/RxItemSearch";
 
 export type PageFooterType = {
   className?: string;
