@@ -16,7 +16,7 @@ const NewPtSearch: FunctionComponent<NewPtSearchType> = ({
 
   return (
     <div
-      className={`w-[206px] flex flex-row items-start justify-start pt-[45.5px] px-[26px] pb-[53.5px] box-border relative cursor-pointer z-[1] text-left text-17xl text-white font-roboto ${className}`}
+      className={`h-[184px] w-[206px] flex flex-row items-start justify-start py-[46px] px-[26px] box-border relative cursor-pointer z-[1] text-left text-17xl text-white font-roboto ${className}`}
       onClick={onNewPtSearchClick}
     >
       <div className="h-full w-full absolute !m-[0] top-[0px] right-[-2px] bottom-[-2px] left-[0px] rounded-3xs bg-darkslategray border-black border-[1px] border-solid box-border" />

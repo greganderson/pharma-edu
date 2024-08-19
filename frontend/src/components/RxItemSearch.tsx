@@ -13,7 +13,7 @@ const RxItemSearch: FunctionComponent<RxItemSearchType> = ({
 
   return (
     <div
-      className={`flex-1 flex flex-row items-start justify-start pt-[48.5px] pb-[50.5px] pl-px pr-0 box-border relative min-w-[136px] cursor-pointer z-[1] ml-[-11px] text-left text-17xl text-white font-roboto mq450:ml-0 ${className}`}
+      className={`flex-1 flex flex-row items-start justify-start pt-[49px] pb-[52px] pl-px pr-0 box-border relative min-w-[136px] cursor-pointer z-[1] ml-[-11px] text-left text-17xl text-white font-roboto mq450:ml-0 ${className}`}
       onClick={onRxItemSearchClick}
     >
       <div className="h-full w-full absolute !m-[0] top-[0px] bottom-[-2px] left-[0px] rounded-3xs bg-darkslategray border-black border-[1px] border-solid box-border" />

@@ -5,6 +5,7 @@ import {
   useNavigationType,
   useLocation,
 } from "react-router-dom";
+import AddPatient from "./pages/AddPatient";
 import NewPatient from "./pages/NewPatient";
 import HomePage from "./pages/HomePage";
 
@@ -32,6 +33,10 @@ function App() {
         title = "New Patient";
         metaDescription = "Add a new patient to the system.";
         break;
+      case "/add-patient":
+        title = "Add Patient";
+        metaDescription = "Add a new patient and their details.";
+        break;
       // Add other routes here as needed
     }
 
@@ -53,6 +58,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/new-patient" element={<NewPatient />} />
+      <Route path="/add-patient" element={<AddPatient />} />
       {/* Add other routes here as needed */}
     </Routes>
   );
