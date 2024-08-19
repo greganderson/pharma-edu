@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-// import AddPrescriber from './AddPrescriber';
 
 import styles from "./PrescriberSearch.module.css"
 
 
 const PrescriberSearch:React.FC = () => {
-    useEffect(() => {
-        console.log("Prescriber search is selected");
-    }, []);
     return (
         <main className={styles.mainSearch}>
             <h2>Prescriber Search</h2>
@@ -18,7 +13,7 @@ const PrescriberSearch:React.FC = () => {
                 type="text"
                 id="search"
             />
-            <Link to="/add-prescriber">
+            <Link to="/prescriber/add-prescriber">
                 <button type="button">Add New Perscriber</button>
             </Link>
         </main>
@@ -26,3 +21,7 @@ const PrescriberSearch:React.FC = () => {
 }
 
 export default PrescriberSearch;
+
+
+
+
