@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// import Modal from "./Modal";
 
 
 interface NavItemProps {
@@ -10,7 +11,7 @@ interface NavItemProps {
 const NavItem: React.FC<NavItemProps> = ( {routeName, path })  => {
     return (
         <li>
-            <Link to={path}>{routeName}</Link>
+            <Link to={path}> {routeName} </Link>
         </li>
     );
 }

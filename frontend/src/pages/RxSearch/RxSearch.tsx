@@ -3,25 +3,22 @@ import { Link } from 'react-router-dom';
 
 import styles from "../Search.module.css"
 
+const RxSearch:React.FC = () => {
 
-const PrescriberSearch:React.FC = () => {
     return (
         <main className={styles.mainSearch}>
-            <h2>Prescriber Search</h2>
+            <h2>Rx Item Search</h2>
             <label htmlFor='search'>Quick Search: </label>
             <input
                 type="text"
                 id="search"
             />
-            <Link to="/prescriber/add-prescriber">
-                <button type="button">Add New Perscriber</button>
+            <Link to="/rx-item/add-medication">
+                <button type="button">Add New Medication</button>
             </Link>
         </main>
     );
 }
 
-export default PrescriberSearch;
-
-
-
+export default RxSearch;
 

@@ -1,7 +1,7 @@
 import NewRx from './pages/NewRx';
-import Patients from './pages/Patients';
+import Patient from './pages/Patient/Patients';
 import Prescriber from "./pages/Prescriber/Prescriber";
-import RxSearch from './pages/RxSearch';
+import RxItem from './pages/RxSearch/RxItem';
 import RxQueue from './pages/RxQueue';
 import Login from './pages/Login';
 
@@ -18,9 +18,9 @@ const routes: PharmacyRoutes[] = [
         component: NewRx
     },
     {
-        routeName: "Patients",
-        path: "/patients",
-        component: Patients
+        routeName: "Patient",
+        path: "/patient/*",
+        component: Patient
     },
     {
         routeName: "Prescriber",
@@ -28,9 +28,9 @@ const routes: PharmacyRoutes[] = [
         component: Prescriber
     },
     {
-        routeName: "RxSearch",
-        path: "/rx-search",
-        component: RxSearch
+        routeName: "RxItem",
+        path: "/rx-item/*",
+        component: RxItem
     },
     {
         routeName: "RxQueue",

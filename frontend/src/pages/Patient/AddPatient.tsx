@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 
-import styles from './Patients.module.css';
+import styles from './ViewPatients.module.css';
 
-const Patients:React.FC = () => {
-        const [submitted, setSubmitted] = useState<boolean>(false);
+const AddPatient:React.FC = () => {
+    const [submitted, setSubmitted] = useState<boolean>(false);
 
-        const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            setSubmitted(true);
-        };
-    
-        return (
-            <main>
-            <h1>View Patient</h1>
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setSubmitted(true);
+    };
+
+    return (
+        <main>
+            <h1>Add Patient</h1>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
                 <div>
                     <div>
@@ -178,8 +178,7 @@ const Patients:React.FC = () => {
                 </div>
             </form>
         </main>
-
     );
 }
 
-export default Patients;
+export default AddPatient;
