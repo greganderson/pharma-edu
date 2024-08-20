@@ -6,6 +6,8 @@ interface RxDetails {
   ndc: string;
   expiration: string;
   lotNumber: string;
+  deaSchedule: string;
+  drugClass: string;
 }
 
 const RxItemProfile: React.FC = () => {
@@ -15,6 +17,8 @@ const RxItemProfile: React.FC = () => {
     ndc: "",
     expiration: "",
     lotNumber: "",
+    deaSchedule: "",
+    drugClass: "",
   });
 
   const handleRxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +78,26 @@ const RxItemProfile: React.FC = () => {
           name="lotNumber"
           id="rx-lot-number"
           value={rxDetails.lotNumber}
+          onChange={handleRxChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="rx-dea-schedule">DEA Schedule</label>
+        <input
+          type="text"
+          name="deaSchedule"
+          id="rx-dea-schedule"
+          value={rxDetails.deaSchedule}
+          onChange={handleRxChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="rx-drug-class">Drug Class</label>
+        <input
+          type="text"
+          name="drugClass"
+          id="rx-drug-class"
+          value={rxDetails.drugClass}
           onChange={handleRxChange}
         />
       </div>

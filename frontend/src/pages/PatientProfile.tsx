@@ -8,6 +8,9 @@ interface PatientDetails {
   address: string;
   primaryDr: string;
   allergies: string;
+  rxPrinted: string;
+  rxCompleted: string;
+  rxSold: string;
 }
 
 interface InsuranceInfo {
@@ -28,6 +31,9 @@ const PatientProfile: React.FC = () => {
     address: "",
     primaryDr: "",
     allergies: "",
+    rxPrinted: "",
+    rxCompleted: "",
+    rxSold: "",
   });
 
   const [insuranceInfo, setInsuranceInfo] = useState<InsuranceInfo>({
@@ -119,6 +125,36 @@ const PatientProfile: React.FC = () => {
           name="allergies"
           id="patient-allergies"
           value={patientDetails.allergies}
+          onChange={handlePatientChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="patient-rx-printed">Rx Printed</label>
+        <input
+          type="text"
+          name="rxPrinted"
+          id="patient-rx-printed"
+          value={patientDetails.rxPrinted}
+          onChange={handlePatientChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="patient-rx-completed">Rx Completed</label>
+        <input
+          type="text"
+          name="rxCompleted"
+          id="patient-rx-completed"
+          value={patientDetails.rxCompleted}
+          onChange={handlePatientChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="patient-rx-sold">Rx Sold</label>
+        <input
+          type="text"
+          name="rxSold"
+          id="patient-rx-sold"
+          value={patientDetails.rxSold}
           onChange={handlePatientChange}
         />
       </div>
