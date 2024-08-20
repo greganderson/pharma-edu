@@ -209,13 +209,6 @@ const PatientProfile: React.FC = () => {
           onChange={handleInsuranceChange}
         />
       </div>
-      <button 
-        type="button"
-        onClick={goToNewRx}
-        className="navigate-button"
-      >
-        New Rx
-      </button>
     </div>
   );
 };

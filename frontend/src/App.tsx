@@ -1,46 +1,86 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import Nav from "./components/Nav";
+import { useEffect } from "react";
+import { Routes, Route, useNavigationType, useLocation } from "react-router-dom";
 import routes from "./routes";
-import DixieTechLogo from "./assets/DixieTechLogo.png";
 
-const Header: React.FC = () => {
+function App() {
+  const action = useNavigationType();
   const location = useLocation();
-  const currentRoute = routes.find((route) => route.path === location.pathname);
-  const title = currentRoute ? currentRoute.name : "Page Not Found";
-  const isHomePage = location.pathname === "/";
+  const pathname = location.pathname;
+
+  useEffect(() => {
+    if (action !== "POP") {
+      window.scrollTo(0, 0);
+    }
+  }, [action, pathname]);
+
+  useEffect(() => {
+    let title = "";
+    let metaDescription = "";
+
+    switch (pathname) {
+      case "/":
+        title = "Home";
+        metaDescription = "Welcome to the Home Page";
+        break;
+        case "/newpatient":
+          title = "New Patient";
+          metaDescription = "Add details for a new patient.";
+          break;
+      case "/addpatient":
+        title = "Add Patient";
+        metaDescription = "Add a new patient to the system.";
+        break;
+        case "/patientprofile":
+          title = "Patient Profile";
+          metaDescription = "View and manage patient profile details.";
+          break;
+      case "/newdr":
+        title = "New Doctor";
+        metaDescription = "Add details for a new doctor.";
+        break;
+      case "/doctorprofile":
+        title = "Doctor Profile";
+        metaDescription = "View and manage doctor profile details.";
+        break;
+      case "/rxitem":
+        title = "Rx Item";
+        metaDescription = "View and manage Rx item details.";
+      break;
+      case "/newrx":
+        title = "New Rx";
+        metaDescription = "Create a new prescription.";
+        break;
+      case "/rxitemprofile":
+        title = "Rx Item Profile";
+        metaDescription = "View and manage Rx profile details.";
+        break;
+      default:
+        title = "App";
+        metaDescription = "Application";
+        break;
+    }
+
+    if (title) {
+      document.title = title;
+    }
+
+    if (metaDescription) {
+      const metaDescriptionTag: HTMLMetaElement | null = document.querySelector(
+        'head > meta[name="description"]'
+      );
+      if (metaDescriptionTag) {
+        metaDescriptionTag.content = metaDescription;
+      }
+    }
+  }, [pathname]);
 
   return (
-    <div className="header">
-      <h1>{title}</h1>
-      {!isHomePage && (
-        <img src={DixieTechLogo} alt="Dixie Tech Logo" className="small-logo" />
-      )}
-    </div>
+    <Routes>
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} element={<route.component />} />
+      ))}
+    </Routes>
   );
-};
-
-const App: React.FC = () => {
-  return (
-    <Router basename="/pharma-edu/">
-      <Header />
-      <Nav />
-      <Routes>
-        {routes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={<route.component />}
-          />
-        ))}
-      </Routes>
-    </Router>
-  );
-};
+}
 
 export default App;
