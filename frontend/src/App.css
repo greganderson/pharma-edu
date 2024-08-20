@@ -1,10 +1,5 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
-  border: 1px solid;
-  box-sizing: border-box;
 }
 
 body {
@@ -24,14 +19,13 @@ body {
 }
 
 .small-logo {
-  max-width: 200px;
-  height: auto;
-  margin-left: auto;
+  max-width: 250px;
 }
 
 nav {
   background-color: #2E3F59;
-  padding: 2.5rem 0; /* Adjusted padding for better layout */
+  padding: 2.5rem 0;
+  border: 1px solid;
 }
 
 nav ul {
@@ -40,11 +34,6 @@ nav ul {
   margin: 0;
   display: flex;
   justify-content: space-around;
-}
-
-nav ul li {
-  display: inline;
-  margin: 0 0.5rem;
 }
 
 nav ul li a {

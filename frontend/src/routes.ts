@@ -1,12 +1,12 @@
-import Home from "./pages/HomePage";
-import NewDr from "./pages/NewDr";
-import NewPatient from "./pages/NewPatient";
-import NewRx from "./pages/NewRx";
-import RxItem from "./pages/RxItem";
-import AddPatient from "./pages/AddPatient";
-import DoctorProfile from "./pages/DoctorProfile";
-import PatientProfile from "./pages/PatientProfile";
-import RxItemProfile from "./pages/RxItemProfile";
+import Home from "./pages/HomePage/HomePage";
+import NewDr from "./pages/NewDr/NewDr";
+import NewPatient from "./pages/NewPatient/NewPatient";
+import NewRx from "./pages/NewRx/NewRx";
+import RxItem from "./pages/RxItem/RxItem";
+import AddPatient from "./pages/AddPatient/AddPatient";
+import DoctorProfile from "./pages/DoctorProfile/DoctorProfile";
+import PatientProfile from "./pages/PatientProfile/PatientProfile";
+import RxItemProfile from "./pages/RxItemProfile/RxItemProfile";
 
 interface PharmacyRoutes {
   name: string;
