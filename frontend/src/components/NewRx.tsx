@@ -1,4 +1,4 @@
-import { FunctionComponent, useMemo, type CSSProperties, useCallback } from "react";
+import { FunctionComponent, useMemo, CSSProperties, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import NewRx1 from "./NewRx1";
 import NewPtSearch from "./NewPtSearch";

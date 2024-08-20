@@ -4,7 +4,8 @@ import NewPatient from "./pages/NewPatient";
 import NewDr from "./pages/NewDr";
 import NewRx from "./components/NewRx";
 import NewRx1 from "./components/NewRx1";
-import PatientProfile from "./components/PatientProfile";  // Import the PatientProfile component
+import PatientProfile from "./components/PatientProfile";
+import RxItemProfile from "./components/RxItemProfile";
 
 interface PharmacyRoutes {
   name: string;
@@ -47,6 +48,11 @@ const routes: PharmacyRoutes[] = [
     name: "Patient Profile",
     path: "/patientprofile",  // Add this route for PatientProfile
     component: PatientProfile,
+  },
+  {
+    name: "Rx Item Profile",
+    path: "/rxitemprofile",  // Add this route for RxItemProfile
+    component: RxItemProfile,
   },
 ];
 
