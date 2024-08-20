@@ -1,30 +1,52 @@
-.formContainer {
-    display: flex;
+.PatientGridContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.tableContainer {
-    width: 45%;
-}
-
-/* table {
     width: 100%;
-    border-spacing: 10px;
 }
 
-td {
-    vertical-align: top;
-} */
+.PatientMain {
+    padding: 20px;
+    max-width: 75%;
+    margin: 5vh auto;
+    padding-left: 5vw;
+}
 
-/* input {
-    width: 100%;
-    padding: 5px;
-    margin-top: 5px;
-} */
+.tableContainer1 input, .tableContainer2 input {
+    width: 170%;
+    padding: 8px;
+    font-size: 1rem; 
+    display: grid;
+}
+
+.tableContainer1 textarea {
+    width: 170%;
+    height: 100px;
+    padding: 8px;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.8rem; 
+}
+
+.tableContainer2 {
+    display: grid;
+    gap: 10px;
+}
+
+.tableContainer2 input {
+    width: 170%;
+    padding: 8px;
+    font-size: 1rem;
+}
 
 .buttonContainer {
-    margin-top: 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.buttonContainer button {
+    margin: 10px;
 }

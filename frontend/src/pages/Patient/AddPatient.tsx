@@ -11,13 +11,13 @@ const AddPatient:React.FC = () => {
     };
 
     return (
-        <main>
-            <h1>Add Patient</h1>
+        <main className={styles.PatientMain}>
+            <h1 className={styles.Patient_h1}>Add Patient</h1>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
-                <div>
+                <div className={styles.PatientGridContainer}>
                     <div>
                         <h3>General Information</h3>
-                        <table className={styles.tableContainer}>
+                        <table className={styles.tableContainer1}>
                             <tbody>
                                 <tr>
                                     <td>
@@ -60,14 +60,17 @@ const AddPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="address"
+                                            placeholder='Address Line 1'
                                         />
                                         <input
                                             type="text"
                                             id="address"
+                                            placeholder='Address Line 2'
                                         />
                                         <input
                                             type="text"
                                             id="address"
+                                            placeholder='Address Line 3'
                                         />
                                     </td>
                                 </tr>
@@ -98,8 +101,7 @@ const AddPatient:React.FC = () => {
                                         <label htmlFor='allergies'>Allergies: </label>
                                     </td>
                                     <td>
-                                        <input
-                                            type="text"
+                                        <textarea
                                             id="allergies"
                                         />
                                     </td>
@@ -107,10 +109,9 @@ const AddPatient:React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-
-                    <div className={styles.tableContainer}>
+                    <div>
                         <h3>Insurance Information</h3>
-                        <table>
+                        <table className={styles.tableContainer2}>
                             <tbody>
                                 <tr>
                                     <td>
@@ -120,6 +121,17 @@ const AddPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="insuranceName"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='insuranceId'>Insurance Id: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="insuranceId"
                                         />
                                     </td>
                                 </tr>
@@ -147,17 +159,6 @@ const AddPatient:React.FC = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='insuranceId'>Insurance Id: </label>
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            id="insuranceId"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                         <label htmlFor='group'>Group Id: </label>
                                     </td>
                                     <td>
@@ -172,7 +173,7 @@ const AddPatient:React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <button type='submit'>Current Rx</button>
+                    <button type='submit'>Rx History</button>
                     <button type='submit'>Edit Patient</button>
                     <button type='submit'>New Rx</button>
                 </div>

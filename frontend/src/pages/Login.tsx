@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import styles from './Login.module.css';
-import Modal from '../component/Modal'
+// import Modal from '../component/Modal'
 
 const Login:React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    // const openModal = () => setIsModalOpen(true);
+    // const closeModal = () => setIsModalOpen(false);
 
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ const Login:React.FC = () => {
     };
 
     return (
-        <Modal show={isModalOpen} onClose={closeModal}>
+        // <Modal show={isModalOpen} onClose={closeModal}>
             <main className={styles.mainBox}>
                 <div className={styles.logo}></div>
                 <form onSubmit={handleSubmit} className={styles.loginForm}>
@@ -47,7 +47,7 @@ const Login:React.FC = () => {
                     </div>
                 </form>
             </main>
-        </Modal>
+        // </Modal>
     );
 }
 

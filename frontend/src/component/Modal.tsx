@@ -30,3 +30,8 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
 };
 
 export default Modal; 
+
+
+
+
+

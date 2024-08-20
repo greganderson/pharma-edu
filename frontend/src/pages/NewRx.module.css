@@ -2,12 +2,16 @@
     display: grid;
     grid-template-columns: 2fr 1.5fr 2fr; /* Three columns */
     grid-template-rows: auto auto auto; /* Allow space for a third row if needed */
-    gap: 20px; /* Space between items */
+    gap: 20px;
     width: 90%;
     margin: 5vh auto 5vh auto;
     justify-content: center;
-    /* opacity: 0.8; */
+    padding: 20px;
+    margin-top: 5vh;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .NewRx_h1 {
     grid-column: 1;
@@ -87,24 +91,24 @@
 
 .quantityTable {
     display: grid;
-    justify-content: flex-end;
+    justify-content: center;
     width: 100%;
     margin: 0;
 }
 
 .quantityTable label {
-    font-size: 13px;
+    font-size: 12px;
     margin-right: 5px;
 }
 
 .quantityTable input {
     width: 37px;
-    padding: 5px;
+    /* padding: 5px; */
     font-size: 0.9rem;
 }
   
 .quantityTable td {
-    padding: 5px;
+    /* padding: 5px; */
     vertical-align: middle;
 }
 
@@ -113,6 +117,7 @@
 .techInitials {
     display: flex;
     justify-content: flex-end;
+    margin-right: 20px;
 }
 
 .techInitials input {
@@ -122,8 +127,7 @@
 }
 
 .techInitials label {
-    font-size: 13px;
-    margin-right: 5px;
+    font-size: 12px;
 }
 
 /*  */
