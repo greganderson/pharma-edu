@@ -1,9 +1,4 @@
-import {
-  FunctionComponent,
-  useMemo,
-  type CSSProperties,
-  useCallback,
-} from "react";
+import { FunctionComponent, useMemo, type CSSProperties, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import NewRx1 from "./NewRx1";
 import NewPtSearch from "./NewPtSearch";
@@ -57,7 +52,7 @@ const NewRx: FunctionComponent<NewRxType> = ({
       <header className="self-stretch flex flex-row items-start justify-between pt-0 px-0 pb-1.5 box-border max-w-full gap-5 text-left text-[64px] text-white font-hind-siliguri mq1050:flex-wrap">
         <div className="w-[354px] flex flex-col items-start justify-start pt-[162.3px] px-0 pb-0 box-border max-w-full">
           <h2 className="m-0 self-stretch h-[20.6px] relative text-inherit leading-[41.12px] font-medium font-[inherit] inline-block shrink-0 z-[1] mq450:text-[38px] mq450:leading-[25px] mq1050:text-[51px] mq1050:leading-[33px]">
-            New Rx
+            {newRx}
           </h2>
         </div>
         <img

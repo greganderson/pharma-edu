@@ -34,13 +34,17 @@ function App() {
         title = "New Doctor";
         metaDescription = "Add details for a new doctor.";
         break;
-      case "/newrx":  // Add this case for the NewRx route
+      case "/newrx":
         title = "New Prescription";
         metaDescription = "Create a new prescription.";
         break;
-      case "/newrx1":  // Add this case for the NewRx1 route
+      case "/newrx1":
         title = "New Prescription 1";
         metaDescription = "Create a new prescription (alternate version).";
+        break;
+      case "/patientprofile":  // Add this case for the PatientProfile route
+        title = "Patient Profile";
+        metaDescription = "View and manage patient profile details.";
         break;
       default:
         title = "App";
