@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import NewRx from "./NewRx";
+import NewRx from "../pages/NewRx";
 import NewPtSearch from "./NewPtSearch";
 import NewDrSearch from "./NewDrSearch";
 import RxItemSearch from "./RxItemSearch";

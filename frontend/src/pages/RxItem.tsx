@@ -1,10 +1,10 @@
 import { FunctionComponent, useCallback } from "react";
-import NewRx from "./NewRx";
-import NewPtSearch from "./NewPtSearch";
-import NewDrSearch from "./NewDrSearch";
-import RxItemSearch from "./RxItemSearch";
-import Search from "./Search";
-import AddNewRx from "./AddNewRx";
+import NewRx from "../pages/NewRx";
+import NewPtSearch from "../components/NewPtSearch";
+import NewDrSearch from "../components/NewDrSearch";
+import RxItemSearch from "../components/RxItemSearch";
+import Search from "../components/Search";
+import AddNewRx from "../components/AddNewRx";
 
 export type RxItemType = {
   className?: string;

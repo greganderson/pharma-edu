@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback } from "react";
-import NewRx from "./NewRx";
+import NewRx from ".././pages/NewRx";
 import NewPtSearch from "./NewPtSearch";
 import NewDrSearch from "./NewDrSearch";
 import RxItemSearch from "./RxItemSearch";

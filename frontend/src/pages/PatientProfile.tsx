@@ -1,10 +1,10 @@
 import { FunctionComponent, useCallback } from "react";
-import SaveInfo from "./SaveInfo";
-import EditInfo from "./EditInfo";
-import NewRx1 from "./NewRx1";
-import NewPtSearch from "./NewPtSearch";
-import NewDrSearch from "./NewDrSearch";
-import RxItemSearch from "./RxItemSearch";
+import SaveInfo from "../components/SaveInfo";
+import EditInfo from "../components/EditInfo";
+import NewRx1 from "../components/NewRx1";
+import NewPtSearch from "../components/NewPtSearch";
+import NewDrSearch from "../components/NewDrSearch";
+import RxItemSearch from "../components/RxItemSearch";
 import NewRx from "./NewRx";
 
 export type PatientProfileType = {

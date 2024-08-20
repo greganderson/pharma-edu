@@ -1,10 +1,10 @@
 import { FunctionComponent, useMemo, CSSProperties, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import NewRx1 from "./NewRx1";
-import NewPtSearch from "./NewPtSearch";
-import NewDrSearch from "./NewDrSearch";
-import RxItemSearch from "./RxItemSearch";
-import ContinueToLabel from "./ContinueToLabel";
+import NewRx1 from "../components/NewRx1";
+import NewPtSearch from "../components/NewPtSearch";
+import NewDrSearch from "../components/NewDrSearch";
+import RxItemSearch from "../components/RxItemSearch";
+import ContinueToLabel from "../components/ContinueToLabel";
 
 export type NewRxType = {
   className?: string;

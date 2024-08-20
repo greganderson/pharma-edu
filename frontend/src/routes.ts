@@ -1,11 +1,12 @@
 import Home from "./pages/HomePage";
-import AddPatient from "./pages/AddPatient";
 import NewPatient from "./pages/NewPatient";
+import PatientProfile from "./pages/PatientProfile";
+import AddPatient from "./pages/AddPatient";
 import NewDr from "./pages/NewDr";
-import NewRx from "./components/NewRx";
-import NewRx1 from "./components/NewRx1";
-import PatientProfile from "./components/PatientProfile";
-import RxItemProfile from "./components/RxItemProfile";
+import DoctorProfile from "./pages/DoctorProfile";
+import RxItem from "./pages/RxItem";
+import NewRx from "./pages/NewRx";
+import RxItemProfile from "./pages/RxItemProfile";
 
 interface PharmacyRoutes {
   name: string;
@@ -16,42 +17,47 @@ interface PharmacyRoutes {
 const routes: PharmacyRoutes[] = [
   {
     name: "Home",
-    path: "/",  // This corresponds to /pharma-edu/
+    path: "/",
     component: Home,
   },
   {
-    name: "Add Patient",
-    path: "/addpatient",  // This corresponds to /pharma-edu/addpatient
-    component: AddPatient,
-  },
-  {
     name: "New Patient",
-    path: "/newpatient",  // This corresponds to /pharma-edu/newpatient
+    path: "/newpatient",
     component: NewPatient,
   },
   {
-    name: "New Doctor",
-    path: "/newdr",  // This corresponds to /pharma-edu/newdr
-    component: NewDr,
-  },
-  {
-    name: "New Prescription",
-    path: "/newrx",  // This corresponds to /pharma-edu/newrx
-    component: NewRx,
-  },
-  {
-    name: "New Prescription 1",
-    path: "/newrx1",  // This corresponds to /pharma-edu/newrx1
-    component: NewRx1,
+    name: "Add Patient",
+    path: "/addpatient",
+    component: AddPatient,
   },
   {
     name: "Patient Profile",
-    path: "/patientprofile",  // Add this route for PatientProfile
+    path: "/patientprofile",
     component: PatientProfile,
   },
   {
+    name: "New Doctor",
+    path: "/newdr",
+    component: NewDr,
+  },
+  {
+    name: "Doctor Profile",
+    path: "/doctorprofile",
+    component: DoctorProfile,
+  },
+  {
+    name: "Rx Item",
+    path: "/rxitem",
+    component: RxItem,
+  },
+  {
+    name: "New Rx",
+    path: "/newrx",
+    component: NewRx,
+  },
+  {
     name: "Rx Item Profile",
-    path: "/rxitemprofile",  // Add this route for RxItemProfile
+    path: "/rxitemprofile",
     component: RxItemProfile,
   },
 ];
