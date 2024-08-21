@@ -4,24 +4,20 @@
   padding: 20px;
 }
 
-.both-sides div {
+.rx-main div {
   display: flex; /* Align items horizontally */
   align-items: center; /* Center the label and input vertically */
   margin-bottom: 1rem; /* Space between rows */
 }
 
-.both-sides label {
+.rx-main label {
   margin-right: 1rem; /* Space between the label and the input */
   width: 100px; /* Set a fixed width for labels */
   text-align: right; /* Align the label text to the right */
 }
 
-.both-sides input {
+.rx-main input {
   flex-grow: 1; /* Allow the input to take up the remaining space */
   padding: 0.5rem;
   border: 1px solid #ccc;
-}
-
-h3 {
-  text-align: center;
 }

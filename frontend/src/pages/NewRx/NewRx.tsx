@@ -38,7 +38,7 @@ const NewRx: React.FC = () => {
 
   return (
     <div className="new-rx-container">
-      <div className="left-side">
+      <div className="new-rx-left-side">
         <div>
           <label htmlFor="rx-pt-name">Patient Last Name</label>
           <input

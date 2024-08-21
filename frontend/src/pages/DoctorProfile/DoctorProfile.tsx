@@ -32,7 +32,7 @@ const DoctorProfile: React.FC = () => {
 
   return (
     <div className="doctor-profile-container">
-      <div className="both-sides">
+      <div className="dr-main">
         <h3>Doctor Name First/Last</h3>
         <div>
           <label htmlFor="doctor-last-name">Last Name</label>

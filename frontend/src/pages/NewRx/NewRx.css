@@ -3,7 +3,7 @@
   height: calc(90vh - 60px);
 }
 
-.left-side,
+.new-rx-left-side,
 .scan-image {
   flex: 1; /* Each side takes up equal space */
   padding: 0 2rem;
@@ -15,12 +15,12 @@
 }
 
 /* Add styling for the form fields to look better in the split layout */
-.left-side div,
+.new-rx-left-side div,
 .scan-image div {
   margin-bottom: 1rem;
 }
 
-.left-side {
+.new-rx-left-side {
   padding: 20px;
 }
 

@@ -32,7 +32,7 @@ const RxItemProfile: React.FC = () => {
 
   return (
     <div className="rx-item-profile-container">
-      <div className="both-sides">
+      <div className="rx-main">
         <div>
           <label htmlFor="rx-medication-name">Name</label>
           <input

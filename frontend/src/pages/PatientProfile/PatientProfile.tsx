@@ -67,7 +67,7 @@ const PatientProfile: React.FC = () => {
 
   return (
     <div className="patient-profile-container">
-      <div className="left-side">
+      <div className="pt-profile-left-side">
         <h3>Patient Name</h3>
         <h3>General Information</h3>
         <div>
@@ -164,7 +164,7 @@ const PatientProfile: React.FC = () => {
 
       <div className="separator"></div>
 
-      <div className="right-side">
+      <div className="pt-profile-right-side">
         <p>Insurance Info</p>
         <div>
           <label htmlFor="patient-bin">Bin</label>
