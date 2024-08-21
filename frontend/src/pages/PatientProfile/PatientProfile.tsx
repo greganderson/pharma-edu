@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./PatientProfile.css";
 
 interface PatientDetails {
   last: string;
@@ -209,6 +210,13 @@ const PatientProfile: React.FC = () => {
           onChange={handleInsuranceChange}
         />
       </div>
+      <button 
+        type="button"
+        onClick={goToNewRx}
+        className="navigate-button"
+      >
+        New Rx
+      </button>
     </div>
   );
 };

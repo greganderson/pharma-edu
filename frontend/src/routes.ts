@@ -1,4 +1,4 @@
-import Home from "./pages/HomePage/HomePage";
+import Home from "./pages/Home/Home";
 import NewDr from "./pages/NewDr/NewDr";
 import NewPatient from "./pages/NewPatient/NewPatient";
 import NewRx from "./pages/NewRx/NewRx";
@@ -21,29 +21,19 @@ const routes: PharmacyRoutes[] = [
     component: Home,
   },
   {
+    name: "New Rx",
+    path: "/newrx",
+    component: NewRx,
+  },
+  {
     name: "New Patient",
     path: "/newpatient",
     component: NewPatient,
   },
   {
-    name: "Add Patient",
-    path: "/addpatient",
-    component: AddPatient,
-  },
-  {
-    name: "Patient Profile",
-    path: "/patientprofile",
-    component: PatientProfile,
-  },
-  {
-    name: "New Doctor",
+    name: "New Dr",
     path: "/newdr",
     component: NewDr,
-  },
-  {
-    name: "Doctor Profile",
-    path: "/doctorprofile",
-    component: DoctorProfile,
   },
   {
     name: "Rx Item",
@@ -51,9 +41,19 @@ const routes: PharmacyRoutes[] = [
     component: RxItem,
   },
   {
-    name: "New Rx",
-    path: "/newrx",
-    component: NewRx,
+    name: "Add Patient",
+    path: "/addpatient",
+    component: AddPatient,
+  },
+  {
+    name: "Doctor Profile",
+    path: "/doctorprofile",
+    component: DoctorProfile,
+  },
+  {
+    name: "Patient Profile",
+    path: "/patientprofile",
+    component: PatientProfile,
   },
   {
     name: "Rx Item Profile",

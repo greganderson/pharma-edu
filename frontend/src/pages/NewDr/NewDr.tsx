@@ -1,25 +1,32 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import "./NewDr.css";
 
-const NewDr: FunctionComponent = () => {
+const NewDr: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleSearch = (query: string) => {
+    console.log("Searching for doctor", query);
+    // Implement search logic here
+  };
+
+  const gotoDoctorProfile = () => {
+    navigate("/doctorprofile");
+  };
+
   return (
-    <div className="w-full h-[1470px] relative bg-white border-black border-[1px] border-solid box-border overflow-hidden leading-[normal] tracking-[normal]">
-      <AddNewDr />
-      <section className="absolute top-[0px] left-[0px] w-[1236px] h-[406px]">
-        <img
-          className="absolute top-[0px] left-[0px] w-full h-full"
-          alt=""
-          src="/navheader.svg"
-        />
-        <img
-          className="absolute top-[10px] left-[817px] w-[419px] h-[212px] overflow-hidden z-[3]"
-          loading="lazy"
-          alt=""
-          src="/logo.svg"
-        />
-      </section>
-      <FrameComponent />
+    <div className="new-dr-container">
+      <div className="search-bar">
+        <SearchBar placeholder="Search for a doctor" onSearch={handleSearch} />
+        <button 
+          type="button" 
+          onClick={gotoDoctorProfile} 
+          className="navigate-button"
+        >
+          Add New Doctor
+        </button>
+      </div>
     </div>
   );
 };
