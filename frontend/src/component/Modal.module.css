@@ -7,14 +7,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* z-index: 1000; */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modalContent {
   position: relative;
-  padding: 20px;
-  width: 60%;
-  background-color: #d9d9d9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;

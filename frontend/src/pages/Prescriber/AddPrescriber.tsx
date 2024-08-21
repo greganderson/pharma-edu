@@ -104,7 +104,7 @@ const AddPerscriber:React.FC = () => {
                 </div>
                 <div className={styles.buttonContainer}>
                     <Link to="/prescriber/view-prescriber">
-                        <button type="submit" className={styles.saveButton}>Save</button>
+                        <button type="submit" className={styles.saveButton}>Save Prescriber</button>
                     </Link>
                 </div>
             </form>

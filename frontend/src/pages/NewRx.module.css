@@ -1,9 +1,11 @@
 .mainNewRx {
+    position: relative;
     display: grid;
     grid-template-columns: 2fr 1.5fr 2fr; /* Three columns */
     grid-template-rows: auto auto auto; /* Allow space for a third row if needed */
     gap: 20px;
     width: 90%;
+    min-width: 990px;
     margin: 5vh auto 5vh auto;
     justify-content: center;
     padding: 20px;
@@ -39,7 +41,8 @@
     border-radius: 5px;
     padding: 10px;
     height: auto;
-    width: 80%;
+    width: 85%;
+    max-width: 243px;
     gap: 10px;
     opacity: 1;
     display: grid;
@@ -53,11 +56,11 @@
 /*  */
 
 .enterPatientInfo {
-    display: grid;
     justify-content: space-between;
     margin-right: 10px;
     margin-bottom: 10px;
     flex-direction: row;
+    width: 400px;
 }
 
 .enterPatientInfo label {
@@ -65,7 +68,7 @@
 }
 
 .enterPatientInfo textarea {
-    width: 180%;
+    width: 100%;
     height: 100px;
     padding: 8px;
     resize: vertical;
@@ -75,9 +78,9 @@
 }
 
 .enterPatientInfo input {
-    width: 180%;
+    width: 100%;
     padding: 8px;
-    font-size: 1 rem; 
+    font-size: 1rem; 
     display: flex;
     justify-content: center;
 }
@@ -86,43 +89,49 @@
 
 .techNquantity {
     grid-column: 1 / 2;
-    grid-row: 4;
+    grid-row: 3;
+    max-width: 425px;
+    justify-content: flex-end;
 }
 
 .quantityTable {
-    display: grid;
-    justify-content: center;
     width: 100%;
     margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .quantityTable label {
     font-size: 12px;
-    margin-right: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: center;
+    max-width: 70px;
 }
 
 .quantityTable input {
     width: 37px;
-    /* padding: 5px; */
     font-size: 0.9rem;
 }
   
 .quantityTable td {
-    /* padding: 5px; */
     vertical-align: middle;
 }
 
 /*  */
 
 .techInitials {
-    display: flex;
+    display: grid;
+    width: 100%;
     justify-content: flex-end;
     margin-right: 20px;
 }
 
 .techInitials input {
-    width: 50px;
-    padding: 5px;
+    width: 37px;
+    padding: 8px;
     font-size: 0.9rem;
 }
 
@@ -138,7 +147,7 @@
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     padding: 10px;
-    width: 80% auto;
+    width: auto;
     height: 60% auto;
     display: grid;
     flex-direction: column;
@@ -148,13 +157,18 @@
 
 .RxDateInfo tr {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+}
+
+.RxDateInfo td {
+    max-width: 130px;
+    min-height: 35px;
 }
 
 .RxDateInfo input {
     align-items: center;
     justify-content: flex-end;
+    max-width: 90%;
 }
 
 .RxDateInfo label {
@@ -162,6 +176,9 @@
     justify-content: flex-start;
 }
 
+.RxDateInfo input[type="text"]{
+    width: 130px;
+}
 
 /*  */
 

@@ -4,6 +4,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import PatientSearch from './PatientSearch';
 import ViewPatient from './ViewPatient';
 import AddPatient from './AddPatient';
+import UpdatePatient from './UpdatePatient';
+import RxHistory from './RxHistory';
 
 const Patient:React.FC = () => {
     return (
@@ -13,7 +15,8 @@ const Patient:React.FC = () => {
             <Route path="/patient-search" element={<PatientSearch />} />
             <Route path="/view-patient" element={<ViewPatient />} />
             <Route path="/add-patient" element={<AddPatient />} />
-            {/* <Route path="/update-patient" element={<UpdatePatient />} /> */}
+            <Route path="/update-patient" element={<UpdatePatient />} />
+            <Route path="/rx-history" element={<RxHistory />} />
         </Routes>
     );
 }

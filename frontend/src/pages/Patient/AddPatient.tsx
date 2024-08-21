@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import styles from './ViewPatients.module.css';
+import styles from './AddPatients.module.css';
 
 const AddPatient:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
@@ -173,9 +174,9 @@ const AddPatient:React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <button type='submit'>Rx History</button>
-                    <button type='submit'>Edit Patient</button>
-                    <button type='submit'>New Rx</button>
+                    <Link to="/patient/view-patient">
+                        <button type="button">Save Patient</button>
+                    </Link>
                 </div>
             </form>
         </main>

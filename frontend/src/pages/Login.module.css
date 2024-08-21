@@ -1,17 +1,12 @@
-/* html, body {
-    height: 100%;
-    margin: 0; */
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-
-
 .mainBox {
-    max-width: 500px;
-    min-height: 500px;
+    min-width: 500px;
+    max-width: 700px;
+    max-height: 500px;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 40px;
 }
 
 .logo {
@@ -20,36 +15,42 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    width: 250px;
-    height: 200px;
+    width: 350px;
+    height: 300px;
 }
 
 .h1SignIn {
     color: #2e3f59;
+    margin-top: 0;
+    text-align: center;
 }
 
 .loginForm {
-    display: flex;
-    flex-flow: column nowrap;
     width: 100%;
 }
 
 .inputFields {
     margin-bottom: 15px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
-.inputfields input[type="text"] {
-    width: 60%;
+.inputFields input[type="text"],
+.inputFields input[type="password"] {
     margin-top: 5px;
+    padding: 10px;
     border: 1px solid #ccc;
+    width: 70%;
+    max-width: 500px;
+    box-sizing: border-box;
 }
 
 .LoginButton {
     display: flex;
     justify-content:flex-end;
-    margin-right: 18%;
-}
-
-.LoginButton button {
-    padding: 10%;
+    align-self: flex-end;
+    margin-right: 15%;
 }

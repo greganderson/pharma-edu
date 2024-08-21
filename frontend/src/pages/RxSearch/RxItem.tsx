@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import RxSearch from './RxSearch';
 import AddMedication from './AddMedication';
+import ViewMedication from './ViewMedication';
+import UpdateMedication from './UpdateMedication';
 
 
 const RxItem:React.FC = () => {
@@ -12,6 +14,8 @@ const RxItem:React.FC = () => {
             <Route path="/" element={<Navigate to="/rx-item/rx-search" />} />
             <Route path="/rx-search" element={<RxSearch />} />
             <Route path="/add-medication" element={<AddMedication />} />
+            <Route path="/view-medication" element={<ViewMedication />} />
+            <Route path="/update-medication" element={<UpdateMedication />} />
         </Routes>
     );
 }

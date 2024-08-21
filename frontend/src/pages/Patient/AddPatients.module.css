@@ -16,22 +16,20 @@
 .tableContainer1 input, .tableContainer2 input {
     width: 170%;
     padding: 8px;
-    margin: 5px;
+    margin: 10px;
     font-size: 1rem; 
     display: grid;
-    background-color: #b4b5b5;
 }
 
 .tableContainer1 textarea {
     width: 170%;
     height: 100px;
     padding: 8px;
-    margin: 5px;
+    margin: 10px;
     resize: vertical;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 0.8rem; 
-    background-color: #b4b5b5;
 }
 
 .tableContainer2 {
@@ -49,6 +47,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    padding: 10px;
 }
 
 .buttonContainer button {

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from "./AddMedication.module.css";
+import style from "./ViewMedication.module.css";
 
 
-const AddMedication:React.FC = () => {
+const ViewMedication:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -14,19 +15,19 @@ const AddMedication:React.FC = () => {
 
     return (
         <main className={styles.addItemMain}>
-        <h2 className={styles.AddItem_h1}>Add Medication</h2>
+        <h2 className={styles.AddItem_h1}>View Medication</h2>
         <form onSubmit={handleSubmit} className={styles.addRxForm}>
             <div className={styles.gridContainerItem}>
                 {/* Left Column */}
                 <div className={styles.itemColumn}>
-                    <table className={styles.enterNewItem}>
+                    <table className={style.enterNewItem}>
                         <tbody>
                             <tr>
                                 <td>
                                     <label htmlFor='ndc'>NDC: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="ndc" />
+                                    <input type="text" id="ndc" readOnly/>
                                 </td>
                             </tr>
                             <tr>
@@ -34,7 +35,7 @@ const AddMedication:React.FC = () => {
                                     <label htmlFor='Name'>Name: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="Name" />
+                                    <input type="text" id="Name" readOnly/>
                                 </td>
                             </tr>
                             <tr>
@@ -42,7 +43,7 @@ const AddMedication:React.FC = () => {
                                     <label htmlFor='manufacturer'>Manufacturer: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="manufacturer" />
+                                    <input type="text" id="manufacturer" readOnly/>
                                 </td>
                             </tr>
                             <tr>
@@ -50,7 +51,7 @@ const AddMedication:React.FC = () => {
                                     <label htmlFor='itemBrand'>Brand/Generic: </label>
                                 </td>
                                 <td>
-                                    <input id="itemBrand"></input>
+                                    <input id="itemBrand" type='text' readOnly/>
                                 </td>
                             </tr>
                             <tr>
@@ -58,7 +59,7 @@ const AddMedication:React.FC = () => {
                                     <label htmlFor='drugClass'>Drug Class: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="drugClass" />
+                                    <input type="text" id="drugClass" readOnly/>
                                 </td>
                             </tr>
                             <tr>
@@ -66,7 +67,7 @@ const AddMedication:React.FC = () => {
                                     <label htmlFor='dea'>DEA Schedule: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="dea" />
+                                    <input type="text" id="dea" readOnly/>
                                 </td>
                             </tr>
                             </tbody>
@@ -74,14 +75,14 @@ const AddMedication:React.FC = () => {
                         </div>
                 {/* Right Column */}
                 <div className={styles.ItemColumn2}>
-                    <table className={styles.enterNewItem}>
+                    <table className={style.enterNewItem}>
                         <tbody>
                         <tr>
                             <td>
                                 <label htmlFor='dosage'>Dosage Form: </label>
                             </td>
                             <td>
-                                <input type="text" id="dosage" />
+                                <input type="text" id="dosage" readOnly/>
                             </td>
                         </tr>
                         <tr>
@@ -89,7 +90,7 @@ const AddMedication:React.FC = () => {
                                 <label htmlFor='strength'>Strength: </label>
                             </td>
                             <td>
-                            <input type="text" id="strength" />
+                            <input type="text" id="strength" readOnly/>
                             </td>
                         </tr>
                         <tr>
@@ -97,7 +98,7 @@ const AddMedication:React.FC = () => {
                                 <label htmlFor='lotNumber'>Lot Number: </label>
                             </td>
                             <td>
-                            <input type="text" id="lotNumber" />
+                            <input type="text" id="lotNumber" readOnly/>
                             </td>
                         </tr>
                         <tr>
@@ -105,7 +106,7 @@ const AddMedication:React.FC = () => {
                                 <label htmlFor='expire'>Expiration: </label>
                             </td>
                             <td>
-                            <input type="text" id="expire" />
+                            <input type="text" id="expire" readOnly/>
                             </td>
                         </tr>
                         <tr>
@@ -113,7 +114,7 @@ const AddMedication:React.FC = () => {
                                 <label htmlFor='otc'>Sold OTC: </label>
                             </td>
                             <td>
-                                <input type="checkbox" id="otc" className={styles.OTC} />
+                                <input type="checkbox" id="otc" className={styles.OTC} readOnly/>
                             </td>
                         </tr>
                         </tbody>
@@ -121,8 +122,8 @@ const AddMedication:React.FC = () => {
                 </div>
             </div>
             <div className={styles.buttonContainer}>
-                <Link to="/rx-item/view-medication">
-                    <button type="submit" className={styles.saveItemButton}>Save Medication</button>
+                <Link to="/rx-item/update-medication">
+                    <button type="submit" className={styles.saveItemButton}>Edit Medication</button>
                 </Link>
             </div>
         </form>
@@ -130,4 +131,4 @@ const AddMedication:React.FC = () => {
     );
 }
 
-export default AddMedication;
+export default ViewMedication;

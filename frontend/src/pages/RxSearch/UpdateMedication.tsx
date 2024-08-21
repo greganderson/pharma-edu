@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from "./AddMedication.module.css";
 
 
-const AddMedication:React.FC = () => {
+const UpdateMedication:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -14,7 +14,7 @@ const AddMedication:React.FC = () => {
 
     return (
         <main className={styles.addItemMain}>
-        <h2 className={styles.AddItem_h1}>Add Medication</h2>
+        <h2 className={styles.AddItem_h1}>Update Medication</h2>
         <form onSubmit={handleSubmit} className={styles.addRxForm}>
             <div className={styles.gridContainerItem}>
                 {/* Left Column */}
@@ -130,4 +130,4 @@ const AddMedication:React.FC = () => {
     );
 }
 
-export default AddMedication;
+export default UpdateMedication;

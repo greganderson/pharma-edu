@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import styles from './ViewPatients.module.css';
+import styles from './AddPatients.module.css';
 
-const ViewPatient:React.FC = () => {
+const UpdatePatient:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -13,7 +13,7 @@ const ViewPatient:React.FC = () => {
 
     return (
         <main className={styles.PatientMain}>
-            <h1 className={styles.Patient_h1}>View Patient</h1>
+            <h1 className={styles.Patient_h1}>Update Patient</h1>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
                 <div className={styles.PatientGridContainer}>
                     <div>
@@ -28,7 +28,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="lastName"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -40,7 +39,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="firstName"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -52,7 +50,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="dob"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -64,17 +61,14 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="address"
-                                            readOnly
                                         />
                                         <input
                                             type="text"
                                             id="address"
-                                            readOnly
                                         />
                                         <input
                                             type="text"
                                             id="address"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -86,7 +80,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="tel"
                                             id="phoneNumber"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -98,7 +91,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="primaryDoc"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -109,7 +101,6 @@ const ViewPatient:React.FC = () => {
                                     <td>
                                         <textarea
                                             id="allergies"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -128,7 +119,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="insuranceName"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -140,7 +130,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="insuranceId"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -152,7 +141,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="number"
                                             id="bin"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -164,7 +152,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="pcn"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -176,7 +163,6 @@ const ViewPatient:React.FC = () => {
                                         <input
                                             type="text"
                                             id="group"
-                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -185,14 +171,8 @@ const ViewPatient:React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Link to="/patient/rx-history">
-                        <button type='button'>Rx History</button>
-                    </Link>
-                    <Link to="/patient/update-patient">
-                        <button type='submit'>Edit Patient</button>
-                    </Link>
-                    <Link to="/new-rx">
-                        <button type='submit'>New Rx</button>
+                    <Link to="/patient/view-patient">
+                        <button type="button">Save Patient</button>
                     </Link>
                 </div>
             </form>
@@ -200,4 +180,4 @@ const ViewPatient:React.FC = () => {
     );
 }
 
-export default ViewPatient;
+export default UpdatePatient;

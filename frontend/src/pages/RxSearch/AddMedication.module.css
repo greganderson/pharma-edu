@@ -1,0 +1,82 @@
+.addItemMain {
+    padding: 20px;
+    max-width: 80%;
+    margin: 5vh auto;
+    padding-left: 5vw;
+}
+
+.addRxForm {
+    display: grid;
+    gap: 20px;
+}
+
+.gridContainerItem {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.AddItem_h1 {
+    grid-column: 1;
+    grid-row: 1;
+    max-height: 40px;
+}
+
+.itemColumn > div, .ItemColumn2 > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.itemColumn input, .ItemColumn2 input {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-self: flex-end;
+    width: 180%;
+    margin: 10px;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 35px;
+    height: 35px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  /* Style the checkmark */
+ input[type="checkbox"]:checked {
+    background-color: #2e3f59;
+    border: none;
+
+  }
+  
+input[type="checkbox"]:checked::before {
+    content: '✔'; /* Or use any other symbol or SVG */
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 10px;
+}

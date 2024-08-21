@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import styles from './RxQueue.module.css'
+import styles from './RxHistory.module.css'
 
-const RxQueue:React.FC = () => {
+const RxHistory:React.FC = () => {
     const [tableData, setTableData] = useState({ columns: [], data: [] });
 
     useEffect(() => {
@@ -16,9 +17,9 @@ const RxQueue:React.FC = () => {
     }, []);
 
     return (
-        <main className={styles.RxQueueMain}>
-            <h1>Prescription Queue</h1>
-            <div className={styles.RxQueueTable}>
+        <main className={styles.RxHistoryMain}>
+            <h1>[Patient Name] Medication History</h1>
+            <div>
                 {tableData.columns.length > 0 ? (
                     <table>
                     <thead>
@@ -42,8 +43,17 @@ const RxQueue:React.FC = () => {
                     <p>Loading data...</p>
                 )}
             </div>
+            <div className={styles.buttonContainer}>
+                <Link to="/new-rx">
+                    <button type="button">Refill Rx</button>
+                </Link>
+                <Link to="/patient/view-patient">
+                    <button type="button">View Patient</button>
+                </Link>
+            </div>
+
         </main>
     );
 }
 
-export default RxQueue;
+export default RxHistory;

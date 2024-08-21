@@ -1,29 +1,36 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Login.module.css';
-// import Modal from '../component/Modal'
+import Modal from '../component/Modal'
 
 const Login:React.FC = () => {
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // const openModal = () => setIsModalOpen(true);
-    // const closeModal = () => setIsModalOpen(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(true);
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState<boolean>(false);
 
+    const navigate = useNavigate();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSubmitted(true);
+
+        // validation or authentication logic here
+
+        // Until Validation is added simply click the Sign In button to leave the page
+
+
+        setIsModalOpen(false);
+        navigate('/rx-queue'); // Redirect to Prescription Queue after login authentication
     };
 
     return (
-        // <Modal show={isModalOpen} onClose={closeModal}>
+        <Modal show={isModalOpen}>
             <main className={styles.mainBox}>
                 <div className={styles.logo}></div>
                 <form onSubmit={handleSubmit} className={styles.loginForm}>
-                    <h1 className={styles.h1SignIn}>Pharmacy Technician Sign In</h1>
+                    <h1 className={styles.h1SignIn}>Pharmacy Sign In</h1>
                     <div className={styles.inputFields}>
                         <label htmlFor='username'></label>
                         <input
@@ -43,12 +50,13 @@ const Login:React.FC = () => {
                         />
                     </div>
                     <div className={styles.LoginButton}>
-                        <button type='submit'>Sign In</button>
+                        <button type='submit' className={styles.SignInButton}>Sign In</button>
                     </div>
                 </form>
             </main>
-        // </Modal>
+        </Modal>
     );
 }
 
 export default Login;
+
