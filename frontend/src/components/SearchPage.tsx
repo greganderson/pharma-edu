@@ -6,6 +6,13 @@ import SearchResult from "./SearchResult";
 
 
 const SearchPage: React.FC = () => {
+  const SearchResultObj = [
+    {
+    name: "Example name",
+    descriptor: "Dob, Doc type, Med Type",
+    someProfile: "this will be a connection to a profile"
+    }
+  ]
 
   return(
     <Container fluid style={{width: "100vw", height: "100vh"}} className="d-flex flex-column align-items-start ps-0">
@@ -23,11 +30,13 @@ const SearchPage: React.FC = () => {
           aria-label="Search" /> 
         <FormControl
           type="search"
-          placeholder="Birthdate"
+          placeholder="Dob, Doc type, Med type"
           className="me-1 w-100"
           aria-label="Search" />
       </Form>
-      {SearchResultObj.map((obj, index) => <SearchResult name={obj.name} descriptor={obj.descriptor} someProfile={obj.profile} />)
+      {SearchResultObj.map((obj, index) => <SearchResult name={obj.name} descriptor={obj.descriptor} someProfile={obj.someProfile} />)}
+
+      <h1>this page will be repeated over the other search pages</h1>
     </Container>
   );
 
