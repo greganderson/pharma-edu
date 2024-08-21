@@ -112,7 +112,7 @@ class Patient(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     first_name: str
     last_name: str
-    dob: date
+    date_of_birth: date
     street: str
     city: str
     state: State

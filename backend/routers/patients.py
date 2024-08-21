@@ -4,33 +4,37 @@ from sqlmodel import Session, select
 from database import get_db
 from exceptions import PatientNotFound
 from models import Patient
-from schemas import PatientUpdateRequest
+from schemas import PatientBasicInfo, PatientCreateResponse, PatientUpdateRequest
 
 router = APIRouter()
 
 
 @router.get("/patients")
-async def get_patients(session: Session = Depends(get_db)) -> list[Patient]:
-    return session.exec(select(Patient)).all()
+async def get_patients(session: Session = Depends(get_db)) -> list[PatientBasicInfo]:
+    return session.exec(select(Patient.id, Patient.first_name, Patient.last_name, Patient.date_of_birth)).all()
 
 
 @router.get("/patients/{patient_id}")
 async def get_patient(patient_id: int, session: Session = Depends(get_db)) -> Patient:
-    return session.get(Patient, patient_id)
+    patient: Patient | None = session.get(Patient, patient_id)
+    if patient is None:
+        raise PatientNotFound(id=patient_id)
+
+    return patient
 
 
 @router.post("/patients")
-async def create_patient(patient: Patient, session: Session = Depends(get_db)):
+async def create_patient(patient: Patient, session: Session = Depends(get_db)) -> PatientCreateResponse:
     session.add(patient)
     session.commit()
     session.refresh(patient)
-    return patient
+    return PatientCreateResponse(patient_id=patient.id)
 
 
 @router.patch("/patients/{patient_id}")
 async def update_patient(patient_id: int, patient_update: PatientUpdateRequest, session: Session = Depends(get_db)):
     """ Update specific fields of a patient, but the patient needs to exist. All fields are optional. """
-    patient = session.get(Patient, patient_id)
+    patient: Patient | None = session.get(Patient, patient_id)
     if patient is None:
         raise PatientNotFound(id=patient_id)
 
@@ -40,12 +44,12 @@ async def update_patient(patient_id: int, patient_update: PatientUpdateRequest, 
     session.add(patient)
     session.commit()
     session.refresh(patient)
-    return patient
+    # TODO: Return a 204 or whatever
 
 
 @router.delete("/patients/{patient_id}")
 async def delete_patient(patient_id: int, session: Session = Depends(get_db)):
-    patient = session.get(Patient, patient_id)
+    patient: Patient | None = session.get(Patient, patient_id)
     if patient is None:
         raise PatientNotFound(id=patient_id)
     session.delete(patient)
