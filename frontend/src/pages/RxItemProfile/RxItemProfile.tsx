@@ -32,6 +32,7 @@ const RxItemProfile: React.FC = () => {
 
   return (
     <div className="rx-item-profile-container">
+      <h3>Doctor Name First/Last</h3>
       <div className="rx-main">
         <div>
           <label htmlFor="rx-medication-name">Name</label>

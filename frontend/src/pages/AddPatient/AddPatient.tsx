@@ -127,7 +127,7 @@ const AddPatient: React.FC = () => {
       <div className="separator"></div>
 
       <div className="pt-right-side">
-        <p>Insurance Info</p>
+        <h3>Insurance Info</h3>
         <div>
           <label htmlFor="patient-bin">Bin</label>
           <input
