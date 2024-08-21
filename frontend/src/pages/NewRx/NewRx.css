@@ -1,10 +1,10 @@
 .new-rx-container {
   display: flex;
-  height: calc(100vh - 60px); /* Adjust height based on your navbar height */
+  height: calc(90vh - 60px);
 }
 
 .left-side,
-.right-side {
+.scan-image {
   flex: 1; /* Each side takes up equal space */
   padding: 0 2rem;
 }
@@ -16,7 +16,7 @@
 
 /* Add styling for the form fields to look better in the split layout */
 .left-side div,
-.right-side div {
+.scan-image div {
   margin-bottom: 1rem;
 }
 
@@ -24,10 +24,9 @@
   padding: 20px;
 }
 
-.right-side {
+.scan-image {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  text-align: center; /* Optional: Center text inside the elements */
+  justify-content: center;
+  align-items: center;
 }

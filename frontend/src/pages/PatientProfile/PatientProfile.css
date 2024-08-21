@@ -1,6 +1,25 @@
 .patient-profile-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem;
+  height: calc(90vh - 60px);
+}
+
+.left-side,
+.right-side {
+  flex: 1; /* Each side takes up equal space */
+  padding: 0 2rem;
+}
+
+.separator {
+  width: 1px;
+  background-color: black;
+}
+
+/* Add styling for the form fields to look better in the split layout */
+.left-side div,
+.right-side div {
+  margin-bottom: 1rem;
+}
+
+.left-side {
+  padding: 20px;
 }

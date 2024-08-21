@@ -32,76 +32,78 @@ const DoctorProfile: React.FC = () => {
 
   return (
     <div className="doctor-profile-container">
-      <h3>Doctor Name First/Last</h3>
-      <div>
-        <label htmlFor="doctor-last-name">Last Name</label>
-        <input
-          type="text"
-          name="last"
-          id="doctor-last-name"
-          value={doctorDetails.last}
-          onChange={handleDoctorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="doctor-first-name">First Name</label>
-        <input
-          type="text"
-          name="first"
-          id="doctor-first-name"
-          value={doctorDetails.first}
-          onChange={handleDoctorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="doctor-dr-type">Dr Type</label>
-        <input
-          type="text"
-          name="drType"
-          id="doctor-dr-type"
-          value={doctorDetails.drType}
-          onChange={handleDoctorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="doctor-address">Address</label>
-        <input
-          type="text"
-          name="address"
-          id="doctor-address"
-          value={doctorDetails.address}
-          onChange={handleDoctorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="doctor-dea">DEA</label>
-        <input
-          type="text"
-          name="dea"
-          id="doctor-dea"
-          value={doctorDetails.dea}
-          onChange={handleDoctorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="doctor-phone">Phone</label>
-        <input
-          type="text"
-          name="phone"
-          id="doctor-phone"
-          value={doctorDetails.phone}
-          onChange={handleDoctorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="doctor-npi">NPI</label>
-        <input
-          type="text"
-          name="npi"
-          id="doctor-npi"
-          value={doctorDetails.npi}
-          onChange={handleDoctorChange}
-        />
+      <div className="both-sides">
+        <h3>Doctor Name First/Last</h3>
+        <div>
+          <label htmlFor="doctor-last-name">Last Name</label>
+          <input
+            type="text"
+            name="last"
+            id="doctor-last-name"
+            value={doctorDetails.last}
+            onChange={handleDoctorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="doctor-first-name">First Name</label>
+          <input
+            type="text"
+            name="first"
+            id="doctor-first-name"
+            value={doctorDetails.first}
+            onChange={handleDoctorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="doctor-dr-type">Dr Type</label>
+          <input
+            type="text"
+            name="drType"
+            id="doctor-dr-type"
+            value={doctorDetails.drType}
+            onChange={handleDoctorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="doctor-address">Address</label>
+          <input
+            type="text"
+            name="address"
+            id="doctor-address"
+            value={doctorDetails.address}
+            onChange={handleDoctorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="doctor-dea">DEA</label>
+          <input
+            type="text"
+            name="dea"
+            id="doctor-dea"
+            value={doctorDetails.dea}
+            onChange={handleDoctorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="doctor-phone">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            id="doctor-phone"
+            value={doctorDetails.phone}
+            onChange={handleDoctorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="doctor-npi">NPI</label>
+          <input
+            type="text"
+            name="npi"
+            id="doctor-npi"
+            value={doctorDetails.npi}
+            onChange={handleDoctorChange}
+          />
+        </div>
       </div>
     </div>
   )

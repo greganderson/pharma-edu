@@ -143,7 +143,7 @@ const NewRx: React.FC = () => {
 
       <div className="separator"></div>
 
-      <div className="right-side">
+      <div className="scan-image">
         <h3>Scan Image</h3>
       </div>
     </div>
