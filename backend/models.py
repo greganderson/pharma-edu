@@ -118,9 +118,12 @@ class Patient(SQLModel, table=True):
     primary_care_prescriber_id: int = Field(foreign_key="prescriber.id")
     primary_care_prescriber: "Prescriber" = Relationship()
     allergies: str = ""
-    insurance_id: int = Field(foreign_key="insurance.id")
-    insurance: "Insurance" = Relationship()
     prescriptions: list["Prescription"] = Relationship(back_populates="patient")
+    member_id_number: str | None = None
+    insurance_group_number: str | None = None
+    insurance_rx_bin: str | None = None
+    insurance_rx_pcn: str | None = None
+    insurance_person_code: str | None = None
 
 
 class Address(SQLModel, table=True):
@@ -129,15 +132,6 @@ class Address(SQLModel, table=True):
     city: str
     state: State
     zipcode: str
-
-
-class Insurance(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    member_id_number: str | None = None
-    group_number: str | None = None
-    rx_bin: str | None = None
-    rx_pcn: str | None = None
-    person_code: str | None = None
 
 
 class Prescriber(SQLModel, table=True):
