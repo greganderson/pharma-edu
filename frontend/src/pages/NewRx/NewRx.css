@@ -37,6 +37,14 @@
   padding: 20px;
 }
 
+.new-rx-left-side textarea.directions-textarea {
+  flex-grow: 1; /* Allow the textarea to take up the remaining space */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  min-height: 100px; /* Set a minimum height */
+  resize: vertical; /* Allow the user to resize the textarea vertically */
+}
+
 .scan-image {
   display: flex;
   flex-direction: column;

@@ -15,8 +15,8 @@ interface InsuranceInfo {
   bin: string;
   pcn: string;
   personCode: string;
-  id: string;
-  group: string;
+  id: number;
+  group: number;
 }
 
 const AddPatient: React.FC = () => {
@@ -35,8 +35,8 @@ const AddPatient: React.FC = () => {
     bin: "",
     pcn: "",
     personCode: "",
-    id: "",
-    group: "",
+    id: 0,
+    group: 0,
   });
 
   const handlePatientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +47,15 @@ const AddPatient: React.FC = () => {
     }));
   };
 
-  const handleInsuranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value } = event.target;
-    setInsuranceInfo((prevInfo) => ({
-      ...prevInfo,
-      [name]: value,
+  const handleInsuranceChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setInsuranceInfo((prevDetails) => ({
+      ...prevDetails,
+      [name]: name === "id" || name === "group"
+        ? value === "" ? 0 : Number(value) 
+        : value,
     }));
   };
 
@@ -161,20 +165,20 @@ const AddPatient: React.FC = () => {
         <div>
           <label htmlFor="patient-id">ID #</label>
           <input
-            type="text"
+            type="number"
             name="id"
             id="patient-id"
-            value={insuranceInfo.id}
+            value={insuranceInfo.id === 0 ? "" : insuranceInfo.id}
             onChange={handleInsuranceChange}
           />
         </div>
         <div>
           <label htmlFor="patient-group">Group #</label>
           <input
-            type="text"
+            type="number"
             name="group"
             id="patient-group"
-            value={insuranceInfo.group}
+            value={insuranceInfo.group === 0 ? "" : insuranceInfo.group}
             onChange={handleInsuranceChange}
           />
         </div>

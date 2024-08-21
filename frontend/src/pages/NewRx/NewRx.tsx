@@ -8,9 +8,9 @@ interface RxDetails {
   dateOfRx: string;
   medication: string;
   directions: string;
-  quantityWritten: string;
-  quantityDispensed: string;
-  refills: string;
+  quantityWritten: number;
+  quantityDispensed: number;
+  refills: number;
   techInitials: string;
 }
 
@@ -22,17 +22,21 @@ const NewRx: React.FC = () => {
     dateOfRx: "",
     medication: "",
     directions: "",
-    quantityWritten: "",
-    quantityDispensed: "",
-    refills: "",
+    quantityWritten: 0,
+    quantityDispensed: 0,
+    refills: 0,
     techInitials: "",
   });
 
-  const handleRxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRxChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
     setRxDetails((prevDetails) => ({
       ...prevDetails,
-      [name]: value,
+      [name]: name === "quantityWritten" || name === "quantityDispensed" || name === "refills" 
+        ? value === "" ? 0 : Number(value) 
+        : value,
     }));
   };
 
@@ -91,41 +95,41 @@ const NewRx: React.FC = () => {
         </div>
         <div>
           <label htmlFor="rx-directions">Directions</label>
-          <input
-            type="text"
+          <textarea
             name="directions"
             id="rx-directions"
             value={rxDetails.directions}
             onChange={handleRxChange}
+            className="directions-textarea"
           />
         </div>
         <div>
           <label htmlFor="rx-quantity-written">Quantity Written</label>
           <input
-            type="text"
+            type="number"
             name="quantityWritten"
             id="rx-quantity-written"
-            value={rxDetails.quantityWritten}
+            value={rxDetails.quantityWritten === 0 ? "" : rxDetails.quantityWritten}
             onChange={handleRxChange}
           />
         </div>
         <div>
           <label htmlFor="rx-quantity-dispensed">Quantity Dispensed</label>
           <input
-            type="text"
+            type="number"
             name="quantityDispensed"
             id="rx-quantity-dispensed"
-            value={rxDetails.quantityDispensed}
+            value={rxDetails.quantityDispensed === 0 ? "" : rxDetails.quantityDispensed}
             onChange={handleRxChange}
           />
         </div>
         <div>
           <label htmlFor="rx-refills">Refills</label>
           <input
-            type="text"
+            type="number"
             name="refills"
             id="rx-refills"
-            value={rxDetails.refills}
+            value={rxDetails.refills === 0 ? "" : rxDetails.refills}
             onChange={handleRxChange}
           />
         </div>
