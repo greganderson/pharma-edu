@@ -113,8 +113,10 @@ class Patient(SQLModel, table=True):
     first_name: str
     last_name: str
     dob: date
-    address_id: int = Field(foreign_key="address.id")
-    address: "Address" = Relationship()
+    street: str
+    city: str
+    state: State
+    zipcode: str
     primary_care_prescriber_id: int = Field(foreign_key="prescriber.id")
     primary_care_prescriber: "Prescriber" = Relationship()
     allergies: str = ""
@@ -126,21 +128,15 @@ class Patient(SQLModel, table=True):
     insurance_person_code: str | None = None
 
 
-class Address(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    street: str
-    city: str
-    state: State
-    zipcode: str
-
-
 class Prescriber(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     first_name: str
     last_name: str
     prescriber_type: PrescriberType = PrescriberType.MD
-    office_address_id: int = Field(foreign_key="address.id")
-    office_address: Address = Relationship()
+    street: str
+    city: str
+    state: State
+    zipcode: str
     contact_number: str | None = None
     dea: str | None = None
     npi: str | None = None
