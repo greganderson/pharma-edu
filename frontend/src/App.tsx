@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import routes from "./routes";
+import ModalButtons from "./components/ModalButtons/ModalButtons";
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           />
         ))}
       </Routes>
+      <ModalButtons />
     </Router>
   );
 };

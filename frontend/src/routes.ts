@@ -26,21 +26,6 @@ const routes: PharmacyRoutes[] = [
     component: NewRx,
   },
   {
-    name: "New Patient",
-    path: "/newpatient",
-    component: NewPatient,
-  },
-  {
-    name: "New Dr",
-    path: "/newdr",
-    component: NewDr,
-  },
-  {
-    name: "Rx Item",
-    path: "/rxitem",
-    component: RxItem,
-  },
-  {
     name: "Add Patient",
     path: "/addpatient",
     component: AddPatient,
