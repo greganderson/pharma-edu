@@ -73,19 +73,19 @@ const NewRx:React.FC = () => {
                                     <label htmlFor="qtyWritten">Quantity Written: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="qtyWritten" />
+                                    <input type="number" id="qtyWritten" />
                                 </td>
                                 <td>
                                     <label htmlFor="qtyDispensed">Quantity Dispensed: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="qtyDispensed" />
+                                    <input type="number" id="qtyDispensed" />
                                 </td>
                                 <td>
                                     <label htmlFor="refills">Refills: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="refills" />
+                                    <input type="number" id="refills" />
                                 </td>
                             </tr>
                         </tbody>
