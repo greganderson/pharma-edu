@@ -6,9 +6,10 @@ import styles from './RxHistory.module.css'
 const RxHistory:React.FC = () => {
     const [tableData, setTableData] = useState({ columns: [], data: [] });
 
+    // Use get_prescriptions in /routers/prescriptions.py
     useEffect(() => {
       const fetchData = async () => {
-        const response = await fetch(""); // Adjust to backend API URL
+        const response = await fetch("/prescriptions"); 
         const data = await response.json();
         setTableData(data);
       };
@@ -40,7 +41,7 @@ const RxHistory:React.FC = () => {
                     </tbody>
                     </table>
                 ) : (
-                    <p>Loading data...</p>
+                    <p>Loading Prescriptions...</p>
                 )}
             </div>
             <div className={styles.buttonContainer}>

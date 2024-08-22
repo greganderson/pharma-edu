@@ -6,6 +6,21 @@ import styles from './AddPatients.module.css';
 const AddPatient:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
 
+    const [patientData, setPatientData] = useState({
+        lastName: "",
+        firstName: "",
+        dob: "",
+        address: ["", "", ""],
+        phoneNumber: "",
+        primaryDoc: "",
+        allergies: "",
+        insuranceName: "",
+        insuranceId: "",
+        bin: "",
+        pcn: "",
+        group: ""
+    });
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSubmitted(true);
