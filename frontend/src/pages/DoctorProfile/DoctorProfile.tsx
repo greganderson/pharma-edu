@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./DoctorProfile.css";
 
 interface DoctorDetails {
@@ -12,6 +13,11 @@ interface DoctorDetails {
 }
 
 const DoctorProfile: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const searchQuery = location.state?.query || "";
+
   const [doctorDetails, setDoctorDetails] = useState<DoctorDetails>({
     last: "",
     first: "",
@@ -32,6 +38,7 @@ const DoctorProfile: React.FC = () => {
 
   return (
     <div className="doctor-profile-container">
+      {/* <h2>Search Query: {searchQuery}</h2> */}
       <div className="dr-main">
         <h3>Doctor Name First/Last</h3>
         <div>

@@ -7,8 +7,11 @@ const RxItem: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSearch = (query: string) => {
-    console.log("Searching for Rx item", query);
-    // Implement search logic here
+    console.log("Searching for Rx item:", query);
+    // Implement search logic here, e.g., fetch Rx item data
+
+    // Navigate to the RxItemProfile page
+    navigate("/rxitemprofile", { state: { query } });
   };
 
   const goToNewRx = () => {

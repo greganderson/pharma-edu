@@ -8,7 +8,10 @@ const NewDr: React.FC = () => {
 
   const handleSearch = (query: string) => {
     console.log("Searching for doctor", query);
-    // Implement search logic here
+    // Implement search logic here, e.g., fetch patient data
+
+    // Navigate to the PatientProfile page
+    navigate("/doctorprofile", { state: { query } });
   };
 
   const gotoDoctorProfile = () => {

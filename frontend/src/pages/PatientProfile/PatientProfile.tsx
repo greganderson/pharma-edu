@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./PatientProfile.css";
 
 interface PatientDetails {
@@ -23,7 +23,10 @@ interface InsuranceInfo {
 }
 
 const PatientProfile: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const searchQuery = location.state?.query || "";
 
   const [patientDetails, setPatientDetails] = useState<PatientDetails>({
     last: "",
@@ -71,6 +74,7 @@ const PatientProfile: React.FC = () => {
 
   return (
     <div className="patient-profile-container">
+      {/* <h2>Search Query: {searchQuery}</h2> */}
       <div className="pt-profile-left-side">
         <h3>Patient Name</h3>
         <h3>General Information</h3>

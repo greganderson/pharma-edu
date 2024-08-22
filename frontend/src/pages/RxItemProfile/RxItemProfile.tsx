@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./RxItemProfile.css";
 
 interface RxDetails {
@@ -12,6 +13,11 @@ interface RxDetails {
 }
 
 const RxItemProfile: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const searchQuery = location.state?.query || "";
+
   const [rxDetails, setRxDetails] = useState<RxDetails>({
     medicationName: "",
     medicationStrength: "",
@@ -32,6 +38,7 @@ const RxItemProfile: React.FC = () => {
 
   return (
     <div className="rx-item-profile-container">
+      {/* {searchQuery && <h2>Search Query: {searchQuery}</h2>} */}
       <h3>Doctor Name First/Last</h3>
       <div className="rx-main">
         <div>

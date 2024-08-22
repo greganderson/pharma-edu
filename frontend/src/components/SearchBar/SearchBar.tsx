@@ -13,7 +13,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onSearch }) => {
   };
 
   const handleSearch = () => {
-    onSearch(searchQuery);
+    if (searchQuery.trim()) {
+      onSearch(searchQuery);
+    }
   };
 
   return (
