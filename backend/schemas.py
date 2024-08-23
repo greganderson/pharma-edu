@@ -24,7 +24,6 @@ class PatientUpdateRequest(BaseModel):
     city: str | None = None
     state: State | None = None
     zipcode: str | None = None
-    primary_care_prescriber_id: int | None = None
     allergies: str | None = None
     member_id_number: str | None = None
     group_number: str | None = None

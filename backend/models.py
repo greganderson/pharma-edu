@@ -117,8 +117,6 @@ class Patient(SQLModel, table=True):
     city: str
     state: State
     zipcode: str
-    primary_care_prescriber_id: int = Field(foreign_key="prescriber.id")
-    primary_care_prescriber: "Prescriber" = Relationship()
     allergies: str = ""
     prescriptions: list["Prescription"] = Relationship(back_populates="patient")
     member_id_number: str | None = None
