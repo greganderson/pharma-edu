@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import styles from './ViewPatients.module.css';
+import style from './ViewPatients.module.css';
+import styles from "./AddPatients.module.css";
 
 const ViewPatient:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
@@ -17,7 +18,7 @@ const ViewPatient:React.FC = () => {
             <hr></hr>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
                 <div className={styles.PatientGridContainer}>
-                    <div>
+                    <div className={style.table}>
                         <h3>General Information</h3>
                         <table className={styles.tableContainer1}>
                             <tbody>
@@ -117,7 +118,7 @@ const ViewPatient:React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div>
+                    <div className={style.table}>
                         <h3>Insurance Information</h3>
                         <table className={styles.tableContainer2}>
                             <tbody>

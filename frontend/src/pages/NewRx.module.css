@@ -8,18 +8,22 @@
     min-width: 990px;
     margin: 5vh auto 5vh auto;
     justify-content: center;
-    padding: 20px;
+    padding: 30px;
     margin-top: 5vh;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 
 .NewRx_h1 {
     grid-column: 1;
     grid-row: 1;
     max-height: 40px;
     margin: 0;
+}
+
+.hr {
+    grid-column: 1/4;
+    grid-row: 2;
 }
 
 /*  */

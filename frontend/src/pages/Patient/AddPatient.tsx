@@ -29,7 +29,7 @@ const AddPatient:React.FC = () => {
     return (
         <main className={styles.PatientMain}>
             <h1 className={styles.Patient_h1}>Add Patient</h1>
-            <hr></hr>
+            <hr className={styles.hr}></hr>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
                 <div className={styles.PatientGridContainer}>
                     <div>
@@ -126,7 +126,7 @@ const AddPatient:React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div>
+                    <div className={styles.insuranceInfo}>
                         <h3>Insurance Information</h3>
                         <table className={styles.tableContainer2}>
                             <tbody>

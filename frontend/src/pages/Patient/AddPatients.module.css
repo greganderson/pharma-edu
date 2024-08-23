@@ -8,16 +8,15 @@
 
 .PatientMain {
     padding: 20px;
-    max-width: 85%;
+    width: 85%;
+    min-width: 1150px;
     margin: 5vh auto;
-    padding-left: 5vw;
     border-radius: 20px;
 }
 
-hr {
-    margin: 0;
-    border: none;
-    border-top: 2px solid #636466;
+.hr {
+    grid-column: 1/2;
+    grid-row: 2;
 }
 
 .tableContainer1 label, .tableContainer2 label {
@@ -25,8 +24,9 @@ hr {
     font-weight: 500;
 }
 
-.tableContainer1 input, .tableContainer2 input {
+.tableContainer1 input {
     width: 170%;
+    min-width: auto;
     padding: 8px;
     margin: 10px;
     font-size: 1rem; 
@@ -36,6 +36,7 @@ hr {
 }
 
 .tableContainer1 textarea {
+    min-width: auto;
     width: 170%;
     height: 100px;
     padding: 8px;
@@ -49,12 +50,18 @@ hr {
 .tableContainer2 {
     display: grid;
     gap: 10px;
+    justify-self: flex-end;
 }
 
 .tableContainer2 input {
-    width: 170%;
+    min-width: auto;
+    width: 195.5%;
     padding: 8px;
-    font-size: 1rem;
+    margin: 10px;
+    font-size: 1rem; 
+    display: grid;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 .buttonContainer {

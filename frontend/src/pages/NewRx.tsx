@@ -20,6 +20,7 @@ const NewRx:React.FC = () => {
     return (
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>New Rx</h1>
+            <hr className={styles.hr}></hr>
             <form onSubmit={handleSubmit} className={styles.NewRxForm}>
                 <table className={styles.enterPatientInfo}>
                     <tbody>
