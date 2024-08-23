@@ -14,6 +14,7 @@ const ViewPatient:React.FC = () => {
     return (
         <main className={styles.PatientMain}>
             <h1 className={styles.Patient_h1}>View Patient</h1>
+            <hr></hr>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
                 <div className={styles.PatientGridContainer}>
                     <div>

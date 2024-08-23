@@ -11,27 +11,34 @@
     max-width: 85%;
     margin: 5vh auto;
     padding-left: 5vw;
+    border-radius: 20px;
+}
+
+.tableContainer1 label, .tableContainer2 label {
+    font-size: 1rem;
 }
 
 .tableContainer1 input, .tableContainer2 input {
     width: 170%;
     padding: 8px;
-    margin: 5px;
+    margin: 10px;
     font-size: 1rem; 
     display: grid;
     background-color: #b4b5b5;
+    border-radius: 10px;
 }
 
 .tableContainer1 textarea {
     width: 170%;
     height: 100px;
     padding: 8px;
-    margin: 5px;
+    margin: 10px;
     resize: vertical;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 0.8rem; 
+    border-radius: 10px;
+    font-size: 1rem; 
     background-color: #b4b5b5;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 .tableContainer2 {
@@ -49,8 +56,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    padding: 10px;
 }
 
 .buttonContainer button {
     margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+    font-size: medium;
 }

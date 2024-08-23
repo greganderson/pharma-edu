@@ -3,6 +3,7 @@
     max-width: 80%;
     margin: 5vh auto;
     padding-left: 5vw;
+    border-radius: 20px;
 }
 
 .addRxForm {
@@ -28,6 +29,11 @@
     margin-bottom: 15px;
 }
 
+.itemColumn label, .ItemColumn2 label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
 .itemColumn input, .ItemColumn2 input {
     flex: 1;
     display: flex;
@@ -37,6 +43,8 @@
     margin: 10px;
     padding: 8px;
     font-size: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Hide the default checkbox */
@@ -79,4 +87,11 @@ input[type="checkbox"]:checked::before {
     justify-content: flex-end;
     align-items: flex-end;
     padding: 10px;
+}
+
+.buttonContainer button {
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+    font-size: medium;
 }
