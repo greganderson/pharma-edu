@@ -25,11 +25,11 @@ class PatientUpdateRequest(BaseModel):
     state: State | None = None
     zipcode: str | None = None
     allergies: str | None = None
-    member_id_number: str | None = None
+    insurance_name: str | None = None
+    insurance_member_id: str | None = None
     group_number: str | None = None
-    rx_bin: str | None = None
-    rx_pcn: str | None = None
-    person_code: str | None = None
+    insurance_rx_bin: str | None = None
+    insurance_rx_pcn: str | None = None
 
 
 class PrescriberCreateResponse(BaseModel):
