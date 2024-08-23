@@ -11,6 +11,18 @@
     max-width: 85%;
     margin: 5vh auto;
     padding-left: 5vw;
+    border-radius: 20px;
+}
+
+hr {
+    margin: 0;
+    border: none;
+    border-top: 2px solid #636466;
+}
+
+.tableContainer1 label, .tableContainer2 label {
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .tableContainer1 input, .tableContainer2 input {
@@ -19,6 +31,8 @@
     margin: 10px;
     font-size: 1rem; 
     display: grid;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 .tableContainer1 textarea {
@@ -28,8 +42,8 @@
     margin: 10px;
     resize: vertical;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 0.8rem; 
+    border-radius: 10px;
+    font-size: 1rem; 
 }
 
 .tableContainer2 {
@@ -52,4 +66,7 @@
 
 .buttonContainer button {
     margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+    font-size: medium;
 }

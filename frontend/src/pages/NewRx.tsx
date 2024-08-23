@@ -94,7 +94,7 @@ const NewRx:React.FC = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <label htmlFor='techInitials'>Tech Initials: </label>
+                                    <label htmlFor='techInitials'>Tech Initials:</label>
                                     <input type="text" id="techInitials" />
                                 </td>
                             </tr>

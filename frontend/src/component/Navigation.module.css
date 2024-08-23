@@ -48,15 +48,16 @@ nav {
     display: flex;
     flex-flow: row nowrap;
     padding: 20px;
-    background-color: #D9D9D9; /* #D6DADA */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    border: none;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     text-decoration: none;
 }
 
 .navButton a {
-    color: #000;
+    color: #FFFFFF;
+    font-size: larger;
+    font-weight: 500;
     text-decoration: none;
     display: flex;
     text-align: center;
@@ -70,10 +71,3 @@ nav {
     width: 75px;
     height: 40px;
 }
-
-.navButton :hover {
-    background-color: #b6b6b6;
-}
-
-
-
