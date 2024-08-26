@@ -13,9 +13,9 @@ const Patient:React.FC = () => {
             {/* Redirect from /patient to /patient-search */}
             <Route path="/" element={<Navigate to="/patient/patient-search" />} />
             <Route path="/patient-search" element={<PatientSearch />} />
-            <Route path="/view-patient" element={<ViewPatient />} />
+            <Route path="/view-patient/:patient_id" element={<ViewPatient />} />
             <Route path="/add-patient" element={<AddPatient />} />
-            <Route path="/update-patient" element={<UpdatePatient />} />
+            <Route path="/update-patient/:patient_id" element={<UpdatePatient />} />
             <Route path="/rx-history" element={<RxHistory />} />
         </Routes>
     );

@@ -4,57 +4,79 @@ import styles from './AddPatients.module.css';
 
 const AddPatient: React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const states = [
+        "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
+        "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+        "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK",
+        "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
+        "WI", "WY"
+    ];
+
     const [patientData, setPatientData] = useState({
-        lastName: "",
-        firstName: "",
-        dob: "",
-        address: ["", "", ""],
-        phoneNumber: "",
+        last_name: "",
+        first_name: "",
+        date_of_birth: "",
+        street: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        phone_number: "",
         allergies: "",
-        insuranceName: "",
-        insuranceId: "",
-        bin: "",
-        pcn: "",
-        group: ""
+        insurance_name: "",
+        insurance_member_id: "",
+        insurance_rx_bin: "",
+        insurance_rx_pcn: "",
+        group_number: ""
     });
 
     const navigate = useNavigate();
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, fieldName: string, addressIndex?: number) => {
-        if (fieldName === "address" && addressIndex !== undefined) {
-            const updatedAddress = [...patientData.address];
-            updatedAddress[addressIndex] = event.target.value;
-            setPatientData({ ...patientData, address: updatedAddress });
-        } else {
-            setPatientData({ ...patientData, [fieldName]: event.target.value });
+    const postPatient = async (patientData: any) => {
+        try {
+            const response = await fetch('http://localhost:8000/patients', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(patientData),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create patient.');
+            }
+    
+            return response.json(); // Return the response JSON which includes the patient ID
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
         }
+    };
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = event.target;
+        setPatientData((prevData) => ({
+            ...prevData,
+            [id]: value
+        }));
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setIsSubmitting(true);
+    
         try {
-            const response = await fetch('/patients', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(patientData)
-            });
-
-            if (response.ok) {
-                setSubmitted(true);
-                alert('Patient created successfully!');
-                // Redirect or clear the form
-                navigate('/patient/view-patient'); // Redirect to a different page on success
-            } else {
-                const errorData = await response.json();
-                console.error('Error:', errorData);
-                alert('Failed to create patient.');
-            }
+            const result = await postPatient(patientData);
+            setSubmitted(true);
+            const id = result.id;
+            navigate(`/patient/view-patient/${id}`); // Navigate to the view-patient page with the patient ID
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while creating the patient.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -76,9 +98,9 @@ const AddPatient: React.FC = () => {
                                         <input
                                             type="text"
                                             id="last_name"
-                                            value={patientData.lastName}
-                                            onChange={(e) => handleInputChange(e, "lastName")}
-                                            // required
+                                            value={patientData.last_name}
+                                            onChange={handleInputChange}
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -90,9 +112,9 @@ const AddPatient: React.FC = () => {
                                         <input
                                             type="text"
                                             id="first_name"
-                                            value={patientData.firstName}
-                                            onChange={(e) => handleInputChange(e, "firstName")}
-                                            // required
+                                            value={patientData.first_name}
+                                            onChange={handleInputChange}
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -102,58 +124,87 @@ const AddPatient: React.FC = () => {
                                     </td>
                                     <td>
                                         <input
-                                            type="text"
+                                            type="date"
                                             id="date_of_birth"
-                                            value={patientData.dob}
-                                            onChange={(e) => handleInputChange(e, "dob")}
-                                            // required
+                                            value={patientData.date_of_birth}
+                                            onChange={handleInputChange}
+                                            required
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='address'>Address: </label>
+                                        <label htmlFor='street'>Street Address: </label>
                                     </td>
                                     <td>
                                         <input
+                                            id='street'
                                             type="text"
-                                            placeholder='Street Address'
-                                            value={patientData.address[0]}
-                                            onChange={(e) => handleInputChange(e, "street", 0)}
-                                            // required
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder='City'
-                                            value={patientData.address[1]}
-                                            onChange={(e) => handleInputChange(e, "city", 1)}
-                                            // required
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder='State'
-                                            value={patientData.address[2]}
-                                            onChange={(e) => handleInputChange(e, "state", 2)}
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder='Zipcode'
-                                            value={patientData.address[2]}
-                                            onChange={(e) => handleInputChange(e, "zipcode", 3)}
+                                            value={patientData.street}
+                                            onChange={handleInputChange}
+                                            required
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='phoneNumber'>Phone Number: </label>
+                                        <label htmlFor='city'>City: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            id='city'
+                                            type="text"
+                                            value={patientData.city}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='state'>State: </label>
+                                    </td>
+                                    <td>
+                                    <select
+                                        id='state'
+                                        value={patientData.state}
+                                        onChange={handleInputChange}
+                                        required
+                                    >
+                                        <option value="" disabled>Select a state</option>
+                                        {states.map((state) => (
+                                            <option key={state} value={state}>
+                                                {state}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='zipcode'>Zip Code: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            id='zipcode'
+                                            type="text"
+                                            value={patientData.zipcode}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='phone_number'>Phone Number: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="tel"
-                                            id="phoneNumber"
-                                            value={patientData.phoneNumber}
-                                            onChange={(e) => handleInputChange(e, "phoneNumber")}
-                                            // required
+                                            id="phone_number"
+                                            value={patientData.phone_number}
+                                            onChange={handleInputChange}
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -165,8 +216,8 @@ const AddPatient: React.FC = () => {
                                         <textarea
                                             id="allergies"
                                             value={patientData.allergies}
-                                            onChange={(e) => handleInputChange(e, "allergies")}
-                                            // required
+                                            onChange={handleInputChange}
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -179,66 +230,66 @@ const AddPatient: React.FC = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <label htmlFor='insuranceName'>Insurance Name: </label>
+                                        <label htmlFor='insurance_name'>Insurance Name: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="text"
-                                            id="insuranceName"
-                                            value={patientData.insuranceName}
-                                            onChange={(e) => handleInputChange(e, "insuranceName")}
+                                            id="insurance_name"
+                                            value={patientData.insurance_name}
+                                            onChange={handleInputChange}
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='insuranceId'>Insurance Id: </label>
+                                        <label htmlFor='insurance_member_id'>Insurance Id: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="text"
-                                            id="insuranceId"
-                                            value={patientData.insuranceId}
-                                            onChange={(e) => handleInputChange(e, "insuranceId")}
+                                            id="insurance_member_id"
+                                            value={patientData.insurance_member_id}
+                                            onChange={handleInputChange}
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='bin'>BIN: </label>
+                                        <label htmlFor='insurance_rx_bin'>BIN: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="number"
-                                            id="bin"
-                                            value={patientData.bin}
-                                            onChange={(e) => handleInputChange(e, "bin")}
+                                            id="insurance_rx_bin"
+                                            value={patientData.insurance_rx_bin}
+                                            onChange={handleInputChange}
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='pcn'>PCN: </label>
+                                        <label htmlFor='insurance_rx_pcn'>PCN: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="text"
-                                            id="pcn"
-                                            value={patientData.pcn}
-                                            onChange={(e) => handleInputChange(e, "pcn")}
+                                            id="insurance_rx_pcn"
+                                            value={patientData.insurance_rx_pcn}
+                                            onChange={handleInputChange}
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='group'>Group Id: </label>
+                                        <label htmlFor='group_number'>Group Id: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="text"
-                                            id="group"
-                                            value={patientData.group}
-                                            onChange={(e) => handleInputChange(e, "group")}
+                                            id="group_number"
+                                            value={patientData.group_number}
+                                            onChange={handleInputChange}
                                         />
                                     </td>
                                 </tr>
@@ -247,8 +298,10 @@ const AddPatient: React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <button type="submit">Save Patient</button>
-                    <Link to="/patient/view-patient">
+                <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? 'Saving...' : 'Save Patient'}
+                </button>
+                    <Link to="/patient/search-patient">
                         <button type="button" >Cancel</button>
                     </Link>
                 </div>

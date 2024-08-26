@@ -2,7 +2,7 @@ import React from "react";
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 
-import Navigation from "./component/Navigation"
+import Navigation from "./component/Navigation";
 import routes from "./routes";
 
 

@@ -16,6 +16,7 @@ const ViewMedication:React.FC = () => {
     return (
         <main className={styles.addItemMain}>
         <h2 className={styles.AddItem_h1}>View Medication</h2>
+        <hr className='hr'></hr>
         <form onSubmit={handleSubmit} className={styles.addRxForm}>
             <div className={styles.gridContainerItem}>
                 {/* Left Column */}

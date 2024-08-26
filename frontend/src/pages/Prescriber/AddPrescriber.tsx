@@ -4,21 +4,39 @@ import { Link } from 'react-router-dom';
 import styles from "./AddPrescriber.module.css";
 
 const AddPerscriber:React.FC = () => {
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const [prescriberData, setPrescriberData] = useState({
+        last_name: "",
+        first_name: "",
+        prescriber_type: "",
+        street: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        contact_number: "",
+        dea: "",
+        npi: ""
+    });
+
     useEffect(() => {
         console.log("Add Prescriber Loaded");
       }, []);
-
-    const [submitted, setSubmitted] = useState<boolean>(false);
-
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSubmitted(true);
     };
 
+    const handleInputChange = () => {
+        console.log("handle input");
+    };
+
     return (
         <main className={styles.addPrescriberMain}>
             <h2 className={styles.AddPrescriber_h1}>Add Prescriber</h2>
+            <hr className='hr'></hr>
             <form onSubmit={handleSubmit} className={styles.NewPresciberForm}>
                 <div className={styles.gridContainer}>
                     {/* Left Column */}
@@ -27,26 +45,44 @@ const AddPerscriber:React.FC = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <label htmlFor='LastName'>Last Name: </label>
+                                        <label htmlFor='last_name'>Last Name: </label>
                                     </td>
                                     <td>
-                                        <input type="text" id="LastName" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label htmlFor='FirstName'>First Name: </label>
-                                    </td>
-                                    <td>
-                                        <input type="text" id="FirstName" />
+                                        <input 
+                                            id="last_name" 
+                                            type="text"
+                                            value={prescriberData.last_name}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='pType'>Physician Type: </label>
+                                        <label htmlFor='first_name'>First Name: </label>
                                     </td>
                                     <td>
-                                        <input type="text" id="pType" />
+                                        <input 
+                                            id="first_name" 
+                                            type="text"
+                                            value={prescriberData.first_name}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='prescriber_type'>Physician Type: </label>
+                                    </td>
+                                    <td>
+                                        <input 
+                                            id="prescriber_type" 
+                                            type="text"
+                                            value={prescriberData.prescriber_type}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
@@ -54,7 +90,13 @@ const AddPerscriber:React.FC = () => {
                                         <label htmlFor='npi'>NPI Number: </label>
                                     </td>
                                     <td>
-                                        <input id="npi"></input>
+                                        <input 
+                                            id="npi" 
+                                            type="text"
+                                            value={prescriberData.npi}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
@@ -62,7 +104,13 @@ const AddPerscriber:React.FC = () => {
                                         <label htmlFor='dea'>DEA: </label>
                                     </td>
                                     <td>
-                                        <input type="text" id="dea" />
+                                        <input 
+                                            id="dea" 
+                                            type="text"
+                                            value={prescriberData.dea}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
                                     </td>
                                 </tr>
                                 </tbody>
@@ -72,32 +120,78 @@ const AddPerscriber:React.FC = () => {
                     <div className={styles.column}>
                         <table className={styles.enterNewPrescriber}>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <label htmlFor='facility'>Facility: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="facility" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label htmlFor='address'>Address: </label>
-                                </td>
-                                <td>
-                                <input type="text" id="address" placeholder="Address Line 1"/>
-                                <input type="text" id="addressLine2" placeholder="Address Line 2" />
-                                <input type="text" id="addressLine3" placeholder="Address Line 3" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label htmlFor='phoneNumber'>Phone Number: </label>
-                                </td>
-                                <td>
-                                    <input type="tel" id="phoneNumber" />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='facility'>Facility: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="facility" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='street'>Street Address: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            id='street'
+                                            type="text"
+                                            value={prescriberData.street}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='city'>City: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            id='city'
+                                            type="text"
+                                            value={prescriberData.city}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='state'>State: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            id='state'
+                                            type="text"
+                                            value={prescriberData.state}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='zipcode'>Zip Code: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            id='zipcode'
+                                            type="text"
+                                            value={prescriberData.zipcode}
+                                            onChange={handleInputChange}
+                                            // required
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='phoneNumber'>Phone Number: </label>
+                                    </td>
+                                    <td>
+                                        <input type="tel" id="phoneNumber" />
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

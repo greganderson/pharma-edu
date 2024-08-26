@@ -18,6 +18,7 @@ const RxQueue:React.FC = () => {
     return (
         <main className={styles.RxQueueMain}>
             <h1>Prescription Queue</h1>
+            <hr className='hr'></hr>
             <div className={styles.RxQueueTable}>
                 {tableData.columns.length > 0 ? (
                     <table>

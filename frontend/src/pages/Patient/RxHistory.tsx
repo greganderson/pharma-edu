@@ -20,6 +20,7 @@ const RxHistory:React.FC = () => {
     return (
         <main className={styles.RxHistoryMain}>
             <h1>[Patient Name] Medication History</h1>
+            <hr className='hr'></hr>
             <div>
                 {tableData.columns.length > 0 ? (
                     <table>

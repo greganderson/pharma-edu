@@ -12,6 +12,7 @@ const PrescriberSearch:React.FC = () => {
             <input
                 type="text"
                 id="search"
+                placeholder='Search by name or DEA...'
             />
             <Link to="/prescriber/add-prescriber">
                 <button type="button">Add New Prescriber</button>

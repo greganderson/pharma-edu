@@ -5,10 +5,10 @@ import styles from './NewRx.module.css';
 
 const NewRx:React.FC = () => {
 
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    // const [isModalOpen, setIsModalOpen] = useState(true);
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    // const openModal = () => setIsModalOpen(true);
+    // const closeModal = () => setIsModalOpen(false);
 
     const [submitted, setSubmitted] = useState<boolean>(false);
 
