@@ -28,7 +28,7 @@ const AddPatient: React.FC = () => {
         insurance_member_id: "",
         insurance_rx_bin: "",
         insurance_rx_pcn: "",
-        group_number: ""
+        insurance_group_number: ""
     });
 
     const navigate = useNavigate();
@@ -70,8 +70,8 @@ const AddPatient: React.FC = () => {
         try {
             const result = await postPatient(patientData);
             setSubmitted(true);
-            const id = result.id;
-            navigate(`/patient/view-patient/${id}`); // Navigate to the view-patient page with the patient ID
+            const patient_id = result.patient_id;
+            navigate(`/patient/view-patient/${patient_id}`); // Navigate to the view-patient page with the patient ID
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while creating the patient.');
@@ -282,13 +282,13 @@ const AddPatient: React.FC = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='group_number'>Group Id: </label>
+                                        <label htmlFor='insurance_group_number'>Group Id: </label>
                                     </td>
                                     <td>
                                         <input
                                             type="text"
-                                            id="group_number"
-                                            value={patientData.group_number}
+                                            id="insurance_group_number"
+                                            value={patientData.insurance_group_number}
                                             onChange={handleInputChange}
                                         />
                                     </td>

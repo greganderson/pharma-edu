@@ -17,7 +17,7 @@ interface Patient {
     insurance_member_id: string;
     insurance_rx_bin: string;
     insurance_rx_pcn: string;
-    group_number: string;
+    insurance_group_number: string;
 }
 
 const ViewPatient: React.FC = () => {
@@ -132,8 +132,8 @@ const ViewPatient: React.FC = () => {
                                     <td><input type="text" id="insurance_rx_pcn" value={patient.insurance_rx_pcn} readOnly /></td>
                                 </tr>
                                 <tr>
-                                    <td><label htmlFor='group_number'>Group Id: </label></td>
-                                    <td><input type="text" id="group_number" value={patient.group_number} readOnly /></td>
+                                    <td><label htmlFor='insurance_group_number'>Group Id: </label></td>
+                                    <td><input type="text" id="insurance_group_number" value={patient.insurance_group_number} readOnly /></td>
                                 </tr>
                             </tbody>
                         </table>
