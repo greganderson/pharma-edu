@@ -48,7 +48,7 @@ const AddPatient: React.FC = () => {
                 throw new Error(errorData.message || 'Failed to create patient.');
             }
     
-            return response.json(); // Return the response JSON which includes the patient ID
+            return response.json();
         } catch (error) {
             console.error('Error:', error);
             throw error;
