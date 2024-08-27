@@ -40,6 +40,7 @@ class PrescriberCreateResponse(BaseModel):
 class PrescriberUpdateRequest(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
+    # facility: str | None = None
     prescriber_type: PrescriberType | None = None
     office_address_id: int | None = None
     contact_number: str | None = None

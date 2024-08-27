@@ -132,6 +132,7 @@ class Prescriber(SQLModel, table=True):
     first_name: str
     last_name: str
     prescriber_type: PrescriberType = PrescriberType.MD
+    # facility: str
     street: str
     city: str
     state: State
