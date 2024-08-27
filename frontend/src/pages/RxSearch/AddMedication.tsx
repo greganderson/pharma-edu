@@ -1,21 +1,77 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from "./AddMedication.module.css";
+import { deaSchedule, drugClass } from "./RxItemModal"
 
 
 const AddMedication:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const [itemData, setItemData] = useState({
+        name: "",
+        strength: "",
+        ndc: "",
+        expiration: "",
+        lot_number: "",
+        dea_schedule: "",
+        drug_class: ""
+    });
+
+    const navigate = useNavigate();
+
+    const postItem = async (itemData: any) => {
+        try {
+            const response = await fetch('http://localhost:8000/rx-items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(itemData),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create item.');
+            }
+    
+            return response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setSubmitted(true);
+        setIsSubmitting(true);
+    
+        try {
+            const result = await postItem(itemData);
+            setSubmitted(true);
+            const rx_item_id = result.rx_item_id;
+            navigate(`/rx-item/view-medication${rx_item_id}`); // Navigate to the view-prescriber page with the prescriber ID
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while creating the Item.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = event.target;
+        setItemData((prevData) => ({
+            ...prevData,
+            [id]: value
+        }));
     };
 
     return (
         <main className={styles.addItemMain}>
         <h2 className={styles.AddItem_h1}>Add Medication</h2>
-        <hr className='hr'></hr>
+        <hr className={styles.hr}></hr>
         <form onSubmit={handleSubmit} className={styles.addRxForm}>
             <div className={styles.gridContainerItem}>
                 {/* Left Column */}
@@ -27,47 +83,89 @@ const AddMedication:React.FC = () => {
                                     <label htmlFor='ndc'>NDC: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="ndc" />
+                                    <input 
+                                        type="text" 
+                                        id="ndc"
+                                        value={itemData.ndc}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='Name'>Name: </label>
+                                    <label htmlFor='name'>Name: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="Name" />
+                                    <input type="text" id="name"
+                                        value={itemData.name}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
-                            <tr>
+                            {/* <tr>
                                 <td>
                                     <label htmlFor='manufacturer'>Manufacturer: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="manufacturer" />
+                                    <input type="text" id="manufacturer" 
+                                        // value={itemData.manufacturer}
+                                        onChange={handleInputChange}
+                                        required />
                                 </td>
-                            </tr>
+                            </tr> */}
                             <tr>
                                 <td>
                                     <label htmlFor='itemBrand'>Brand/Generic: </label>
                                 </td>
                                 <td>
-                                    <input id="itemBrand"></input>
+                                    <input 
+                                        type='text'
+                                        id="itemBrand"
+                                        // value={itemData.brand}
+                                        onChange={handleInputChange}
+                                    />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='drugClass'>Drug Class: </label>
+                                    <label htmlFor='drug_class'>Drug Class: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="drugClass" />
+                                <select 
+                                    id="drug_class"
+                                    value={itemData.drug_class}
+                                    onChange={handleInputChange}
+                                    required
+                                >
+                                <option value="" disabled>Select a Drug Class</option>
+                                    {drugClass.map((drugclass) => (
+                                        <option key={drugclass} value={drugclass}>
+                                            {drugclass}
+                                        </option>
+                                    ))}
+                                </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='dea'>DEA Schedule: </label>
+                                    <label htmlFor='dea_schedule'>DEA Schedule: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="dea" />
+                                    <select  
+                                        id="dea_schedule"
+                                        value={itemData.dea_schedule}
+                                        onChange={handleInputChange}
+                                        required 
+                                    >
+                                    <option value="" disabled>Select a DEA Schedule</option>
+                                    {deaSchedule.map((deaschedule) => (
+                                        <option key={deaschedule} value={deaschedule}>
+                                            {deaschedule}
+                                        </option>
+                                    ))}
+                                    </select>
                                 </td>
                             </tr>
                             </tbody>
@@ -82,7 +180,13 @@ const AddMedication:React.FC = () => {
                                 <label htmlFor='dosage'>Dosage Form: </label>
                             </td>
                             <td>
-                                <input type="text" id="dosage" />
+                                <input 
+                                    type="text" 
+                                    id="dosage"
+                                    // value={itemData.dosage}
+                                    onChange={handleInputChange}
+                                    required 
+                                />
                             </td>
                         </tr>
                         <tr>
@@ -90,23 +194,37 @@ const AddMedication:React.FC = () => {
                                 <label htmlFor='strength'>Strength: </label>
                             </td>
                             <td>
-                            <input type="text" id="strength" />
+                            <input 
+                                type="text" 
+                                id="strength" 
+                                value={itemData.strength}
+                                onChange={handleInputChange}
+                                required 
+                            />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='lotNumber'>Lot Number: </label>
+                                <label htmlFor='lot_number'>Lot Number: </label>
                             </td>
                             <td>
-                            <input type="text" id="lotNumber" />
+                            <input type="text" id="lot_number" 
+                                value={itemData.lot_number}
+                                onChange={handleInputChange}
+                                required 
+                            />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='expire'>Expiration: </label>
+                                <label htmlFor='expiration'>Expiration: </label>
                             </td>
                             <td>
-                            <input type="text" id="expire" />
+                            <input type="date" id="expiration" 
+                                value={itemData.expiration}
+                                onChange={handleInputChange}
+                                required 
+                            />
                             </td>
                         </tr>
                         <tr>
@@ -122,9 +240,12 @@ const AddMedication:React.FC = () => {
                 </div>
             </div>
             <div className={styles.buttonContainer}>
-                <Link to="/rx-item/view-medication">
-                    <button type="submit" className={styles.saveItemButton}>Save Medication</button>
-                </Link>
+                    <button type="submit" disabled={isSubmitting} className={styles.saveItemButton}>
+                        {isSubmitting ? 'Saving...' : 'Save Medication'}
+                    </button>
+                    <Link to="/rx-item/rx-search">
+                        <button type="button">Cancel</button>
+                    </Link>
             </div>
         </form>
     </main>

@@ -78,6 +78,7 @@ class RxItemCreateResponse(BaseModel):
 
 class RxItemUpdateRequest(BaseModel):
     name: str | None = None
+    # manufacturer: str | None = None
     strength: str | None = None
     ndc: str | None = None
     expiration: date | None = None
