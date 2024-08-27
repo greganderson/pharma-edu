@@ -15,6 +15,14 @@ router = APIRouter()
 async def get_prescribers(session: Session = Depends(get_db)):
     return session.exec(select(Prescriber)).all()
 
+@router.get("/prescribers/{prescriber_id}")
+async def get_prescriber(prescriber_id: int, session: Session = Depends(get_db)) -> Prescriber:
+    prescriber: Prescriber | None = session.get(Prescriber, prescriber_id)
+    if prescriber is None:
+        raise PrescriberNotFound(id=prescriber_id)
+    
+    return prescriber
+
 
 @router.post("/prescribers")
 async def create_prescriber(prescriber: Prescriber, session: Session = Depends(get_db)) -> PrescriberCreateResponse:

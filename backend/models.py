@@ -118,6 +118,7 @@ class Patient(SQLModel, table=True):
     state: State
     zipcode: str
     allergies: str = ""
+    # phone_number: str
     prescriptions: list["Prescription"] = Relationship(back_populates="patient")
     insurance_name: str | None = None
     insurance_member_id: str | None = None
