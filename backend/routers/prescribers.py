@@ -15,6 +15,7 @@ router = APIRouter()
 async def get_prescribers(session: Session = Depends(get_db)):
     return session.exec(select(Prescriber)).all()
 
+
 @router.get("/prescribers/{prescriber_id}")
 async def get_prescriber(prescriber_id: int, session: Session = Depends(get_db)) -> Prescriber:
     prescriber: Prescriber | None = session.get(Prescriber, prescriber_id)
