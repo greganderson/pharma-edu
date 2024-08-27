@@ -215,7 +215,7 @@ const ViewPrescriber:React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Link to="/prescriber/update-prescriber">
+                    <Link to={`/prescriber/update-prescriber/${prescriber_id}`}>
                         <button type="submit" className={styles.EditButton}>Edit Prescriber</button>
                     </Link>
                 </div>

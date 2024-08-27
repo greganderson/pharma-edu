@@ -1,42 +1,98 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import { Prescriber, states } from './PrescriberModels';
 import styles from "./AddPrescriber.module.css";
 
 
 const UpdatePerscriber:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
-    // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const { prescriber_id } = useParams<{ prescriber_id: string }>();
+    const [prescriber, setPrescriber] = useState<Prescriber | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const navigate = useNavigate();
 
-    const [prescriberData, setPrescriberData] = useState({
-        last_name: "",
-        first_name: "",
-        prescriber_type: "",
-        street: "",
-        city: "",
-        state: "",
-        zipcode: "",
-        contact_number: "",
-        dea: "",
-        npi: ""
-    });
 
     useEffect(() => {
-        console.log("Add Prescriber Loaded");
-      }, []);
+        const fetchPrescriber = async () => {
+            if (!prescriber_id) {
+                console.error('Prescriber ID is missing');
+                setLoading(false);
+                return;
+            }
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+            try {
+                const response = await fetch(`http://localhost:8000/prescribers/${prescriber_id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setPrescriber(data);
+            } catch (error) {
+                console.error('Error fetching prescriber data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPrescriber();
+    }, [prescriber_id]);
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = event.target;
+        setPrescriber((prevPrescriber) => ({
+            ...prevPrescriber!,
+            [id]: value
+        }));
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setSubmitted(true);
+        setIsSubmitting(true);
+
+        if (!prescriber_id) {
+            console.error('Prescriber ID is missing');
+            setIsSubmitting(false);
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8000/prescribers/${prescriber_id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(prescriber)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            setSubmitted(true);
+            navigate(`/prescriber/view-prescriber/${prescriber_id}`);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while updating the prescriber.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
-    const handleInputChange = () => {
-        console.log("handle input");
-    };
+    if (loading) return <div>Loading Prescriber...</div>;
+    if (!prescriber) return <div>Prescriber not found</div>;
 
     return (
             <main className={styles.addPrescriberMain}>
-            <h2 className={styles.AddPrescriber_h1}>View Prescriber</h2>
+            <h2 className={styles.AddPrescriber_h1}>Update Prescriber</h2>
             <hr className='hr'></hr>
             <form onSubmit={handleSubmit} className={styles.NewPresciberForm}>
                 <div className={styles.gridContainer}>
@@ -52,9 +108,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input 
                                             id="last_name" 
                                             type="text"
-                                            value={prescriberData.last_name}
+                                            value={prescriber.last_name}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -66,9 +122,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input 
                                             id="first_name" 
                                             type="text"
-                                            value={prescriberData.first_name}
+                                            value={prescriber.first_name}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -80,9 +136,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input 
                                             id="prescriber_type" 
                                             type="text"
-                                            value={prescriberData.prescriber_type}
+                                            value={prescriber.prescriber_type}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -94,9 +150,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input 
                                             id="npi" 
                                             type="text"
-                                            value={prescriberData.npi}
+                                            value={prescriber.npi}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -108,9 +164,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input 
                                             id="dea" 
                                             type="text"
-                                            value={prescriberData.dea}
+                                            value={prescriber.dea}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -126,7 +182,13 @@ const UpdatePerscriber:React.FC = () => {
                                         <label htmlFor='facility'>Facility: </label>
                                     </td>
                                     <td>
-                                        <input type="text" id="facility" />
+                                        <input 
+                                            type="text" 
+                                            id="facility" 
+                                            value={prescriber.facility} 
+                                            onChange={handleInputChange}
+                                            required 
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
@@ -137,9 +199,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input
                                             id='street'
                                             type="text"
-                                            value={prescriberData.street}
+                                            value={prescriber.street}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -151,9 +213,9 @@ const UpdatePerscriber:React.FC = () => {
                                         <input
                                             id='city'
                                             type="text"
-                                            value={prescriberData.city}
+                                            value={prescriber.city}
                                             onChange={handleInputChange}
-                                            // required
+                                            required
                                         />
                                     </td>
                                 </tr>
@@ -162,13 +224,14 @@ const UpdatePerscriber:React.FC = () => {
                                         <label htmlFor='state'>State: </label>
                                     </td>
                                     <td>
-                                        <input
-                                            id='state'
-                                            type="text"
-                                            value={prescriberData.state}
-                                            onChange={handleInputChange}
-                                            // required
-                                        />
+                                        <select id='state' value={prescriber.state} onChange={handleInputChange} required>
+                                            <option value="" disabled>Select a state</option>
+                                            {states.map((state) => (
+                                                <option key={state} value={state}>
+                                                    {state}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -179,18 +242,22 @@ const UpdatePerscriber:React.FC = () => {
                                         <input
                                             id='zipcode'
                                             type="text"
-                                            value={prescriberData.zipcode}
+                                            value={prescriber.zipcode}
                                             onChange={handleInputChange}
-                                            // required
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='phoneNumber'>Phone Number: </label>
+                                        <label htmlFor='contact_number'>Phone Number: </label>
                                     </td>
                                     <td>
-                                        <input type="tel" id="phoneNumber" />
+                                        <input 
+                                            type="tel" 
+                                            id="contact_number"
+                                            value={prescriber.contact_number}
+                                            onChange={handleInputChange}
+                                        />
                                     </td>
                                 </tr>
                             </tbody>
@@ -198,9 +265,12 @@ const UpdatePerscriber:React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Link to="/prescriber/update-prescriber">
+                <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? 'Saving...' : 'Save Prescriber'}
+                </button>
+                    {/* <Link to="/prescriber/update-prescriber/:">
                         <button type="submit" className={styles.EditButton}>Edit Prescriber</button>
-                    </Link>
+                    </Link> */}
                 </div>
             </form>
         </main>
