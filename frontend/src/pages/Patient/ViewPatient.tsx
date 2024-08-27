@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
+import { Patient } from "./PatientModels";
 import style from './ViewPatients.module.css';
 import styles from "./AddPatients.module.css";
 
-interface Patient {
-    last_name: string;
-    first_name: string;
-    date_of_birth: string;
-    street: string;
-    city: string;
-    state: string;
-    zipcode: string;
-    phone_number: string;
-    allergies: string;
-    insurance_name: string;
-    insurance_member_id: string;
-    insurance_rx_bin: string;
-    insurance_rx_pcn: string;
-    insurance_group_number: string;
-}
 
 const ViewPatient: React.FC = () => {
     const { patient_id } = useParams<{ patient_id: string }>();
@@ -65,7 +51,7 @@ const ViewPatient: React.FC = () => {
     return (
         <main className={styles.PatientMain}>
             <h1 className={styles.Patient_h1}>View Patient</h1>
-            <hr></hr>
+            <hr className={styles.hr}></hr>
             <form className={styles.formContainer}>
                 <div className={styles.PatientGridContainer}>
                     <div className={style.table}>

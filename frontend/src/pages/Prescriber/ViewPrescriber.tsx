@@ -1,45 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
+import { Prescriber } from './PrescriberModels';
 import style from "./ViewPrescriber.module.css";
 import styles from "./AddPrescriber.module.css";
 
 
 const ViewPrescriber:React.FC = () => {
-    const [submitted, setSubmitted] = useState<boolean>(false);
-    // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const { prescriber_id } = useParams<{ prescriber_id: string }>();
+    console.log('Prescriber ID:', prescriber_id); 
 
-    const [prescriberData, setPrescriberData] = useState({
-        last_name: "",
-        first_name: "",
-        prescriber_type: "",
-        street: "",
-        city: "",
-        state: "",
-        zipcode: "",
-        contact_number: "",
-        dea: "",
-        npi: ""
-    });
+    const [prescriber, setPrescriber] = useState<Prescriber | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
 
     useEffect(() => {
-        console.log("Add Prescriber Loaded");
-      }, []);
+        const fetchPrescriber = async () => {
+            if (!prescriber_id) {
+                console.error('Prescriber ID is missing');
+                setLoading(false);
+                return;
+            }
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setSubmitted(true);
-    };
+            try {
+                const response = await fetch(`http://localhost:8000/prescribers/${prescriber_id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-    const handleInputChange = () => {
-        console.log("handle input");
-    };
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Prescriber data:', data);
+                setPrescriber(data);
+            } catch (error) {
+                console.error('Error fetching prescriber data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPrescriber();
+    }, [prescriber_id]);
+
+    if (loading) return <div>Loading Prescriber...</div>;
+    if (!prescriber) return <div>Prescriber not found</div>;
 
     return (
             <main className={styles.addPrescriberMain}>
             <h2 className={styles.AddPrescriber_h1}>View Prescriber</h2>
-            <hr className='hr'></hr>
-            <form onSubmit={handleSubmit} className={styles.NewPresciberForm}>
+            <hr className={styles.hr}></hr>
+            <form className={styles.NewPresciberForm}>
                 <div className={styles.gridContainer}>
                     {/* Left Column */}
                     <div className={styles.column}>
@@ -53,9 +68,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input 
                                             id="last_name" 
                                             type="text"
-                                            value={prescriberData.last_name}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.last_name}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -67,9 +81,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input 
                                             id="first_name" 
                                             type="text"
-                                            value={prescriberData.first_name}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.first_name}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -81,9 +94,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input 
                                             id="prescriber_type" 
                                             type="text"
-                                            value={prescriberData.prescriber_type}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.prescriber_type}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -95,9 +107,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input 
                                             id="npi" 
                                             type="text"
-                                            value={prescriberData.npi}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.npi}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -109,9 +120,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input 
                                             id="dea" 
                                             type="text"
-                                            value={prescriberData.dea}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.dea}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -127,7 +137,12 @@ const ViewPrescriber:React.FC = () => {
                                         <label htmlFor='facility'>Facility: </label>
                                     </td>
                                     <td>
-                                        <input type="text" id="facility" />
+                                        <input 
+                                            type="text" 
+                                            id="facility" 
+                                            value={prescriber.facility} 
+                                            readOnly
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
@@ -138,9 +153,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input
                                             id='street'
                                             type="text"
-                                            value={prescriberData.street}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.street}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -152,9 +166,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input
                                             id='city'
                                             type="text"
-                                            value={prescriberData.city}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.city}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -166,9 +179,8 @@ const ViewPrescriber:React.FC = () => {
                                         <input
                                             id='state'
                                             type="text"
-                                            value={prescriberData.state}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.state}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
@@ -180,18 +192,22 @@ const ViewPrescriber:React.FC = () => {
                                         <input
                                             id='zipcode'
                                             type="text"
-                                            value={prescriberData.zipcode}
-                                            onChange={handleInputChange}
-                                            // required
+                                            value={prescriber.zipcode}
+                                            readOnly
                                         />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label htmlFor='phoneNumber'>Phone Number: </label>
+                                        <label htmlFor='contact_number'>Phone Number: </label>
                                     </td>
                                     <td>
-                                        <input type="tel" id="phoneNumber" />
+                                        <input 
+                                            type="tel" 
+                                            id="contact_number"
+                                            value={prescriber.contact_number}
+                                            readOnly
+                                        />
                                     </td>
                                 </tr>
                             </tbody>

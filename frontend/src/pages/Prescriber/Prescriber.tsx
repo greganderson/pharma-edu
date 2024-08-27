@@ -13,9 +13,9 @@ const Prescriber: React.FC = () => {
             {/* Redirect from /prescriber to /prescriber-search */}
             <Route path="/" element={<Navigate to="/prescriber/prescriber-search" />} />
             <Route path="/prescriber-search" element={<PrescriberSearch />} />
-            <Route path="/view-prescriber" element={<ViewPrescriber />} />
+            <Route path="/view-prescriber/:prescriber_id" element={<ViewPrescriber />} />
             <Route path="/add-prescriber" element={<AddPrescriber />} />
-            <Route path="/update-prescriber" element={<UpdatePrescriber />} />
+            <Route path="/update-prescriber/:prescriber_id" element={<UpdatePrescriber />} />
         </Routes>
     );
 }

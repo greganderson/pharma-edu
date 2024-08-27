@@ -1,31 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
+import { Patient, states } from "./PatientModels";
 import styles from './AddPatients.module.css';
 
-interface Patient {
-    last_name: string;
-    first_name: string;
-    date_of_birth: string;
-    street: string;
-    city: string;
-    state: string;
-    zipcode: string;
-    phone_number: string;
-    allergies: string;
-    insurance_name: string;
-    insurance_member_id: string;
-    insurance_rx_bin: string;
-    insurance_rx_pcn: string;
-    insurance_group_number: string;
-}
-
-const states = [
-    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
-    "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
-    "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK",
-    "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
-    "WI", "WY"
-];
 
 const UpdatePatient: React.FC = () => {
     const { patient_id } = useParams<{ patient_id: string }>();
