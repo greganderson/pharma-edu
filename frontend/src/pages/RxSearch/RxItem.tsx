@@ -14,8 +14,8 @@ const RxItem:React.FC = () => {
             <Route path="/" element={<Navigate to="/rx-item/rx-search" />} />
             <Route path="/rx-search" element={<RxSearch />} />
             <Route path="/add-medication" element={<AddMedication />} />
-            <Route path="/view-medication" element={<ViewMedication />} />
-            <Route path="/update-medication" element={<UpdateMedication />} />
+            <Route path="/view-medication/:rx_item_id" element={<ViewMedication />} />
+            <Route path="/update-medication/:rx_item_id" element={<UpdateMedication />} />
         </Routes>
     );
 }
