@@ -27,6 +27,7 @@ class PatientCreateRequest(BaseModel):
     insurance_group_number: str | None = None
     insurance_rx_bin: str | None = None
     insurance_rx_pcn: str | None = None
+    insurance_person_code: str
 
 
 class PatientCreateResponse(BaseModel):
@@ -48,6 +49,7 @@ class PatientUpdateRequest(BaseModel):
     group_number: str | None = None
     insurance_rx_bin: str | None = None
     insurance_rx_pcn: str | None = None
+    insurance_person_code: str | None = None
 
 
 class PrescriberCreateRequest(BaseModel):
