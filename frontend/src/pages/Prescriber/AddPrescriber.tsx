@@ -170,17 +170,6 @@ const AddPerscriber:React.FC = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <label htmlFor='facility'>Facility: </label>
-                                    </td>
-                                    <td>
-                                        <input type="text" id="facility"
-                                            onChange={handleInputChange}
-                                            value={prescriberData.facility}
-                                            />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                         <label htmlFor='street'>Street Address: </label>
                                     </td>
                                     <td>

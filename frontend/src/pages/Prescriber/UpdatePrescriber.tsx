@@ -179,20 +179,6 @@ const UpdatePerscriber:React.FC = () => {
                         <tbody>
                                 <tr>
                                     <td>
-                                        <label htmlFor='facility'>Facility: </label>
-                                    </td>
-                                    <td>
-                                        <input 
-                                            type="text" 
-                                            id="facility" 
-                                            value={prescriber.facility} 
-                                            onChange={handleInputChange}
-                                            required 
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                         <label htmlFor='street'>Street Address: </label>
                                     </td>
                                     <td>
