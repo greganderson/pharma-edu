@@ -1,23 +1,59 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
+import { RxItem } from "./RxItemModal";
 import styles from "./AddMedication.module.css";
 import style from "./ViewMedication.module.css";
 
 
 const ViewMedication:React.FC = () => {
-    const [submitted, setSubmitted] = useState<boolean>(false);
+    const { rx_item_id } = useParams<{ rx_item_id: string }>();
+    console.log('Rx Item ID:', rx_item_id); 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setSubmitted(true);
-    };
+    const [rxitem, setRxItem] = useState<RxItem | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchRxItem = async () => {
+            if (!rx_item_id) {
+                console.error('Rx Item ID is missing');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8000/rx-items/${rx_item_id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Rx Item data:', data);
+                setRxItem(data);
+            } catch (error) {
+                console.error('Error fetching rx item data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+    fetchRxItem();
+    }, [rx_item_id]);
+
+    if (loading) return <div>Loading Rx Item...</div>;
+    if (!rxitem) return <div>Rx Item not found</div>;
 
     return (
         <main className={styles.addItemMain}>
         <h2 className={styles.AddItem_h1}>View Medication</h2>
         <hr className='hr'></hr>
-        <form onSubmit={handleSubmit} className={styles.addRxForm}>
+        <form className={styles.addRxForm}>
             <div className={styles.gridContainerItem}>
                 {/* Left Column */}
                 <div className={styles.itemColumn}>
@@ -28,15 +64,23 @@ const ViewMedication:React.FC = () => {
                                     <label htmlFor='ndc'>NDC: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="ndc" readOnly/>
+                                    <input type="text" 
+                                        id="ndc" 
+                                        value={rxitem.ndc}
+                                        readOnly
+                                    />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='Name'>Name: </label>
+                                    <label htmlFor='name'>Name: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="Name" readOnly/>
+                                    <input type="text" 
+                                        id="name" 
+                                        value={rxitem.name}
+                                        readOnly
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -44,31 +88,35 @@ const ViewMedication:React.FC = () => {
                                     <label htmlFor='manufacturer'>Manufacturer: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="manufacturer" readOnly/>
+                                    <input type="text" 
+                                        id="manufacturer" 
+                                        // value={rxitem.manufacturer}
+                                        readOnly
+                                    />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='itemBrand'>Brand/Generic: </label>
+                                    <label htmlFor='item_brand'>Brand/Generic: </label>
                                 </td>
                                 <td>
-                                    <input id="itemBrand" type='text' readOnly/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label htmlFor='drugClass'>Drug Class: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="drugClass" readOnly/>
+                                    <input id="item_brand" 
+                                        type='text' 
+                                        // value={rxitem.item_brand}
+                                        readOnly
+                                    />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='dea'>DEA Schedule: </label>
+                                    <label htmlFor='dea_schedule'>DEA Schedule: </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="dea" readOnly/>
+                                    <input type="text" 
+                                        id="dea_schedule" 
+                                        value={rxitem.dea_schedule}
+                                        readOnly
+                                    />
                                 </td>
                             </tr>
                             </tbody>
@@ -83,7 +131,11 @@ const ViewMedication:React.FC = () => {
                                 <label htmlFor='dosage'>Dosage Form: </label>
                             </td>
                             <td>
-                                <input type="text" id="dosage" readOnly/>
+                                <input type="text" 
+                                    id="dosage" 
+                                    // value={rxitem.dosage}
+                                    readOnly
+                                />
                             </td>
                         </tr>
                         <tr>
@@ -91,23 +143,35 @@ const ViewMedication:React.FC = () => {
                                 <label htmlFor='strength'>Strength: </label>
                             </td>
                             <td>
-                            <input type="text" id="strength" readOnly/>
+                            <input type="text" 
+                                id="strength" 
+                                value={rxitem.strength}
+                                readOnly
+                            />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='lotNumber'>Lot Number: </label>
+                                <label htmlFor='lot_number'>Lot Number: </label>
                             </td>
                             <td>
-                            <input type="text" id="lotNumber" readOnly/>
+                            <input type="text" 
+                                id="lot_number" 
+                                value={rxitem.lot_number}
+                                readOnly
+                            />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='expire'>Expiration: </label>
+                                <label htmlFor='expiration'>Expiration: </label>
                             </td>
                             <td>
-                            <input type="text" id="expire" readOnly/>
+                            <input type="date" 
+                                id="expiration" 
+                                value={rxitem.expiration}
+                                readOnly
+                            />
                             </td>
                         </tr>
                         <tr>
@@ -115,7 +179,12 @@ const ViewMedication:React.FC = () => {
                                 <label htmlFor='otc'>Sold OTC: </label>
                             </td>
                             <td>
-                                <input type="checkbox" id="otc" className={styles.OTC} readOnly/>
+                                <input type="checkbox" 
+                                    id="otc" 
+                                    className={styles.OTC} 
+                                    // value={rxitem.otc}
+                                    readOnly
+                                />
                             </td>
                         </tr>
                         </tbody>
@@ -123,7 +192,7 @@ const ViewMedication:React.FC = () => {
                 </div>
             </div>
             <div className={styles.buttonContainer}>
-                <Link to="/rx-item/update-medication">
+                <Link to={`/rx-item/update-medication/${rx_item_id}`}>
                     <button type="submit" className={styles.saveItemButton}>Edit Medication</button>
                 </Link>
             </div>

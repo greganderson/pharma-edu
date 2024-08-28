@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from "./AddMedication.module.css";
-import { deaSchedule, drugClass } from "./RxItemModal"
+import { deaSchedule } from "./RxItemModal"
 
 
 const AddMedication:React.FC = () => {
@@ -126,26 +126,6 @@ const AddMedication:React.FC = () => {
                                         // value={itemData.brand}
                                         onChange={handleInputChange}
                                     />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label htmlFor='drug_class'>Drug Class: </label>
-                                </td>
-                                <td>
-                                <select 
-                                    id="drug_class"
-                                    value={itemData.drug_class}
-                                    onChange={handleInputChange}
-                                    required
-                                >
-                                <option value="" disabled>Select a Drug Class</option>
-                                    {drugClass.map((drugclass) => (
-                                        <option key={drugclass} value={drugclass}>
-                                            {drugclass}
-                                        </option>
-                                    ))}
-                                </select>
                                 </td>
                             </tr>
                             <tr>
