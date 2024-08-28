@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { PatientBasics } from './PatientModels';
+import styles from "../Search.module.css";
 
-import styles from "../Search.module.css"
-
-type Patient = {
-    id: number;
-    first_name: string;
-    last_name: string;
-    date_of_birth: string;
-};
-
-
-const PatientSearch:React.FC = () => {
-    const [patients, setPatients] = useState<Patient[]>([]);
+const PatientSearch: React.FC = () => {
+    const [patients, setPatients] = useState<PatientBasics[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+    const [filteredPatients, setFilteredPatients] = useState<PatientBasics[]>([]);
 
-    // Use get_patients from /routers/patients.py
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchPatients = async () => {
-            const response = await fetch('/patients');
+            const response = await fetch('http://localhost:8000/patients');
             const data = await response.json();
             setPatients(data);
         };
@@ -27,7 +20,6 @@ const PatientSearch:React.FC = () => {
         fetchPatients();
     }, []);
 
-    // Filter patients based on search term
     useEffect(() => {
         if (searchTerm.trim() === '') {
             setFilteredPatients([]);
@@ -41,22 +33,18 @@ const PatientSearch:React.FC = () => {
         }
     }, [searchTerm, patients]);
 
-    const handleSelectPatient = (patient: Patient) => {
-
-
-        // Handle the selection of a patient 
-        
-
+    const handleSelectPatient = (patient: PatientBasics) => {
         console.log(`Selected patient: ${patient.first_name} ${patient.last_name}`);
+        const patient_id = patient.id;
+        navigate(`/patient/view-patient/${patient_id}`);
     };
-
 
     return (
         <main className={styles.mainSearch}>
             <h2>Patient Search</h2>
-            <hr className={styles.hr}></hr>
+            <hr className={styles.hr} />
             <div className={styles.container}>
-            <label htmlFor='search'>Quick Search: </label>
+                <label htmlFor='search'>Quick Search: </label>
                 <input
                     type="text"
                     id="search"
@@ -65,19 +53,21 @@ const PatientSearch:React.FC = () => {
                     placeholder="Search by name or date of birth..."
                 />
 
-                {/* Display the filtered list in a dropdown */}
-                {filteredPatients.length > 0 && (
-                    <ul className={styles.dropdown}>
+                {filteredPatients.length > 0 ? (
+                    <ul className={styles.dropdown} role="listbox" title='dropdown'>
                         {filteredPatients.map((patient) => (
                             <li
                                 key={patient.id}
                                 onClick={() => handleSelectPatient(patient)}
                                 className={styles.dropdownItem}
+                                role="option"
                             >
                                 {patient.first_name} {patient.last_name} ({patient.date_of_birth})
                             </li>
                         ))}
                     </ul>
+                ) : (
+                    searchTerm && <p>No patients found</p>
                 )}
             </div>
             <Link to="/patient/add-patient">
@@ -85,6 +75,6 @@ const PatientSearch:React.FC = () => {
             </Link>
         </main>
     );
-}
+};
 
 export default PatientSearch;

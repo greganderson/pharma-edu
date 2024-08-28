@@ -1,3 +1,10 @@
+export type PatientBasics = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    date_of_birth: string;
+};
+
 export interface Patient {
     last_name: string;
     first_name: string;
