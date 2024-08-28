@@ -54,29 +54,32 @@ const PatientSearch:React.FC = () => {
     return (
         <main className={styles.mainSearch}>
             <h2>Patient Search</h2>
+            <hr className={styles.hr}></hr>
+            <div className={styles.container}>
             <label htmlFor='search'>Quick Search: </label>
-            <input
-                type="text"
-                id="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by name or date of birth..."
-            />
+                <input
+                    type="text"
+                    id="search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search by name or date of birth..."
+                />
 
-            {/* Display the filtered list in a dropdown */}
-            {filteredPatients.length > 0 && (
-                <ul className={styles.dropdown}>
-                    {filteredPatients.map((patient) => (
-                        <li
-                            key={patient.id}
-                            onClick={() => handleSelectPatient(patient)}
-                            className={styles.dropdownItem}
-                        >
-                            {patient.first_name} {patient.last_name} ({patient.date_of_birth})
-                        </li>
-                    ))}
-                </ul>
-            )}
+                {/* Display the filtered list in a dropdown */}
+                {filteredPatients.length > 0 && (
+                    <ul className={styles.dropdown}>
+                        {filteredPatients.map((patient) => (
+                            <li
+                                key={patient.id}
+                                onClick={() => handleSelectPatient(patient)}
+                                className={styles.dropdownItem}
+                            >
+                                {patient.first_name} {patient.last_name} ({patient.date_of_birth})
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
             <Link to="/patient/add-patient">
                 <button type="button">Add New Patient</button>
             </Link>

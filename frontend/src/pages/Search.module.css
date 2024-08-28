@@ -2,7 +2,7 @@
     width: 60%;
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 5%;
     padding: 30px;
 }
@@ -11,7 +11,7 @@
     width: 80%;
     margin-bottom: 20px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .mainSearch a {
@@ -21,11 +21,27 @@
 
 .mainSearch button {
     padding: 15px 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
 }
 
 .mainSearch h2,
 .mainSearch label {
     text-align: left;
+}
+
+.mainSearch label {
+    font-weight: 500;
+    padding-right: 1rem;
+}
+
+.hr {
+    margin-bottom: 1.5rem;
+}
+
+.container {
+    padding-left: 1rem;
+    display: flex;
+    justify-content: center;
+
 }

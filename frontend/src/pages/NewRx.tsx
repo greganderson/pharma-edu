@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 
-// import Modal from '../component/Modal'
 import styles from './NewRx.module.css';
 
 const NewRx:React.FC = () => {
-
-    // const [isModalOpen, setIsModalOpen] = useState(true);
-
-    // const openModal = () => setIsModalOpen(true);
-    // const closeModal = () => setIsModalOpen(false);
-
     const [submitted, setSubmitted] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
