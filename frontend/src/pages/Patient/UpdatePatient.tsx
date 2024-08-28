@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { Patient, states } from "./PatientModels";
-import styles from './AddPatients.module.css';
+import styles from './Patients.module.css';
 
 
 const UpdatePatient: React.FC = () => {

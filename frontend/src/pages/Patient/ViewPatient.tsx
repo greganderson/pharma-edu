@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 
 import { Patient } from "./PatientModels";
 import style from './ViewPatients.module.css';
-import styles from "./AddPatients.module.css";
+import styles from "./Patients.module.css";
 
 
 const ViewPatient: React.FC = () => {

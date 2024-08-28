@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { states } from "./PatientModels";
-import styles from './AddPatients.module.css';
+import styles from './Patients.module.css';
 
 const AddPatient: React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
