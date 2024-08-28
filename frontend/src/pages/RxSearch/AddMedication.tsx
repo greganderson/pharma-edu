@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import styles from "./AddMedication.module.css";
+import styles from "./Medication.module.css";
 import { deaSchedule } from "./RxItemModal"
 
 

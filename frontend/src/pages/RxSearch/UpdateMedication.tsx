@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { RxItem, deaSchedule } from './RxItemModal';
-import styles from "./AddMedication.module.css";
+import styles from "./Medication.module.css";
 
 
 const UpdateMedication:React.FC = () => {

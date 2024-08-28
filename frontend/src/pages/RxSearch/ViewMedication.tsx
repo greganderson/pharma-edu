@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { RxItem } from "./RxItemModal";
-import styles from "./AddMedication.module.css";
+import styles from "./Medication.module.css";
 import style from "./ViewMedication.module.css";
 
 
