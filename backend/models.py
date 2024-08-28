@@ -165,4 +165,5 @@ class RxItem(SQLModel, table=True):
     ndc: str
     expiration: date
     lot_number: str
+    dosage_form: str
     dea_schedule: str | None = None

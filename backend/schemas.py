@@ -122,6 +122,7 @@ class RxItemCreateRequest(BaseModel):
     ndc: str
     expiration: date
     lot_number: str
+    dosage_form: str
     dea_schedule: str | None = None
 
 
@@ -135,4 +136,5 @@ class RxItemUpdateRequest(BaseModel):
     ndc: str | None = None
     expiration: date | None = None
     lot_number: str | None = None
+    dosage_form: str | None = None
     dea_schedule: str | None = None
