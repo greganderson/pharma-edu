@@ -136,6 +136,7 @@ const AddMedication:React.FC = () => {
                                     <select  
                                         id="dea_schedule"
                                         value={itemData.dea_schedule}
+                                        className={styles.itemDropdown}
                                         onChange={handleInputChange}
                                         required 
                                     >

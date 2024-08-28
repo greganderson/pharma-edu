@@ -126,7 +126,7 @@ const UpdateMedication:React.FC = () => {
                                     />
                                 </td>
                             </tr>
-                            {/* <tr>
+                            <tr>
                                 <td>
                                     <label htmlFor='manufacturer'>Manufacturer: </label>
                                 </td>
@@ -136,7 +136,7 @@ const UpdateMedication:React.FC = () => {
                                         onChange={handleInputChange}
                                         required />
                                 </td>
-                            </tr> */}
+                            </tr>
                             <tr>
                                 <td>
                                     <label htmlFor='item_brand'>Brand/Generic: </label>
@@ -157,66 +157,58 @@ const UpdateMedication:React.FC = () => {
                 <div className={styles.ItemColumn2}>
                 <table className={styles.enterNewItem}>
                         <tbody>
-                        <tr>
-                            <td>
-                                <label htmlFor='dosage'>Dosage Form: </label>
-                            </td>
-                            <td>
+                            <tr>
+                                <td>
+                                    <label htmlFor='dosage'>Dosage Form: </label>
+                                </td>
+                                <td>
+                                    <input 
+                                        type="text" 
+                                        id="dosage"
+                                        // value={itemData.dosage}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor='strength'>Strength: </label>
+                                </td>
+                                <td>
                                 <input 
                                     type="text" 
-                                    id="dosage"
-                                    // value={itemData.dosage}
+                                    id="strength" 
+                                    value={rxitem.strength}
                                     onChange={handleInputChange}
                                     required 
                                 />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='strength'>Strength: </label>
-                            </td>
-                            <td>
-                            <input 
-                                type="text" 
-                                id="strength" 
-                                value={rxitem.strength}
-                                onChange={handleInputChange}
-                                required 
-                            />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='lot_number'>Lot Number: </label>
-                            </td>
-                            <td>
-                            <input type="text" id="lot_number" 
-                                value={rxitem.lot_number}
-                                onChange={handleInputChange}
-                                required 
-                            />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='expiration'>Expiration: </label>
-                            </td>
-                            <td>
-                            <input type="date" id="expiration" 
-                                value={rxitem.expiration}
-                                onChange={handleInputChange}
-                                required 
-                            />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='otc'>Sold OTC: </label>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="otc" className={styles.OTC} />
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor='lot_number'>Lot Number: </label>
+                                </td>
+                                <td>
+                                <input type="text" id="lot_number" 
+                                    value={rxitem.lot_number}
+                                    onChange={handleInputChange}
+                                    required 
+                                />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor='expiration'>Expiration: </label>
+                                </td>
+                                <td>
+                                <input type="date" id="expiration" 
+                                    value={rxitem.expiration}
+                                    onChange={handleInputChange}
+                                    required 
+                                />
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
