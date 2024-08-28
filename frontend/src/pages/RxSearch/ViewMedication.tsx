@@ -174,19 +174,6 @@ const ViewMedication:React.FC = () => {
                             />
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='otc'>Sold OTC: </label>
-                            </td>
-                            <td>
-                                <input type="checkbox" 
-                                    id="otc" 
-                                    className={styles.OTC} 
-                                    // value={rxitem.otc}
-                                    readOnly
-                                />
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>

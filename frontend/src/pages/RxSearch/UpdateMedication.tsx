@@ -139,40 +139,20 @@ const UpdateMedication:React.FC = () => {
                             </tr> */}
                             <tr>
                                 <td>
-                                    <label htmlFor='itemBrand'>Brand/Generic: </label>
+                                    <label htmlFor='item_brand'>Brand/Generic: </label>
                                 </td>
                                 <td>
                                     <input 
                                         type='text'
-                                        id="itemBrand"
+                                        id="item_brand"
                                         // value={rxitem.brand}
                                         onChange={handleInputChange}
                                     />
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <label htmlFor='dea_schedule'>DEA Schedule: </label>
-                                </td>
-                                <td>
-                                    <select  
-                                        id="dea_schedule"
-                                        value={rxitem.dea_schedule}
-                                        onChange={handleInputChange}
-                                        required 
-                                    >
-                                    <option value="" disabled>Select a DEA Schedule</option>
-                                    {deaSchedule.map((deaschedule) => (
-                                        <option key={deaschedule} value={deaschedule}>
-                                            {deaschedule}
-                                        </option>
-                                    ))}
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        </div>
+                        </tbody>
+                    </table>
+                </div>
                 {/* Right Column */}
                 <div className={styles.ItemColumn2}>
                 <table className={styles.enterNewItem}>

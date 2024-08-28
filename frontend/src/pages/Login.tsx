@@ -37,7 +37,7 @@ const Login:React.FC = () => {
                             type="text"
                             id="username"
                             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setUsername(event.target.value)}
-                            placeholder='Username'
+                            placeholder='Username  ---- no login functionality has been added'
                         />
                     </div>
                     <div className={styles.inputFields}>
@@ -46,7 +46,7 @@ const Login:React.FC = () => {
                             type="text"
                             id="password"
                             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => setPassword(event.target.value)}
-                            placeholder="Password"
+                            placeholder="Password   ---- click sign in to go to the next page"
                         />
                     </div>
                     <div className={styles.LoginButton}>
