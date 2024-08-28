@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Prescriber, states } from './PrescriberModels';
-import styles from "./AddPrescriber.module.css";
+import styles from "./Prescriber.module.css";
 
 
 const UpdatePerscriber:React.FC = () => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PrescriberType, states } from "./PrescriberModels"
-import styles from "./AddPrescriber.module.css";
+import styles from "./Prescriber.module.css";
 
 const AddPerscriber:React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);

@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 
 import { Prescriber } from './PrescriberModels';
 import style from "./ViewPrescriber.module.css";
-import styles from "./AddPrescriber.module.css";
+import styles from "./Prescriber.module.css";
 
 
 const ViewPrescriber:React.FC = () => {
