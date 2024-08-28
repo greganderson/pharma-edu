@@ -16,6 +16,7 @@ class PatientCreateRequest(BaseModel):
     first_name: str
     last_name: str
     date_of_birth: date
+    phone_number: str
     street: str
     city: str
     state: State
@@ -36,6 +37,7 @@ class PatientUpdateRequest(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     date_of_birth: date | None = None
+    phone_number: str | None = None
     street: str | None = None
     city: str | None = None
     state: State | None = None
