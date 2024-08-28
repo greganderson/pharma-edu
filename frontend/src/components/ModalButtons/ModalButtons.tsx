@@ -21,11 +21,11 @@ const ModalButtons: React.FC = () => {
   const renderModalContent = () => {
     switch (modalType) {
       case "patient":
-        return <NewPatient />;
+        return <NewPatient onClose={closeModal}/>;
       case "doctor":
-        return <NewDr />;
+        return <NewDr onClose={closeModal}/>;
       case "rxItem":
-        return <RxItem />;
+        return <RxItem onClose={closeModal}/>;
       default:
         return null;
     }

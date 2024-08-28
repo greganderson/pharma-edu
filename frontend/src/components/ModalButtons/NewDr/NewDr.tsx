@@ -4,7 +4,11 @@ import SearchBar from "../../SearchBar/SearchBar";
 
 import "./NewDr.css";
 
-const NewDr: React.FC = () => {
+interface DrProps {
+  onClose: () => void; // Add this prop to handle closing the modal
+}
+
+const NewDr: React.FC<DrProps> = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleSearch = (query: string) => {
@@ -17,6 +21,7 @@ const NewDr: React.FC = () => {
 
   const gotoDoctorProfile = () => {
     navigate("/doctorprofile");
+    onClose();
   };
 
   return (

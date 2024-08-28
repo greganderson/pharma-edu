@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../../SearchBar/SearchBar";
 import "./NewPatient.css";
 
-const NewPatient: React.FC = () => {
+interface PatientProps {
+  onClose: () => void; // Add this prop to handle closing the modal
+}
+
+const NewPatient: React.FC<PatientProps> = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleSearch = (query: string) => {
@@ -17,6 +21,7 @@ const NewPatient: React.FC = () => {
 
   const goToAddPatient = () => {
     navigate("/addpatient");
+    onClose();
   };
 
   return (
