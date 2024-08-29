@@ -18,6 +18,7 @@ const UpdatePerscriber:React.FC = () => {
         const fetchPrescriber = async () => {
             if (!prescriber_id) {
                 console.error('Prescriber ID is missing');
+                alert("Can not find a prescriber with that name or DEA number in our system.");
                 setLoading(false);
                 return;
             }
@@ -38,6 +39,7 @@ const UpdatePerscriber:React.FC = () => {
                 setPrescriber(data);
             } catch (error) {
                 console.error('Error fetching prescriber data:', error);
+                alert("Can not update prescriber.");
             } finally {
                 setLoading(false);
             }

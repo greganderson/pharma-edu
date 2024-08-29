@@ -1,5 +1,5 @@
 export const deaSchedule = [
-    "Schedule I", "Schedule II", "Schedule III", "Schedule IV", "Schedule V"
+    "Legend", "Schedule II", "Schedule III", "Schedule IV", "Schedule V"
 ];
 
 

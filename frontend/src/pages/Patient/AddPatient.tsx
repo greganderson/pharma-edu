@@ -45,6 +45,7 @@ const AddPatient: React.FC = () => {
             return response.json();
         } catch (error) {
             console.error('Error:', error);
+            alert("Could not add a new patient.")
             throw error;
         }
     };

@@ -45,34 +45,38 @@ const PatientSearch: React.FC = () => {
             <hr className={styles.hr} />
             <div className={styles.container}>
                 <label htmlFor='search'>Quick Search: </label>
-                <input
-                    type="text"
-                    id="search"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search by name or date of birth..."
-                />
+                <div className={styles.inputDropdownMatch}>
+                    <input
+                        type="text"
+                        id="search"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search by name or date of birth..."
+                    />
 
-                {filteredPatients.length > 0 ? (
-                    <ul className={styles.dropdown} role="listbox" title='dropdown'>
-                        {filteredPatients.map((patient) => (
-                            <li
-                                key={patient.id}
-                                onClick={() => handleSelectPatient(patient)}
-                                className={styles.dropdownItem}
-                                role="option"
-                            >
-                                {patient.first_name} {patient.last_name} ({patient.date_of_birth})
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    searchTerm && <p>No patients found</p>
-                )}
+                    {filteredPatients.length > 0 ? (
+                        <ul className={styles.dropdown} role="listbox" title='dropdown'>
+                            {filteredPatients.map((patient) => (
+                                <li
+                                    key={patient.id}
+                                    onClick={() => handleSelectPatient(patient)}
+                                    className={styles.dropdownItem}
+                                    role="option"
+                                >
+                                    {patient.first_name} {patient.last_name} ({patient.date_of_birth})
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        searchTerm && <p>No patients found</p>
+                    )}
+                </div>
             </div>
-            <Link to="/patient/add-patient">
-                <button type="button">Add New Patient</button>
-            </Link>
+            <div className={styles.ButtonContainer}>
+                <Link to="/patient/add-patient">
+                    <button type="button">Add New Patient</button>
+                </Link>
+            </div>
         </main>
     );
 };

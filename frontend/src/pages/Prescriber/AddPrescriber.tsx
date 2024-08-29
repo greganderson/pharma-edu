@@ -42,6 +42,7 @@ const AddPerscriber:React.FC = () => {
             return response.json();
         } catch (error) {
             console.error('Error:', error);
+            alert("Could not create a new Prescriber.")
             throw error;
         }
     };

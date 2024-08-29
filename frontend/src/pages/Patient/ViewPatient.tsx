@@ -37,6 +37,7 @@ const ViewPatient: React.FC = () => {
                 setPatient(data);
             } catch (error) {
                 console.error('Error fetching patient data:', error);
+                alert("Can not load patient information.")
             } finally {
                 setLoading(false);
             }

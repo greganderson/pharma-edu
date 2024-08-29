@@ -37,6 +37,7 @@ const UpdatePatient: React.FC = () => {
                 setPatient(data);
             } catch (error) {
                 console.error('Error fetching patient data:', error);
+                alert("Could not update the patient.");
             } finally {
                 setLoading(false);
             }
@@ -59,6 +60,7 @@ const UpdatePatient: React.FC = () => {
 
         if (!patient_id) {
             console.error('Patient ID is missing');
+            alert("Can not find patient.");
             setIsSubmitting(false);
             return;
         }
@@ -80,7 +82,7 @@ const UpdatePatient: React.FC = () => {
             navigate(`/patient/view-patient/${patient_id}`);
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred while updating the patient.');
+            alert("An error occurred while updating the patient.");
         } finally {
             setIsSubmitting(false);
         }

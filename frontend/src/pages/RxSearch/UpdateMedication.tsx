@@ -17,6 +17,7 @@ const UpdateMedication:React.FC = () => {
         const fetchRxItem = async () => {
             if (!rx_item_id) {
                 console.error('Rx Item ID is missing');
+                alert("Can not find Rx Item.");
                 setLoading(false);
                 return;
             }
@@ -37,6 +38,7 @@ const UpdateMedication:React.FC = () => {
                 setRxItem(data);
             } catch (error) {
                 console.error('Error fetching rx item data:', error);
+                alert("Can not find the Rx Item in our system.")
             } finally {
                 setLoading(false);
             }
@@ -126,7 +128,7 @@ const UpdateMedication:React.FC = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr>
+                            {/* <tr>
                                 <td>
                                     <label htmlFor='manufacturer'>Manufacturer: </label>
                                 </td>
@@ -136,7 +138,7 @@ const UpdateMedication:React.FC = () => {
                                         onChange={handleInputChange}
                                         required />
                                 </td>
-                            </tr>
+                            </tr> */}
                             <tr>
                                 <td>
                                     <label htmlFor='item_brand'>Brand/Generic: </label>
@@ -148,6 +150,28 @@ const UpdateMedication:React.FC = () => {
                                         // value={rxitem.brand}
                                         onChange={handleInputChange}
                                     />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label htmlFor='dea_schedule'>DEA Schedule: </label>
+                                </td>
+                                <td>
+                                    <select 
+                                        title="dea_schedule" 
+                                        id="dea_schedule"
+                                        value={rxitem.dea_schedule}
+                                        className={styles.itemDropdown}
+                                        onChange={handleInputChange}
+                                        required 
+                                    >
+                                    <option value={rxitem.dea_schedule} disabled>Select a DEA Schedule</option>
+                                    {deaSchedule.map((deaschedule) => (
+                                        <option key={deaschedule} value={deaschedule}>
+                                            {deaschedule}
+                                        </option>
+                                    ))}
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>

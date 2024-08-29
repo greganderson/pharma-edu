@@ -39,6 +39,7 @@ const AddMedication:React.FC = () => {
             return response.json();
         } catch (error) {
             console.error('Error:', error);
+            alert("Could not create a new Rx Item.")
             throw error;
         }
     };
@@ -51,7 +52,7 @@ const AddMedication:React.FC = () => {
             const result = await postItem(itemData);
             setSubmitted(true);
             const rx_item_id = result.rx_item_id;
-            navigate(`/rx-item/view-medication${rx_item_id}`); // Navigate to the view-prescriber page with the prescriber ID
+            navigate(`/rx-item/view-medication${rx_item_id}`); // Navigate to the view-medication page with the Rx ID
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while creating the Item.');
