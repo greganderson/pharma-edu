@@ -2,7 +2,6 @@ alembic
 fastapi
 psycopg2-binary
 python-decouple
-pydantic
 sqlalchemy
 uvicorn
 sqlmodel
