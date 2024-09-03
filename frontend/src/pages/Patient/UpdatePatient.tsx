@@ -176,6 +176,10 @@ const UpdatePatient: React.FC = () => {
                                     <td><label htmlFor='insurance_group_number'>Group Id: </label></td>
                                     <td><input type="text" id="insurance_group_number" value={patient.insurance_group_number} onChange={handleInputChange} /></td>
                                 </tr>
+                                <tr>
+                                    <td><label htmlFor='insurance_person_code'>Person Code: </label></td>
+                                    <td><input type="text" id="insurance_person_code" value={patient.insurance_person_code} onChange={handleInputChange} /></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

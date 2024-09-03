@@ -22,7 +22,8 @@ const AddPatient: React.FC = () => {
         insurance_member_id: "",
         insurance_rx_bin: "",
         insurance_rx_pcn: "",
-        insurance_group_number: ""
+        insurance_group_number: "",
+        insurance_person_code: ""
     });
 
     const navigate = useNavigate();
@@ -45,7 +46,6 @@ const AddPatient: React.FC = () => {
             return response.json();
         } catch (error) {
             console.error('Error:', error);
-            alert("Could not add a new patient.")
             throw error;
         }
     };
@@ -195,7 +195,7 @@ const AddPatient: React.FC = () => {
                                     </td>
                                     <td>
                                         <input
-                                            type="tel"
+                                            type="text"
                                             id="phone_number"
                                             value={patientData.phone_number}
                                             onChange={handleInputChange}
@@ -284,6 +284,19 @@ const AddPatient: React.FC = () => {
                                             type="text"
                                             id="insurance_group_number"
                                             value={patientData.insurance_group_number}
+                                            onChange={handleInputChange}
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label htmlFor='insurance_person_code'>Person Code: </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="insurance_person_code"
+                                            value={patientData.insurance_person_code}
                                             onChange={handleInputChange}
                                         />
                                     </td>

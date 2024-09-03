@@ -63,7 +63,7 @@ const PatientSearch: React.FC = () => {
                                     className={styles.dropdownItem}
                                     role="option"
                                 >
-                                    {patient.first_name} {patient.last_name} ({patient.date_of_birth})
+                                    {patient.first_name} {patient.last_name} (DOB: {patient.date_of_birth})
                                 </li>
                             ))}
                         </ul>
