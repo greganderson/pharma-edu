@@ -17,10 +17,10 @@ export interface Prescriber {
 }
 
 export type PrescriberBasics = {
-    id: number;
+    id: number,
     dea: string,
-    first_name: string;
-    last_name: string;
+    first_name: string,
+    last_name: string
 };
 
 export const states = [
