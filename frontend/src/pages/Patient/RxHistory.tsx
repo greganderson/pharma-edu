@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import styles from './RxHistory.module.css'
+import { Patient } from "./PatientModels";
 
 const RxHistory:React.FC = () => {
     const [tableData, setTableData] = useState({ columns: [], data: [] });
+    const { patient_id } = useParams<{ patient_id: string }>();
+    const navigate = useNavigate();
+    const [patient, setPatient] = useState<Patient | null>(null);
+    
 
     // Use get_prescriptions in /routers/prescriptions.py
     useEffect(() => {
@@ -49,7 +54,7 @@ const RxHistory:React.FC = () => {
                 <Link to="/new-rx">
                     <button type="button">Refill Rx</button>
                 </Link>
-                <Link to="/patient/view-patient">
+                <Link to={`/patient/view-patient/${patient_id}`}>
                     <button type="button">View Patient</button>
                 </Link>
             </div>

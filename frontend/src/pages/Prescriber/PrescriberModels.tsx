@@ -16,6 +16,13 @@ export interface Prescriber {
     npi: string
 }
 
+export type PrescriberBasics = {
+    id: number;
+    dea: string,
+    first_name: string;
+    last_name: string;
+};
+
 export const states = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
     "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",

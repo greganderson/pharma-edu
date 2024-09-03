@@ -20,6 +20,7 @@ export interface Patient {
     insurance_rx_bin: string;
     insurance_rx_pcn: string;
     insurance_group_number: string;
+    insurance_person_code: string;
 }
 
 export const states = [
