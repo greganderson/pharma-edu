@@ -54,18 +54,18 @@ const PrescriberSearch:React.FC = () => {
                     placeholder='Search by name or DEA...'
                 />
                 {filteredPrescriber.length > 0 ? (
-                        <ul className={styles.dropdown} role="listbox" title='dropdown'>
-                            {filteredPrescriber.map((prescriber) => (
-                                <li
-                                    key={prescriber.id}
-                                    onClick={() => handleSelectPrescriber(prescriber)}
-                                    className={styles.dropdownItem}
-                                    role="option"
-                                >
-                                    {prescriber.first_name} {prescriber.last_name} (DEA: {prescriber.dea})
-                                </li>
-                            ))}
-                        </ul>
+                    <ul className={styles.dropdown} role="listbox" title='dropdown'>
+                        {filteredPrescriber.map((prescriber) => (
+                            <li
+                                key={prescriber.id}
+                                onClick={() => handleSelectPrescriber(prescriber)}
+                                className={styles.dropdownItem}
+                                role="option"
+                            >
+                                {prescriber.first_name} {prescriber.last_name} (DEA: {prescriber.dea})
+                            </li>
+                        ))}
+                    </ul>
                     ) : (
                         searchTerm && <p>No prescribers found...</p>
                     )}

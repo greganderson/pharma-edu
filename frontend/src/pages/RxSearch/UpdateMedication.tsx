@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { RxItem, deaSchedule } from './RxItemModal';
+import { RxItem, deaSchedule } from './RxItemModel';
 import styles from "./Medication.module.css";
 
 
@@ -128,44 +128,19 @@ const UpdateMedication:React.FC = () => {
                                     />
                                 </td>
                             </tr>
-                            {/* <tr>
-                                <td>
-                                    <label htmlFor='manufacturer'>Manufacturer: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="manufacturer" 
-                                        // value={itemData.manufacturer}
-                                        onChange={handleInputChange}
-                                        required />
-                                </td>
-                            </tr> */}
-                            <tr>
-                                <td>
-                                    <label htmlFor='item_brand'>Brand/Generic: </label>
-                                </td>
-                                <td>
-                                    <input 
-                                        type='text'
-                                        id="item_brand"
-                                        // value={rxitem.brand}
-                                        onChange={handleInputChange}
-                                    />
-                                </td>
-                            </tr>
                             <tr>
                                 <td>
                                     <label htmlFor='dea_schedule'>DEA Schedule: </label>
                                 </td>
                                 <td>
-                                    <select 
-                                        title="dea_schedule" 
+                                    <select  
                                         id="dea_schedule"
                                         value={rxitem.dea_schedule}
                                         className={styles.itemDropdown}
                                         onChange={handleInputChange}
                                         required 
                                     >
-                                    <option value={rxitem.dea_schedule} disabled>Select a DEA Schedule</option>
+                                    <option value="" disabled>Select a DEA Schedule</option>
                                     {deaSchedule.map((deaschedule) => (
                                         <option key={deaschedule} value={deaschedule}>
                                             {deaschedule}
@@ -183,13 +158,13 @@ const UpdateMedication:React.FC = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <label htmlFor='dosage'>Dosage Form: </label>
+                                    <label htmlFor='dosage_form'>Dosage Form: </label>
                                 </td>
                                 <td>
                                     <input 
                                         type="text" 
-                                        id="dosage"
-                                        // value={itemData.dosage}
+                                        id="dosage_form"
+                                        value={rxitem.dosage_form}
                                         onChange={handleInputChange}
                                         required 
                                     />
@@ -200,13 +175,13 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='strength'>Strength: </label>
                                 </td>
                                 <td>
-                                <input 
-                                    type="text" 
-                                    id="strength" 
-                                    value={rxitem.strength}
-                                    onChange={handleInputChange}
-                                    required 
-                                />
+                                    <input 
+                                        type="text" 
+                                        id="strength" 
+                                        value={rxitem.strength}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -214,11 +189,11 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='lot_number'>Lot Number: </label>
                                 </td>
                                 <td>
-                                <input type="text" id="lot_number" 
-                                    value={rxitem.lot_number}
-                                    onChange={handleInputChange}
-                                    required 
-                                />
+                                    <input type="text" id="lot_number" 
+                                        value={rxitem.lot_number}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -226,11 +201,11 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='expiration'>Expiration: </label>
                                 </td>
                                 <td>
-                                <input type="date" id="expiration" 
-                                    value={rxitem.expiration}
-                                    onChange={handleInputChange}
-                                    required 
-                                />
+                                    <input type="date" id="expiration" 
+                                        value={rxitem.expiration}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                         </tbody>
