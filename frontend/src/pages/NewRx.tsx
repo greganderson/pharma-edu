@@ -1,14 +1,56 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { PatientBasics, Patient } from './Patient/PatientModels';
 import styles from './NewRx.module.css';
 
-const NewRx:React.FC = () => {
+const NewRx: React.FC = () => {
+    const [patients, setPatients] = useState<Patient[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+    const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
     const [submitted, setSubmitted] = useState<boolean>(false);
+
+    useEffect(() => {
+        const fetchPatients = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/patients');
+                if (response.ok) {
+                    const data: Patient[] = await response.json();
+                    setPatients(data);
+                } else {
+                    console.error('Failed to fetch patients');
+                }
+            } catch (error) {
+                console.error('Error fetching patients:', error);
+            }
+        };
+
+        fetchPatients();
+    }, []);
+
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredPatients([]);
+        } else {
+            const filtered = patients.filter(p =>
+                `${p.first_name} ${p.last_name} ${p.date_of_birth}`
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
+            );
+            setFilteredPatients(filtered);
+        }
+    }, [searchTerm, patients]);
+
+    const handleSelectPatient = (patient: Patient) => {
+        setSelectedPatient(patient);
+        setSearchTerm('');
+        setFilteredPatients([]);
+    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSubmitted(true);
     };
+
 
     return (
         <main className={styles.mainNewRx}>
@@ -17,12 +59,33 @@ const NewRx:React.FC = () => {
             <form onSubmit={handleSubmit} className={styles.NewRxForm}>
                 <table className={styles.enterPatientInfo}>
                     <tbody>
-                        <tr>
+                    <tr>
                             <td>
                                 <label htmlFor='patient'>Patient: </label>
                             </td>
                             <td>
-                                <input type="text" id="patient" />
+                                <input
+                                    type="text"
+                                    id="search"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    placeholder="Search by name or date of birth..."
+                                />
+                                {filteredPatients.length > 0 && (
+                                    <ul className={styles.dropdown} role="listbox" title='dropdown'>
+                                        {filteredPatients.map((patient) => (
+                                            <li
+                                                key={patient.id}
+                                                onClick={() => handleSelectPatient(patient)}
+                                                className={styles.dropdownItem}
+                                                role="option"
+                                            >
+                                                {patient.first_name} {patient.last_name} (DOB: {patient.date_of_birth})
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                                {searchTerm && filteredPatients.length === 0 && <p>No patients found</p>}
                             </td>
                         </tr>
                         <tr>
@@ -98,7 +161,21 @@ const NewRx:React.FC = () => {
 
                 </form>
 
-                <div className={styles.displayPatientInfo}><h6>Patient Information: </h6></div>
+                <div className={styles.displayPatientInfo}>
+                    {selectedPatient ? (
+                        <div>
+                            <h6>Patient Information: </h6>
+                            <p>{selectedPatient.first_name} {selectedPatient.last_name}</p>
+                            <p>{selectedPatient.date_of_birth}</p>
+                            <p>{selectedPatient.street}</p>
+                            <p>{selectedPatient.city}</p>
+                            <p>{selectedPatient.state} {selectedPatient.zipcode}</p>
+                            <p>{selectedPatient.phone_number}</p>
+                        </div>
+                    ) : (
+                        <p>No patient selected</p>
+                    )}
+                </div>
 
                 <form onSubmit={handleSubmit} className={styles.RxDateInfo}>
                 <table>

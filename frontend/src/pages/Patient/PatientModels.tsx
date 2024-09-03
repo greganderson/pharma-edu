@@ -6,6 +6,7 @@ export type PatientBasics = {
 };
 
 export interface Patient {
+    id: number;
     last_name: string;
     first_name: string;
     date_of_birth: string;
