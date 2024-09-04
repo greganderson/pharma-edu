@@ -7,7 +7,7 @@ export interface RxItem {
     id: number,
     name: string,
     strength: string,
-    ndc: string
+    ndc: string,
     expiration: string,
     lot_number: string,
     dea_schedule: string,

@@ -53,7 +53,7 @@ const AddMedication:React.FC = () => {
             const result = await postItem(itemData);
             setSubmitted(true);
             const rx_item_id = result.rx_item_id;
-            navigate(`/rx-item/view-medication${rx_item_id}`); // Navigate to the view-medication page with the Rx ID
+            navigate(`/rx-item/view-medication/${rx_item_id}`); // Navigate to the view-medication page with the Rx ID
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while creating the Item.');

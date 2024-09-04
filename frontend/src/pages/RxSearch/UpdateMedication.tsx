@@ -133,15 +133,14 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='dea_schedule'>DEA Schedule: </label>
                                 </td>
                                 <td>
-                                    <select 
-                                        title="dea_schedule" 
+                                    <select  
                                         id="dea_schedule"
                                         value={rxitem.dea_schedule}
                                         className={styles.itemDropdown}
                                         onChange={handleInputChange}
                                         required 
                                     >
-                                    <option value={rxitem.dea_schedule} disabled>Select a DEA Schedule</option>
+                                    <option value="" disabled>Select a DEA Schedule</option>
                                     {deaSchedule.map((deaschedule) => (
                                         <option key={deaschedule} value={deaschedule}>
                                             {deaschedule}
@@ -190,11 +189,11 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='lot_number'>Lot Number: </label>
                                 </td>
                                 <td>
-                                <input type="text" id="lot_number" 
-                                    value={rxitem.lot_number}
-                                    onChange={handleInputChange}
-                                    required 
-                                />
+                                    <input type="text" id="lot_number" 
+                                        value={rxitem.lot_number}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -202,11 +201,11 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='expiration'>Expiration: </label>
                                 </td>
                                 <td>
-                                <input type="date" id="expiration" 
-                                    value={rxitem.expiration}
-                                    onChange={handleInputChange}
-                                    required 
-                                />
+                                    <input type="date" id="expiration" 
+                                        value={rxitem.expiration}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                         </tbody>

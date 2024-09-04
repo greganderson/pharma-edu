@@ -104,11 +104,11 @@ const ViewMedication:React.FC = () => {
                         <tbody>
                         <tr>
                             <td>
-                                <label htmlFor='dosage'>Dosage Form: </label>
+                                <label htmlFor='dosage_form'>Dosage Form: </label>
                             </td>
                             <td>
-                                <input type="text" 
-                                    id="dosage" 
+                                <input type="text"
+                                    id="dosage_form" 
                                     value={rxitem.dosage_form}
                                     readOnly
                                 />
