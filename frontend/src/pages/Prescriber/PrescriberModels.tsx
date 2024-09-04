@@ -3,6 +3,7 @@ export const PrescriberType = [
 ]
 
 export interface Prescriber {
+    id: number;
     last_name: string,
     first_name: string,
     prescriber_type: string,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-import { RxItem } from "./RxItemModal";
+import { RxItem } from "./RxItemModel";
 import styles from "./Medication.module.css";
 import style from "./ViewMedication.module.css";
 
@@ -85,30 +85,6 @@ const ViewMedication:React.FC = () => {
                             </tr>
                             <tr>
                                 <td>
-                                    <label htmlFor='manufacturer'>Manufacturer: </label>
-                                </td>
-                                <td>
-                                    <input type="text" 
-                                        id="manufacturer" 
-                                        // value={rxitem.manufacturer}
-                                        readOnly
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label htmlFor='item_brand'>Brand/Generic: </label>
-                                </td>
-                                <td>
-                                    <input id="item_brand" 
-                                        type='text' 
-                                        // value={rxitem.item_brand}
-                                        readOnly
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
                                     <label htmlFor='dea_schedule'>DEA Schedule: </label>
                                 </td>
                                 <td>
@@ -133,7 +109,7 @@ const ViewMedication:React.FC = () => {
                             <td>
                                 <input type="text" 
                                     id="dosage" 
-                                    // value={rxitem.dosage}
+                                    value={rxitem.dosage_form}
                                     readOnly
                                 />
                             </td>

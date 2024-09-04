@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from "./Medication.module.css";
-import { deaSchedule } from "./RxItemModal"
+import { deaSchedule } from "./RxItemModel"
 
 
 const AddMedication:React.FC = () => {
@@ -16,7 +16,8 @@ const AddMedication:React.FC = () => {
         expiration: "",
         lot_number: "",
         dea_schedule: "",
-        drug_class: ""
+        drug_class: "",
+        dosage_form: ""
     });
 
     const navigate = useNavigate();
@@ -105,30 +106,6 @@ const AddMedication:React.FC = () => {
                                     />
                                 </td>
                             </tr>
-                            {/* <tr>
-                                <td>
-                                    <label htmlFor='manufacturer'>Manufacturer: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="manufacturer" 
-                                        // value={itemData.manufacturer}
-                                        onChange={handleInputChange}
-                                        required />
-                                </td>
-                            </tr> */}
-                            <tr>
-                                <td>
-                                    <label htmlFor='itemBrand'>Brand/Generic: </label>
-                                </td>
-                                <td>
-                                    <input 
-                                        type='text'
-                                        id="itemBrand"
-                                        // value={itemData.brand}
-                                        onChange={handleInputChange}
-                                    />
-                                </td>
-                            </tr>
                             <tr>
                                 <td>
                                     <label htmlFor='dea_schedule'>DEA Schedule: </label>
@@ -159,13 +136,13 @@ const AddMedication:React.FC = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <label htmlFor='dosage'>Dosage Form: </label>
+                                    <label htmlFor='dosage_form'>Dosage Form: </label>
                                 </td>
                                 <td>
                                     <input 
                                         type="text" 
-                                        id="dosage"
-                                        // value={itemData.dosage}
+                                        id="dosage_form"
+                                        value={itemData.dosage_form}
                                         onChange={handleInputChange}
                                         required 
                                     />

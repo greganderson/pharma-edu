@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { RxItem, deaSchedule } from './RxItemModal';
+import { RxItem, deaSchedule } from './RxItemModel';
 import styles from "./Medication.module.css";
 
 
@@ -128,30 +128,6 @@ const UpdateMedication:React.FC = () => {
                                     />
                                 </td>
                             </tr>
-                            {/* <tr>
-                                <td>
-                                    <label htmlFor='manufacturer'>Manufacturer: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="manufacturer" 
-                                        // value={itemData.manufacturer}
-                                        onChange={handleInputChange}
-                                        required />
-                                </td>
-                            </tr> */}
-                            <tr>
-                                <td>
-                                    <label htmlFor='item_brand'>Brand/Generic: </label>
-                                </td>
-                                <td>
-                                    <input 
-                                        type='text'
-                                        id="item_brand"
-                                        // value={rxitem.brand}
-                                        onChange={handleInputChange}
-                                    />
-                                </td>
-                            </tr>
                             <tr>
                                 <td>
                                     <label htmlFor='dea_schedule'>DEA Schedule: </label>
@@ -183,13 +159,13 @@ const UpdateMedication:React.FC = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <label htmlFor='dosage'>Dosage Form: </label>
+                                    <label htmlFor='dosage_form'>Dosage Form: </label>
                                 </td>
                                 <td>
                                     <input 
                                         type="text" 
-                                        id="dosage"
-                                        // value={itemData.dosage}
+                                        id="dosage_form"
+                                        value={rxitem.dosage_form}
                                         onChange={handleInputChange}
                                         required 
                                     />
@@ -200,13 +176,13 @@ const UpdateMedication:React.FC = () => {
                                     <label htmlFor='strength'>Strength: </label>
                                 </td>
                                 <td>
-                                <input 
-                                    type="text" 
-                                    id="strength" 
-                                    value={rxitem.strength}
-                                    onChange={handleInputChange}
-                                    required 
-                                />
+                                    <input 
+                                        type="text" 
+                                        id="strength" 
+                                        value={rxitem.strength}
+                                        onChange={handleInputChange}
+                                        required 
+                                    />
                                 </td>
                             </tr>
                             <tr>
