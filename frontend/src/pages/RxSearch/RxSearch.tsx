@@ -66,7 +66,7 @@ const RxSearch:React.FC = () => {
                             ))}
                         </ul>
                     ) : (
-                        searchTerm && <p>No rx item found...</p>
+                        searchTerm && <p>No Rx Item found...</p>
                     )}
                 </div>
             </div>

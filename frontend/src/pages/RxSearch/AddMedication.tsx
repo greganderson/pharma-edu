@@ -16,8 +16,8 @@ const AddMedication:React.FC = () => {
         expiration: "",
         lot_number: "",
         dea_schedule: "",
-        dosage_form: "",
-        drug_class: ""
+        drug_class: "",
+        dosage_form: ""
     });
 
     const navigate = useNavigate();

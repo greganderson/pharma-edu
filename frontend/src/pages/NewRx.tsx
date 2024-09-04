@@ -1,13 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import { PatientBasics, Patient } from './Patient/PatientModels';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { Prescriber } from './Prescriber/PrescriberModels';
+import { RxItem } from './RxSearch/RxItemModel';
+import { Patient } from './Patient/PatientModels';
 import styles from './NewRx.module.css';
 
 const NewRx: React.FC = () => {
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+
+    // Patients
+    const [searchTermPatient, setSearchTermPatient] = useState('');
     const [patients, setPatients] = useState<Patient[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
     const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-    const [submitted, setSubmitted] = useState<boolean>(false);
+
+    // Prescribers
+    const [searchTermPrescriber, setSearchTermPrescriber] = useState('');
+    const [prescribers, setPrescribers] = useState<Prescriber[]>([]);
+    const [filteredPrescribers, setFilteredPrescribers] = useState<Prescriber[]>([]);
+    const [selectedPrescriber, setSelectedPrescriber] = useState<Prescriber | null>(null);
+
+    // Rx Item
+    const [searchTermItem, setSearchTermItem] = useState('');
+    const [items, setItems] = useState<RxItem[]>([]);
+    const [filteredItems, setFilteredItems] = useState<RxItem[]>([]);
+    const [selectedItem, setSelectedItem] = useState<RxItem | null>(null);
+
+    // Prescription
+    const [prescriptionData, setPrescriptionData] = useState({
+        rx_number: "",
+        patient_id: "",
+        patient: "",
+        // prescriber_id: "",
+        prescriber: "",
+        prescribed_date: "",
+        dispense_date: "",
+        discard_date: "",
+        expiration_date: "",
+        // rx_item_id: "", 
+        rx_item: "",
+        directions: "",
+        quantity: 0,
+        quantity_dispensed: 0,
+        refills: 0,
+        tech_initials: ""
+    });
+
+    // "patient_id": 0,
+    // "prescriber_id": 0,
+    // "prescribed_date": "2024-09-04",
+    // "rx_item_id": 0,
+    // "directions": "string",
+    // "quantity": 0,
+    // "quantity_dispensed": 0,
+    // "refills": 0,
+    // "tech_initials": "string"
+
+    const navigate = useNavigate();
+
+    const postPrescription = async (prescriptionData: any) => {
+        try {
+            const response = await fetch('http://localhost:8000/prescriptions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(prescriptionData),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create prescription.');
+            }
+    
+            return response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    };
+    
+
+//
+// Fetch
+//
+
 
     useEffect(() => {
         const fetchPatients = async () => {
@@ -28,29 +107,154 @@ const NewRx: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (searchTerm.trim() === '') {
+        const fetchPrescribers = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/prescribers');
+                if (response.ok) {
+                    const data: Prescriber[] = await response.json();
+                    setPrescribers(data);
+                } else {
+                    console.error('Failed to fetch prescribers');
+                }
+            } catch (error) {
+                console.error('Error fetching prescribers:', error);
+            }
+        };
+
+        fetchPrescribers();
+    }, []);
+
+    useEffect(() => {
+        const fetchRxItems = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/rx-items');
+                if (response.ok) {
+                    const data: RxItem[] = await response.json();
+                    setItems(data);
+                } else {
+                    console.error('Failed to fetch items');
+                }
+            } catch (error) {
+                console.error('Error fetching items:', error);
+            }
+        };
+
+        fetchRxItems();
+    }, []);
+
+//
+// FILTER
+//
+
+    useEffect(() => {
+        if (searchTermPatient.trim() === '') {
             setFilteredPatients([]);
         } else {
-            const filtered = patients.filter(p =>
-                `${p.first_name} ${p.last_name} ${p.date_of_birth}`
+            const filtered = patients.filter(patient =>
+                `${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`
                     .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
+                    .includes(searchTermPatient.toLowerCase())
             );
             setFilteredPatients(filtered);
         }
-    }, [searchTerm, patients]);
+    }, [searchTermPatient, patients]);
+
+
+    useEffect(() => {
+        if (searchTermPrescriber.trim() === '') {
+            setFilteredPrescribers([]);
+        } else {
+            const filteredPrescribers = prescribers.filter(prescriber =>
+                `${prescriber.first_name} ${prescriber.last_name} ${prescriber.dea}`
+                    .toLowerCase()
+                    .includes(searchTermPrescriber.toLowerCase())
+            );
+            setFilteredPrescribers(filteredPrescribers);
+        }
+    }, [searchTermPrescriber, prescribers]);
+
+
+    useEffect(() => {
+        if (searchTermItem.trim() === '') {
+            setFilteredItems([]);
+        } else {
+            const filteredItems = items.filter(item =>
+                `${item.name} ${item.strength}`
+                    .toLowerCase()
+                    .includes(searchTermItem.toLowerCase())
+            );
+            setFilteredItems(filteredItems);
+        }
+    }, [searchTermItem, items]);
+
+//
+// HANDLERS
+//
 
     const handleSelectPatient = (patient: Patient) => {
+        console.log('Selected Patient:', patient);
         setSelectedPatient(patient);
-        setSearchTerm('');
+        setSearchTermPatient('');
         setFilteredPatients([]);
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setSubmitted(true);
+
+    const handleSelectPrescriber = (prescriber: Prescriber) => {
+        console.log('Selected Prescriber:', prescriber);
+        setSearchTermPrescriber(`${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`);
+        setSelectedPrescriber(prescriber);
+        setPrescriptionData((prevData) => ({
+            ...prevData,
+            prescriber_id: prescriber.id,
+            prescriber: `${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`
+        }));
+        setFilteredPatients([]);
     };
 
+
+    const handleSelectItem = (item: RxItem) => {
+        console.log('Selected Rx Item:', item);
+        setSearchTermItem(`${item.name} ${item.strength}`);
+        setSelectedItem(item);
+        setPrescriptionData((prevData) => ({
+            ...prevData,
+            rx_item_id: item.id,
+            item: `${item.name} ${item.strength}`
+        }));
+        setFilteredItems([]);
+    };
+
+
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = event.target;
+        setPrescriptionData((prevData) => ({
+            ...prevData,
+            [id]: value
+        }));
+    };
+
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+
+        const submitRx = async () => {
+            try {
+                const result = await postPrescription(prescriptionData);
+                setSubmitted(true);
+                const rx_number = result.rx_number;
+                // navigate(`/rx-queue`); // Navigate to the rx-queue page after submission
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while creating the prescription.');
+            } finally {
+                setIsSubmitting(false);
+            }
+        };
+
+        submitRx();
+    };
 
     return (
         <main className={styles.mainNewRx}>
@@ -67,8 +271,8 @@ const NewRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="search"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    value={searchTermPatient}
+                                    onChange={(e) => setSearchTermPatient(e.target.value)}
                                     placeholder="Search by name or date of birth..."
                                 />
                                 {filteredPatients.length > 0 && (
@@ -85,7 +289,7 @@ const NewRx: React.FC = () => {
                                         ))}
                                     </ul>
                                 )}
-                                {searchTerm && filteredPatients.length === 0 && <p>No patients found</p>}
+                                {searchTermPatient && filteredPatients.length === 0 && <p>No patients found</p>}
                             </td>
                         </tr>
                         <tr>
@@ -93,7 +297,27 @@ const NewRx: React.FC = () => {
                                 <label htmlFor='prescriber'>Prescriber: </label>
                             </td>
                             <td>
-                                <input type="text" id="prescriber" />
+                                <input
+                                    type="text"
+                                    id="prescriber"
+                                    value={searchTermPrescriber}
+                                    onChange={(e) => setSearchTermPrescriber(e.target.value)}
+                                    placeholder='Search by name or DEA#...'
+                                />
+                                {filteredPrescribers.length > 0 && (
+                                    <ul className={styles.dropdown} role="listbox" title="dropdown">
+                                        {filteredPrescribers.map((prescriber) => (
+                                            <li
+                                                key={prescriber.id}
+                                                onClick={() => handleSelectPrescriber(prescriber)}
+                                                className={styles.dropdownItem}
+                                                role="option"
+                                            >
+                                                {prescriber.first_name} {prescriber.last_name} {prescriber.prescriber_type} (DEA: {prescriber.dea})
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </td>
                         </tr>
                         <tr>
@@ -101,7 +325,27 @@ const NewRx: React.FC = () => {
                                 <label htmlFor='item'>Item: </label>
                             </td>
                             <td>
-                                <input type="text" id="item" />
+                                <input
+                                    type="text"
+                                    id="item"
+                                    placeholder='Search by name...'
+                                    value={searchTermItem}
+                                    onChange={(e) => setSearchTermItem(e.target.value)}
+                                />
+                                {filteredItems.length > 0 && (
+                                    <ul className={styles.dropdown} role="listbox" title="dropdown">
+                                        {filteredItems.map((item) => (
+                                            <li
+                                                key={item.id}
+                                                onClick={() => handleSelectItem(item)}
+                                                className={styles.dropdownItem}
+                                                role="option"
+                                            >
+                                                {item.name} {item.strength}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </td>
                         </tr>
                         <tr>
@@ -109,15 +353,9 @@ const NewRx: React.FC = () => {
                                 <label htmlFor='directions'>Directions: </label>
                             </td>
                             <td>
-                                <textarea id="directions"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='allergies'>Allergies: </label>
-                            </td>
-                            <td>
-                                <textarea id="allergies"></textarea>
+                                <textarea id="directions" value={prescriptionData.directions}
+                                    onChange={handleInputChange} required>           
+                                </textarea>
                             </td>
                         </tr>
                     </tbody>
@@ -127,22 +365,25 @@ const NewRx: React.FC = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <label htmlFor="qtyWritten">Quantity Written: </label>
+                                    <label htmlFor="quantity">Quantity Written: </label>
                                 </td>
                                 <td>
-                                    <input type="number" id="qtyWritten" />
+                                    <input type="number" id="quantity" value={prescriptionData.quantity} 
+                                        onChange={handleInputChange} required/>
                                 </td>
                                 <td>
-                                    <label htmlFor="qtyDispensed">Quantity Dispensed: </label>
+                                    <label htmlFor="quantity_dispensed">Quantity Dispensed: </label>
                                 </td>
                                 <td>
-                                    <input type="number" id="qtyDispensed" />
+                                    <input type="number" id="quantity_dispensed" value={prescriptionData.quantity_dispensed}
+                                        onChange={handleInputChange} required/>
                                 </td>
                                 <td>
                                     <label htmlFor="refills">Refills: </label>
                                 </td>
                                 <td>
-                                    <input type="number" id="refills" />
+                                    <input type="number" id="refills" value={prescriptionData.refills}
+                                        onChange={handleInputChange} required/>
                                 </td>
                             </tr>
                         </tbody>
@@ -151,8 +392,11 @@ const NewRx: React.FC = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    <label htmlFor='techInitials'>Tech Initials:</label>
-                                    <input type="text" id="techInitials" />
+                                    <label htmlFor='tech_initials'>Tech Initials:</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="tech_initials" value={prescriptionData.tech_initials} 
+                                        onChange={handleInputChange} required/>
                                 </td>
                             </tr>
                         </tbody>
@@ -166,7 +410,7 @@ const NewRx: React.FC = () => {
                         <div>
                             <h6>Patient Information: </h6>
                             <p>{selectedPatient.first_name} {selectedPatient.last_name}</p>
-                            <p>{selectedPatient.date_of_birth}</p>
+                            <p>DOB: {selectedPatient.date_of_birth}</p>
                             <p>{selectedPatient.street}</p>
                             <p>{selectedPatient.city}</p>
                             <p>{selectedPatient.state} {selectedPatient.zipcode}</p>
@@ -182,71 +426,66 @@ const NewRx: React.FC = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <label htmlFor='dateWritten'>Written: </label>
+                                <label htmlFor='prescribed_date'>Written: </label>
                             </td>
                             <td>
                                 <input
                                     type="date"
-                                    id="dateWritten"
-                                    placeholder='Date Written'
+                                    id="prescribed_date"
+                                    value={prescriptionData.prescribed_date}
+                                    onChange={handleInputChange}
                                 />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='dateDispensed'>Dispensed: </label>
+                                <label htmlFor='dispense_date'>Dispensed: </label>
                             </td>
                             <td>
                                 <input
                                     type="date"
-                                    id="dateDispensed"
+                                    id="dispense_date"
+                                    value={prescriptionData.dispense_date}
+                                    onChange={handleInputChange}
                                 />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='dateDiscard'>Discard: </label>
+                                <label htmlFor='discard_date'>Discard: </label>
                             </td>
                             <td>
                                 <input
                                     type="date"
-                                    id="dateDiscard"
+                                    id="discard_date"
+                                    value={prescriptionData.discard_date}
+                                    onChange={handleInputChange}
                                 />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='dateExpire'>Rx Expire: </label>
+                                <label htmlFor='expiration_date'>Rx Expire: </label>
                             </td>
                             <td>
                                 <input
                                     type="date"
-                                    id="dateExpire"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor='rxNumber'>Rx Number: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="rxNumber"
+                                    id="expiration_date"
+                                    value={prescriptionData.expiration_date}
+                                    onChange={handleInputChange}
                                 />
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div className={styles.NewRxButtons}>
+                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
+                    <button type='submit'>Print Label</button>
+                    <button type='submit'>Scan Rx</button>
+                </div>
             </form>
             <div className={styles.displayRxScan}>
                 <p>Scan Image</p>
-            </div>
-
-            <div className={styles.NewRxButtons}>
-                <button type="submit">Save Rx</button>
-                <button type='submit'>Print Label</button>
-                <button type='submit'>Scan Rx</button>
             </div>
         </main>
     );

@@ -4,13 +4,14 @@ export const deaSchedule = [
 
 
 export interface RxItem {
+    id: number,
     name: string,
     strength: string,
-    ndc: string
+    ndc: string,
     expiration: string,
     lot_number: string,
-    dosage_form: string,
     dea_schedule: string,
+    dosage_form: string
 };
 
 export type RxItemBasics = {
