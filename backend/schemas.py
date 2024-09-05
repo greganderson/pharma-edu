@@ -46,6 +46,7 @@ class PatientUpdateRequest(BaseModel):
     allergies: str | None = None
     insurance_name: str | None = None
     insurance_member_id: str | None = None
+    # TODO: Change to insurance_group_number once presentations are over
     group_number: str | None = None
     insurance_rx_bin: str | None = None
     insurance_rx_pcn: str | None = None
