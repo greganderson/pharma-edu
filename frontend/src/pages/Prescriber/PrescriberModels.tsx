@@ -22,6 +22,7 @@ export type PrescriberBasics = {
     dea: string,
     first_name: string,
     last_name: string
+    prescriber_type: string
 };
 
 export const states = [

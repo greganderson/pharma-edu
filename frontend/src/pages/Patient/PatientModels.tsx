@@ -22,7 +22,7 @@ export interface Patient {
     insurance_rx_pcn: string;
     insurance_group_number: string;
     insurance_person_code: string;
-}
+};
 
 export const states = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",

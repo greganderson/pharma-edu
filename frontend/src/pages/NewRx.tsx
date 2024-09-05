@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// import { Link, useNavigate } from 'react-router-dom';
 
 import { Prescriber } from './Prescriber/PrescriberModels';
 import { RxItem } from './RxSearch/RxItemModel';
@@ -31,36 +31,38 @@ const NewRx: React.FC = () => {
     // Prescription
     const [prescriptionData, setPrescriptionData] = useState({
         rx_number: "",
-        patient_id: "",
+        patient_id: selectedPatient ? selectedPatient.id : null,
         patient: "",
-        // prescriber_id: "",
+        prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
         prescriber: "",
         prescribed_date: "",
         dispense_date: "",
         discard_date: "",
         expiration_date: "",
-        // rx_item_id: "", 
+        rx_item_id: selectedItem ? selectedItem.id : null, 
         rx_item: "",
         directions: "",
         quantity: 0,
         quantity_dispensed: 0,
         refills: 0,
-        tech_initials: ""
+        tech_initials: "",
+        status: ""
     });
 
-    // "patient_id": 0,
-    // "prescriber_id": 0,
-    // "prescribed_date": "2024-09-04",
-    // "rx_item_id": 0,
-    // "directions": "string",
-    // "quantity": 0,
-    // "quantity_dispensed": 0,
-    // "refills": 0,
-    // "tech_initials": "string"
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        console.log("Updating prescription data with selected patient/prescriber/item");
+        setPrescriptionData(prevData => ({
+            ...prevData,
+            patient_id: selectedPatient ? selectedPatient.id : null,
+            prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
+            rx_item_id: selectedItem ? selectedItem.id : null
+        }));
+    }, [selectedPatient, selectedPrescriber, selectedItem]);
+
 
     const postPrescription = async (prescriptionData: any) => {
+        console.log("Prescription Data: ", prescriptionData);
         try {
             const response = await fetch('http://localhost:8000/prescriptions', {
                 method: 'POST',
@@ -72,6 +74,7 @@ const NewRx: React.FC = () => {
     
             if (!response.ok) {
                 const errorData = await response.json();
+                console.log('Server response:', errorData);
                 throw new Error(errorData.message || 'Failed to create prescription.');
             }
     
@@ -106,6 +109,7 @@ const NewRx: React.FC = () => {
         fetchPatients();
     }, []);
 
+
     useEffect(() => {
         const fetchPrescribers = async () => {
             try {
@@ -123,6 +127,7 @@ const NewRx: React.FC = () => {
 
         fetchPrescribers();
     }, []);
+
 
     useEffect(() => {
         const fetchRxItems = async () => {
@@ -193,7 +198,23 @@ const NewRx: React.FC = () => {
 
     const handleSelectPatient = (patient: Patient) => {
         console.log('Selected Patient:', patient);
-        setSelectedPatient(patient);
+        
+        const fetchPatientId = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/patients/${patient.id}`);
+                if (response.ok) {
+                    const data: Patient = await response.json();
+                    // setPatients(data);
+                    setSelectedPatient(data);
+                } else {
+                    console.error('Failed to fetch patients');
+                }
+            } catch (error) {
+                console.error('Error fetching patients:', error);
+            }
+        };
+
+        fetchPatientId();
         setSearchTermPatient('');
         setFilteredPatients([]);
     };
@@ -208,22 +229,21 @@ const NewRx: React.FC = () => {
             prescriber_id: prescriber.id,
             prescriber: `${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`
         }));
-        setFilteredPatients([]);
+        setFilteredPrescribers([]);
     };
 
 
-    const handleSelectItem = (item: RxItem) => {
-        console.log('Selected Rx Item:', item);
-        setSearchTermItem(`${item.name} ${item.strength}`);
-        setSelectedItem(item);
+    const handleSelectItem = (rx_item: RxItem) => {
+        console.log('Selected Rx Item:', rx_item);
+        setSearchTermItem(`${rx_item.name} ${rx_item.strength}`);
+        setSelectedItem(rx_item);
         setPrescriptionData((prevData) => ({
             ...prevData,
-            rx_item_id: item.id,
-            item: `${item.name} ${item.strength}`
+            rx_item_id: rx_item.id,
+            rx_item: `${rx_item.name} ${rx_item.strength}`
         }));
         setFilteredItems([]);
     };
-
 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -238,23 +258,36 @@ const NewRx: React.FC = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsSubmitting(true);
-
+    
+        const updatedPrescriptionData = {
+            ...prescriptionData,
+            status: "pending"
+        };
+    
+        console.log("Submitting prescription with pending status:", updatedPrescriptionData);
+    
         const submitRx = async () => {
             try {
-                const result = await postPrescription(prescriptionData);
-                setSubmitted(true);
-                const rx_number = result.rx_number;
-                // navigate(`/rx-queue`); // Navigate to the rx-queue page after submission
+                const result = await postPrescription(updatedPrescriptionData);
+                if (result && result.rx_number) {
+                    setSubmitted(true);
+                    alert(`Prescription Submitted. Rx Number: ${result.rx_number}`);
+                    console.log(`Rx Number: ${result.rx_number}`);
+                } else {
+                    throw new Error("Rx number not received in the response.");
+                }
             } catch (error) {
+                console.log(updatedPrescriptionData);
                 console.error('Error:', error);
-                alert('An error occurred while creating the prescription.');
+                alert("An error occurred while creating the prescription.");
             } finally {
                 setIsSubmitting(false);
             }
         };
-
+    
         submitRx();
     };
+
 
     return (
         <main className={styles.mainNewRx}>
@@ -328,20 +361,20 @@ const NewRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="item"
-                                    placeholder='Search by name...'
                                     value={searchTermItem}
                                     onChange={(e) => setSearchTermItem(e.target.value)}
+                                    placeholder='Search by name...'
                                 />
                                 {filteredItems.length > 0 && (
                                     <ul className={styles.dropdown} role="listbox" title="dropdown">
-                                        {filteredItems.map((item) => (
+                                        {filteredItems.map((rx_item) => (
                                             <li
-                                                key={item.id}
-                                                onClick={() => handleSelectItem(item)}
+                                                key={rx_item.id}
+                                                onClick={() => handleSelectItem(rx_item)}
                                                 className={styles.dropdownItem}
                                                 role="option"
                                             >
-                                                {item.name} {item.strength}
+                                                {rx_item.name} {rx_item.strength}
                                             </li>
                                         ))}
                                     </ul>
@@ -402,7 +435,10 @@ const NewRx: React.FC = () => {
                         </tbody>
                     </table>
                 </div>
-
+                <div className={styles.NewRxButtons}>
+                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
+                    <button type='submit'>Print Label</button>
+                </div>
                 </form>
 
                 <div className={styles.displayPatientInfo}>
@@ -412,8 +448,7 @@ const NewRx: React.FC = () => {
                             <p>{selectedPatient.first_name} {selectedPatient.last_name}</p>
                             <p>DOB: {selectedPatient.date_of_birth}</p>
                             <p>{selectedPatient.street}</p>
-                            <p>{selectedPatient.city}</p>
-                            <p>{selectedPatient.state} {selectedPatient.zipcode}</p>
+                            <p>{selectedPatient.city}, {selectedPatient.state} {selectedPatient.zipcode}</p>
                             <p>{selectedPatient.phone_number}</p>
                         </div>
                     ) : (
@@ -478,14 +513,12 @@ const NewRx: React.FC = () => {
                         </tr>
                     </tbody>
                 </table>
-                <div className={styles.NewRxButtons}>
-                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
-                    <button type='submit'>Print Label</button>
-                    <button type='submit'>Scan Rx</button>
-                </div>
             </form>
             <div className={styles.displayRxScan}>
                 <p>Scan Image</p>
+            </div>
+            <div className={styles.scanButton}>
+                <button type='submit'>Scan Rx</button>
             </div>
         </main>
     );
