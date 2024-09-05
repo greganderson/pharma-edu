@@ -52,7 +52,7 @@
     flex-direction: column;
     border-radius: 10px;
     padding: 10px;
-    height: 100%;
+    height: 75%;
     width: 85%;
     /* min-width: 200px;
     max-width: 260px; */
@@ -255,20 +255,20 @@
 /*  */
 
 .NewRxButtons {
-    grid-column: 1;
+    grid-column: 1/2;
     grid-row: 5;
     display: inline-flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: end;
+    margin-top: 35%;
 }
 
-
 .NewRxButtons button, .scanButton button{
-    /* margin: 10px;
-    padding: 10px 20px; */
     border-radius: 10px;
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
     font-size: medium;
+    height: 50px;
 }
 
 .scanButton {

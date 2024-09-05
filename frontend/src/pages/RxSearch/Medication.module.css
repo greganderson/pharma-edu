@@ -3,6 +3,7 @@
     max-width: 80%;
     margin: 5vh auto;
     border-radius: 20px;
+    min-width: 1000px;
 }
 
 .addRxForm {
@@ -40,7 +41,6 @@
     display: flex;
     align-items: flex-end;
     justify-self: flex-end;
-    width: 180%;
     margin: 10px;
     padding: 8px;
     font-size: 1rem;
@@ -48,10 +48,17 @@
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
 }
 
-.itemColumn select {
-    width: 188%;
+.itemColumn input {
+    width: 144%;
 }
 
+.ItemColumn2 input {
+    width: 158%;
+}
+
+.itemColumn select {
+    width: 152%;
+}
 
 .buttonContainer {
     display: flex;

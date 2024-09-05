@@ -131,13 +131,13 @@ const ViewPatient: React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Link to={`/patient/rx-history`}>
+                    <Link to={`/patient/rx-history/${patient_id}`}>
                         <button type='button'>Rx History</button>
                     </Link>
                     <Link to={`/patient/update-patient/${patient_id}`}>
                         <button type='button'>Edit Patient</button>
                     </Link>
-                    <Link to="/new-rx">
+                    <Link to="/new-rx" state={{ patient }}>
                         <button type='button'>New Rx</button>
                     </Link>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { Prescriber } from './Prescriber/PrescriberModels';
 import { RxItem } from './RxSearch/RxItemModel';
@@ -9,6 +9,7 @@ import styles from './NewRx.module.css';
 const NewRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const location = useLocation();
 
     // Patients
     const [searchTermPatient, setSearchTermPatient] = useState('');
@@ -48,6 +49,13 @@ const NewRx: React.FC = () => {
         tech_initials: "",
         status: ""
     });
+
+    useEffect(() => {
+        // If patient data is passed via state, use it
+        if (location.state && location.state.patient) {
+            setSelectedPatient(location.state.patient);
+        }
+    }, [location.state]);
 
 
     useEffect(() => {
@@ -204,8 +212,13 @@ const NewRx: React.FC = () => {
                 const response = await fetch(`http://localhost:8000/patients/${patient.id}`);
                 if (response.ok) {
                     const data: Patient = await response.json();
-                    // setPatients(data);
                     setSelectedPatient(data);
+                    setSearchTermPatient(`${patient.first_name} ${patient.last_name}`);
+                    setPrescriptionData(prevData => ({
+                        ...prevData,
+                        patient_id: patient.id,
+                        patient: `${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`
+                    }));
                 } else {
                     console.error('Failed to fetch patients');
                 }
@@ -213,9 +226,7 @@ const NewRx: React.FC = () => {
                 console.error('Error fetching patients:', error);
             }
         };
-
         fetchPatientId();
-        setSearchTermPatient('');
         setFilteredPatients([]);
     };
 
@@ -322,7 +333,6 @@ const NewRx: React.FC = () => {
                                         ))}
                                     </ul>
                                 )}
-                                {searchTermPatient && filteredPatients.length === 0 && <p>No patients found</p>}
                             </td>
                         </tr>
                         <tr>
@@ -445,11 +455,11 @@ const NewRx: React.FC = () => {
                     {selectedPatient ? (
                         <div>
                             <h6>Patient Information: </h6>
-                            <p>{selectedPatient.first_name} {selectedPatient.last_name}</p>
+                            <p>Name: {selectedPatient.first_name} {selectedPatient.last_name}</p>
                             <p>DOB: {selectedPatient.date_of_birth}</p>
-                            <p>{selectedPatient.street}</p>
+                            <p>Address: {selectedPatient.street}</p>
                             <p>{selectedPatient.city}, {selectedPatient.state} {selectedPatient.zipcode}</p>
-                            <p>{selectedPatient.phone_number}</p>
+                            <p>Phone #: {selectedPatient.phone_number}</p>
                         </div>
                     ) : (
                         <p>No patient selected</p>

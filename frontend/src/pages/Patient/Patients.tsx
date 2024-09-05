@@ -16,7 +16,7 @@ const Patient:React.FC = () => {
             <Route path="/view-patient/:patient_id" element={<ViewPatient />} />
             <Route path="/add-patient" element={<AddPatient />} />
             <Route path="/update-patient/:patient_id" element={<UpdatePatient />} />
-            <Route path="/rx-history" element={<RxHistory />} />
+            <Route path="/rx-history/:patient_id" element={<RxHistory />} />
         </Routes>
     );
 }
