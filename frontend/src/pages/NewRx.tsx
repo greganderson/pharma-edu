@@ -50,13 +50,6 @@ const NewRx: React.FC = () => {
         status: ""
     });
 
-    useEffect(() => {
-        // If patient data is passed via state, use it
-        if (location.state && location.state.patient) {
-            setSelectedPatient(location.state.patient);
-        }
-    }, [location.state]);
-
 
     useEffect(() => {
         console.log("Updating prescription data with selected patient/prescriber/item");
@@ -116,6 +109,13 @@ const NewRx: React.FC = () => {
 
         fetchPatients();
     }, []);
+
+    // If patient data is passed via state, use it
+    useEffect(() => {
+        if (location.state && location.state.patient) {
+            setSelectedPatient(location.state.patient);
+        }
+    }, [location.state]);
 
 
     useEffect(() => {

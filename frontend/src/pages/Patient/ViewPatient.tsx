@@ -131,7 +131,7 @@ const ViewPatient: React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Link to={`/patient/rx-history/${patient_id}`}>
+                    <Link to={`/patient/rx-history/${patient_id}`} state={{ patient }}>
                         <button type='button'>Rx History</button>
                     </Link>
                     <Link to={`/patient/update-patient/${patient_id}`}>

@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 
 import styles from './RxHistory.module.css';
 import { Patient } from "./PatientModels";
 
 const RxHistory: React.FC = () => {
     const [tableData, setTableData] = useState({ columns: [], data: [] });
+    // const [loading, setLoading] = useState<boolean>(true);
     const [patient, setPatient] = useState<Patient | null>(null);
     const [allPrescriptions, setAllPrescriptions] = useState([]);
     const { patient_id } = useParams<{ patient_id: string }>();
+    const location = useLocation();
     // const navigate = useNavigate();
+
+    useEffect(() => {
+        if (location.state && location.state.patient) {
+            setPatient(location.state.patient);
+        }
+    }, [location.state]);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const prescriptionsResponse = await fetch("http://localhost:8000/prescriptions");
                 const prescriptionsData = await prescriptionsResponse.json();
+                console.log("Prescription Data: ", prescriptionsData)
                 setAllPrescriptions(prescriptionsData);
 
-                const patientResponse = await fetch(`http://localhost:8000/patient/${patient_id}`);
+                const patientResponse = await fetch(`http://localhost:8000/patients/${patient_id}`)
                 const patientData = await patientResponse.json();
-                console.log("Loooooook AT MEEEE!!!!!!!!!!", patientData);
+                console.log("Patient Data: ", patientData);
                 setPatient(patientData);
                 
                 // setTableData({ columns: ['item', 'status'], data: patientPrescriptions });
