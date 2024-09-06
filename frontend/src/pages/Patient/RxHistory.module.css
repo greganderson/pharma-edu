@@ -4,6 +4,32 @@
     margin: 5vh auto;
 }
 
+.RxHistoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.RxHistory_th, .RxHistory_td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #c9c8c8;
+}
+
+.RxHistory_th {
+    background-color: #f2f2f2;
+}
+
+.RxHistory_tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.selected-row {
+    background-color: #b3d9ff;
+    color: #000;
+}
+
 
 .buttonContainer {
     display: flex;

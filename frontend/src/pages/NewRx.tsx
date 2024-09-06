@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Prescriber } from './Prescriber/PrescriberModels';
 import { RxItem } from './RxSearch/RxItemModel';
 import { Patient } from './Patient/PatientModels';
-import styles from './NewRx.module.css';
+import styles from './Rx.module.css';
 
 const NewRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -85,7 +85,17 @@ const NewRx: React.FC = () => {
             throw error;
         }
     };
-    
+  
+//
+// If the state is passed in from the previous page information will be loaded.
+//
+
+    // If patient data is passed via state, use it
+    useEffect(() => {
+        if (location.state && location.state.patient) {
+            setSelectedPatient(location.state.patient);
+        }
+    }, [location.state]);
 
 //
 // Fetch
@@ -109,13 +119,6 @@ const NewRx: React.FC = () => {
 
         fetchPatients();
     }, []);
-
-    // If patient data is passed via state, use it
-    useEffect(() => {
-        if (location.state && location.state.patient) {
-            setSelectedPatient(location.state.patient);
-        }
-    }, [location.state]);
 
 
     useEffect(() => {
@@ -217,7 +220,7 @@ const NewRx: React.FC = () => {
                     setPrescriptionData(prevData => ({
                         ...prevData,
                         patient_id: patient.id,
-                        patient: `${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`
+                        patient: `${patient.first_name} ${patient.last_name}`
                     }));
                 } else {
                     console.error('Failed to fetch patients');
@@ -341,7 +344,7 @@ const NewRx: React.FC = () => {
                                                 className={styles.dropdownItem}
                                                 role="option"
                                             >
-                                                {patient.first_name} {patient.last_name} (DOB: {patient.date_of_birth})
+                                                {patient.first_name} {patient.last_name} DOB: {patient.date_of_birth}
                                             </li>
                                         ))}
                                     </ul>

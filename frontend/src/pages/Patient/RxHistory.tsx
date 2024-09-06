@@ -4,14 +4,42 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import styles from './RxHistory.module.css';
 import { Patient } from "./PatientModels";
 
+
+interface Prescription {
+    id: number;
+    rx_item_name: string;
+    rx_item_strength: string;
+    quantity: number;
+    refills: number;
+    prescribed_date: string;
+}
+
+interface TableData {
+    columns: (keyof Prescription)[];
+    data: Prescription[];
+}
+
 const RxHistory: React.FC = () => {
-    const [tableData, setTableData] = useState({ columns: [], data: [] });
     // const [loading, setLoading] = useState<boolean>(true);
     const [patient, setPatient] = useState<Patient | null>(null);
-    const [allPrescriptions, setAllPrescriptions] = useState([]);
+    const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const { patient_id } = useParams<{ patient_id: string }>();
     const location = useLocation();
     // const navigate = useNavigate();
+
+    const [tableData, setTableData] = useState<TableData>({
+        columns: ['rx_item_name', 'rx_item_strength', 'quantity', 'refills', 'prescribed_date', 'status'],  // Keys
+        data: [],  // Your prescription data
+    });
+    
+    const columnHeaders: { [key: string]: string } = {
+        rx_item_name: 'Item Name',
+        rx_item_strength: 'Strength',
+        quantity: 'Quantity',
+        refills: 'Refills',
+        prescribed_date: 'Date Written',
+        status: 'Status'
+    };
 
     useEffect(() => {
         if (location.state && location.state.patient) {
@@ -23,57 +51,77 @@ const RxHistory: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const prescriptionsResponse = await fetch("http://localhost:8000/prescriptions");
-                const prescriptionsData = await prescriptionsResponse.json();
-                console.log("Prescription Data: ", prescriptionsData)
-                setAllPrescriptions(prescriptionsData);
-
-                const patientResponse = await fetch(`http://localhost:8000/patients/${patient_id}`)
+                const patientResponse = await fetch(`http://localhost:8000/patients/${patient_id}`);
                 const patientData = await patientResponse.json();
                 console.log("Patient Data: ", patientData);
                 setPatient(patientData);
-                
-                // setTableData({ columns: ['item', 'status'], data: patientPrescriptions });
+    
+                const prescriptions = patientData.prescriptions.map((prescription: Prescription) => ({
+                    rx_item_name: prescription.rx_item_name,
+                    rx_item_strength: prescription.rx_item_strength,
+                    quantity: prescription.quantity,
+                    refills: prescription.refills,
+                    prescribed_date: prescription.prescribed_date,
+                    status: prescription.status
+                }));
+    
+                setTableData({
+                    columns: ['rx_item_name', 'rx_item_strength', 'quantity', 'refills', 'prescribed_date', 'status'],
+                    data: prescriptions,
+                });
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-
-        fetchData();
+    
+        if (patient_id) {
+            fetchData();
+        }
     }, [patient_id]);
+
+    const handleRowClick = (rowIndex: number) => {
+        setSelectedRow(rowIndex === selectedRow ? null : rowIndex);
+    };
 
     return (
         <main className={styles.RxHistoryMain}>
-            {/* <h1>[Patient Name] Medication History</h1> */}
-            <h1>{patient ? `${patient.first_name} ${patient.last_name} Medication History` : 'Loading...'}</h1>
-            <hr className='hr'></hr>
-            <div>
-                {tableData.columns.length > 0 ? (
-                    <table>
-                        <thead>
-                            <tr>
-                                {tableData.columns.map((column, index) => (
-                                    <th key={index}>{column}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
+        <h1>{patient ? `${patient.first_name} ${patient.last_name} Medication History` : 'Loading...'}</h1>
+        <hr className='hr'></hr>
+
+        <div>
+            {tableData.data.length > 0 ? (
+                <table className={styles.RxHistoryTable}>
+                    <thead>
+                        <tr>
+                            {tableData.columns.map((column, index) => (
+                                <th className={styles.RxHistory_th} key={index}>{columnHeaders[column]}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody className={styles.RxHistory_tbody}>
                             {tableData.data.map((row, rowIndex) => (
-                                <tr key={rowIndex}>
+                                <tr
+                                    key={rowIndex}
+                                    className={rowIndex === selectedRow ? styles.RxHistory_tr : ''}
+                                    onClick={() => handleRowClick(rowIndex)}
+                                >
                                     {tableData.columns.map((column, colIndex) => (
-                                        <td key={colIndex}>{row[column]}</td>
+                                        <td className={styles.RxHistory_td} key={colIndex}>{row[column]}</td>
                                     ))}
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
-                ) : (
-                    <p>Loading Prescriptions...</p>
-                )}
-            </div>
+                </table>
+            ) : (
+                <p>No prescriptions available</p>
+            )}
+        </div>
             <div className={styles.buttonContainer}>
-                <Link to="/new-rx">
+                <Link to={`/patient/refill-rx/${patient_id}`} state={{ patient }}>
                     <button type="button">Refill Rx</button>
+                </Link>
+                <Link to={`/patient/refill-rx/${patient_id}`} state={{ patient }}>
+                    <button type="button">View Rx</button>
                 </Link>
                 <Link to={`/patient/view-patient/${patient_id}`}>
                     <button type="button">View Patient</button>

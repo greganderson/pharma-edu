@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Prescriber } from '../Prescriber/PrescriberModels';
 import { RxItem } from '../RxSearch/RxItemModel';
 import { Patient } from '../Patient/PatientModels';
-import styles from '../NewRx.module.css';
+import styles from '../Rx.module.css';
 
 const RefillRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -85,7 +85,31 @@ const RefillRx: React.FC = () => {
             throw error;
         }
     };
+
+//
+// If the state is passed in from the previous page information will be loaded.
+//
     
+    // If patient data is passed via state, use it
+    useEffect(() => {
+        if (location.state && location.state.patient) {
+            setSelectedPatient(location.state.patient);
+        }
+    }, [location.state]);
+
+    // If prescriber data is passed via state, use it
+    useEffect(() => {
+        if (location.state && location.state.prescriber) {
+            setSelectedPrescriber(location.state.prescriber);
+        }
+    }, [location.state]);
+
+    // If rx item data is passed via state, use it
+    useEffect(() => {
+        if (location.state && location.state.rx_item) {
+            setSelectedItem(location.state.rx_item);
+        }
+    }, [location.state]);
 
 //
 // Fetch
@@ -109,13 +133,6 @@ const RefillRx: React.FC = () => {
 
         fetchPatients();
     }, []);
-
-    // If patient data is passed via state, use it
-    useEffect(() => {
-        if (location.state && location.state.patient) {
-            setSelectedPatient(location.state.patient);
-        }
-    }, [location.state]);
 
 
     useEffect(() => {
@@ -213,7 +230,7 @@ const RefillRx: React.FC = () => {
                 if (response.ok) {
                     const data: Patient = await response.json();
                     setSelectedPatient(data);
-                    setSearchTermPatient(`${patient.first_name} ${patient.last_name}`);
+                    setSearchTermPatient(`${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`);
                     setPrescriptionData(prevData => ({
                         ...prevData,
                         patient_id: patient.id,
@@ -233,25 +250,38 @@ const RefillRx: React.FC = () => {
 
     const handleSelectPrescriber = (prescriber: Prescriber) => {
         console.log('Selected Prescriber:', prescriber);
-        setSearchTermPrescriber(`${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`);
-        setSelectedPrescriber(prescriber);
-        setPrescriptionData((prevData) => ({
-            ...prevData,
-            prescriber_id: prescriber.id,
-            prescriber: `${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`
-        }));
+        const fetchPrescriberId = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/prescribers/${prescriber.id}`);
+                if (response.ok) {
+                    const data: Prescriber = await response.json();
+                    setSelectedPrescriber(data);
+                    setSearchTermPrescriber(`${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`);
+                    setPrescriptionData((prevData) => ({
+                        ...prevData,
+                        prescriber_id: prescriber.id,
+                        prescriber: `${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`
+                    }));
+                } else { 
+                    console.error("Failed to fetch prescriber");
+                }
+            } catch (error) {
+                console.error("Error fetching prescribers: ", error);
+            }
+        };
+        fetchPrescriberId();
         setFilteredPrescribers([]);
     };
 
 
     const handleSelectItem = (rx_item: RxItem) => {
         console.log('Selected Rx Item:', rx_item);
-        setSearchTermItem(`${rx_item.name} ${rx_item.strength}`);
+        setSearchTermItem(`${rx_item.name} ${rx_item.strength} ${rx_item.dosage_form}`);
         setSelectedItem(rx_item);
         setPrescriptionData((prevData) => ({
             ...prevData,
             rx_item_id: rx_item.id,
-            rx_item: `${rx_item.name} ${rx_item.strength}`
+            rx_item: `${rx_item.name} ${rx_item.strength} ${rx_item.dosage_form}`
         }));
         setFilteredItems([]);
     };
@@ -384,7 +414,7 @@ const RefillRx: React.FC = () => {
                                                 className={styles.dropdownItem}
                                                 role="option"
                                             >
-                                                {rx_item.name} {rx_item.strength}
+                                                {rx_item.name} {rx_item.strength} {rx_item.dosage_form}
                                             </li>
                                         ))}
                                     </ul>
@@ -450,25 +480,8 @@ const RefillRx: React.FC = () => {
                     <button type='submit'>Print Label</button>
                     <button type="submit">Rx Sold</button>
                 </div>
-                </form>
 
-                <div className={styles.displayPatientInfo}>
-                    {selectedPatient ? (
-                        <div>
-                            <h6>Patient Information: </h6>
-                            <p>Name: {selectedPatient.first_name} {selectedPatient.last_name}</p>
-                            <p>DOB: {selectedPatient.date_of_birth}</p>
-                            <p>Address: {selectedPatient.street}</p>
-                            <p>{selectedPatient.city}, {selectedPatient.state} {selectedPatient.zipcode}</p>
-                            <p>Phone #: {selectedPatient.phone_number}</p>
-                        </div>
-                    ) : (
-                        <p>No patient selected</p>
-                    )}
-                </div>
-
-                <form onSubmit={handleSubmit} className={styles.RxDateInfo}>
-                <table>
+                <table className={styles.RxDateInfo}>
                     <tbody>
                         <tr>
                             <td>
@@ -525,6 +538,37 @@ const RefillRx: React.FC = () => {
                     </tbody>
                 </table>
             </form>
+
+                <div className={styles.displayPatientInfo}>
+                    {selectedPatient ? (
+                        <div>
+                            <h6>Patient Information: </h6>
+                            <p>Name: {selectedPatient.first_name} {selectedPatient.last_name}</p>
+                            <p>DOB: {selectedPatient.date_of_birth}</p>
+                            <p>Address: {selectedPatient.street}</p>
+                            <p>{selectedPatient.city}, {selectedPatient.state} {selectedPatient.zipcode}</p>
+                            <p>Phone #: {selectedPatient.phone_number}</p>
+                        </div>
+                    ) : (
+                        <p>No patient selected</p>
+                    )}
+                </div>
+
+                <div className={styles.displayPrescriberInfo}>
+                    {selectedPrescriber ? (
+                        <div>
+                            <h6>Prescriber Information: </h6>
+                            <p>Name: {selectedPrescriber.first_name} {selectedPrescriber.last_name}, {selectedPrescriber.prescriber_type}</p>
+                            <p>DEA: {selectedPrescriber.dea} NPI: {selectedPrescriber.npi}</p>
+                            <p>Address: {selectedPrescriber.street}</p>
+                            <p>{selectedPrescriber.city}, {selectedPrescriber.state} {selectedPrescriber.zipcode}</p>
+                            <p>Phone #: {selectedPrescriber.contact_number}</p>
+                        </div>
+                    ) : (
+                        <p>No prescriber selected</p>
+                    )}
+                </div>
+      
             <div className={styles.displayRxScan}>
                 <p>Scan Image</p>
             </div>
