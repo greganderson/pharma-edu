@@ -7,7 +7,6 @@ export interface Prescriber {
     last_name: string,
     first_name: string,
     prescriber_type: string,
-    facility: string,
     street: string,
     city: string,
     state: string,

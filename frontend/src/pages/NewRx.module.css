@@ -4,7 +4,8 @@
     grid-template-columns: 2fr 1.5fr 2fr; /* Three columns */
     grid-template-rows: auto auto auto auto;
     gap: 20px;
-    width: 90%;
+    max-width: 90%;
+    width: 80%;
     min-width: 1200px;
     height: auto;
     margin: 5vh auto 5vh auto;
@@ -54,8 +55,6 @@
     padding: 10px;
     height: 75%;
     width: 85%;
-    /* min-width: 200px;
-    max-width: 260px; */
     gap: 10px;
     opacity: 1;
     display: grid;
@@ -63,9 +62,26 @@
     margin: 1.5rem auto 1.5rem auto;
 }
 
-.displayPatientInfo h6 {
+.displayPatientInfo h6, .displayPrescriberInfo h6{
     margin: 0;
 }
+
+.displayPrescriberInfo {
+    grid-column: 2 / 3;
+    grid-row: 3;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 10px;
+    height: 75%;
+    width: 85%;
+    gap: 10px;
+    opacity: 1;
+    display: grid;
+    justify-self: center;
+    margin: 1.5rem auto 1.5rem auto;
+}
+
 
 /*  */
 
@@ -113,9 +129,6 @@
 .techNquantity {
     grid-column: 1 / 3;
     grid-row: 3;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
     width: 100%;
     max-width: 425px;
 }
@@ -183,21 +196,20 @@
 /*  */
 
 .RxDateInfo {
-    grid-column: 2 / 3;
+    grid-column: 1 / 2;
     grid-row: 4;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 15px;
-    width: 80%;
-    /* max-width: 260px;
-    min-width: 200px; */
-    height: 80%;
+    width: 60%;
+    height: 88%;
     max-height: 250px;
     display: grid;
-    flex-direction: column;
+    flex-direction: row;
     align-self: flex-end;
     justify-self: center;
     font-weight: 500;
+    margin-top: 5%;
 }
 
 .RxDateInfo tr {
@@ -209,21 +221,21 @@
 .RxDateInfo td {
     max-width: 130px;
     min-height: 35px;
-    padding-bottom: 1rem;
 }
 
 .RxDateInfo input {
     align-items: center;
     justify-content: flex-end;
-    max-width: 90%;
-    border-radius: 10px;
-    
+    max-width: 100%;
+    border-radius: 10px; 
 }
 
 .RxDateInfo label {
     align-items: center;
     justify-content: center;
     padding-right: 1rem;
+    font-weight: 500;
+    font-size: small;
 }
 
 .RxDateInfo input[type="text"]{
@@ -261,7 +273,7 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: end;
-    margin-top: 35%;
+    margin-top: 5%;
 }
 
 .NewRxButtons button, .scanButton button{
@@ -276,6 +288,8 @@
     grid-row: 5;
     display: inline-flex;
     justify-content: center;
+    align-self: flex-end;
+    margin-bottom: 4%;
 }
 
 /* */
