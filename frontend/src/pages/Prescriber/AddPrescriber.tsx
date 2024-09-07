@@ -125,7 +125,7 @@ const AddPerscriber:React.FC = () => {
                                             onChange={handleInputChange}
                                             required
                                         >
-                                            <option value="" disabled></option>
+                                            <option value="" disabled>Select Physician Type</option>
                                             {PrescriberType.map((prescribertypes) => (
                                                 <option key={prescribertypes} value={prescribertypes}>
                                                 {prescribertypes}
@@ -168,7 +168,7 @@ const AddPerscriber:React.FC = () => {
                     {/* Right Column */}
                     <div className={styles.column}>
                         <table className={styles.enterNewPrescriber}>
-                            <tbody>
+                            <tbody className={styles.secondColumn}>
                                 <tr>
                                     <td>
                                         <label htmlFor='street'>Street Address: </label>

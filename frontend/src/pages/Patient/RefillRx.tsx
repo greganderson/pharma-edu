@@ -106,8 +106,8 @@ const RefillRx: React.FC = () => {
 
     // If rx item data is passed via state, use it
     useEffect(() => {
-        if (location.state && location.state.rx_item) {
-            setSelectedItem(location.state.rx_item);
+        if (location.state && location.state.prescription) {
+            setSelectedItem(location.state.prescription);
         }
     }, [location.state]);
 
@@ -476,9 +476,9 @@ const RefillRx: React.FC = () => {
                     </table>
                 </div>
                 <div className={styles.NewRxButtons}>
-                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
-                    <button type='submit'>Print Label</button>
-                    <button type="submit">Rx Sold</button>
+                    <button type="button">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
+                    <button type='button'>Print Label</button>
+                    <button type="button">Rx Sold</button>
                 </div>
 
                 <table className={styles.RxDateInfo}>

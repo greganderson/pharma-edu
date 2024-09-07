@@ -55,7 +55,7 @@ label {
   font-weight: 500;
 }
 
-input {
+input , select{
   border: none;
   border-radius: 10px;
   border: 1px solid #ccc;

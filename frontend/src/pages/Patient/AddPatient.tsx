@@ -309,7 +309,7 @@ const AddPatient: React.FC = () => {
                 <button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? 'Saving...' : 'Save Patient'}
                 </button>
-                    <Link to="/patient/search-patient">
+                    <Link to="/patient/patient-search">
                         <button type="button" >Cancel</button>
                     </Link>
                 </div>

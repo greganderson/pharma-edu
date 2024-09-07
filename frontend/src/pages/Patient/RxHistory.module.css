@@ -8,6 +8,7 @@
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    border-radius: 10px;
 }
 
 .RxHistory_th, .RxHistory_td {
@@ -23,6 +24,10 @@
 .RxHistory_tbody tr:hover {
     background-color: #f1f1f1;
     cursor: pointer;
+}
+
+.RxHistory_tr.selected {
+    background-color: #f1f1f1;
 }
 
 .selected-row {

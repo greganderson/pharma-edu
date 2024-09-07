@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Prescriber, states } from './PrescriberModels';
+import { Prescriber, states, PrescriberType } from './PrescriberModels';
 import styles from "./Prescriber.module.css";
 
 
@@ -135,13 +135,19 @@ const UpdatePerscriber:React.FC = () => {
                                         <label htmlFor='prescriber_type'>Physician Type: </label>
                                     </td>
                                     <td>
-                                        <input 
+                                        <select 
                                             id="prescriber_type" 
-                                            type="text"
                                             value={prescriber.prescriber_type}
                                             onChange={handleInputChange}
                                             required
-                                        />
+                                        >
+                                            <option value="" disabled>Select Physician Type</option>
+                                            {PrescriberType.map((prescribertypes) => (
+                                                <option key={prescribertypes} value={prescribertypes}>
+                                                {prescribertypes}
+                                            </option>
+                                        ))}
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>

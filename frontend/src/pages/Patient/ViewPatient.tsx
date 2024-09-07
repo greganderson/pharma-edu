@@ -98,10 +98,10 @@ const ViewPatient: React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className={style.table}>
+                    <div className={styles.insuranceInfo}>
                         <h3>Insurance Information</h3>
                         <table className={styles.tableContainer2}>
-                            <tbody>
+                            <tbody className={style.table}>
                                 <tr>
                                     <td><label htmlFor='insurance_name'>Insurance Name: </label></td>
                                     <td><input type="text" id="insurance_name" value={patient.insurance_name} readOnly /></td>
