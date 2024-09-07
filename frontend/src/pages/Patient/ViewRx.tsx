@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams  } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 
 import styles from '../Rx.module.css';
 import style from './ViewRx.module.css';
@@ -16,16 +16,15 @@ const ViewRx: React.FC = () => {
     console.log('Prescription rx_number:', prescription?.rx_number);
     console.log('Prescriber ID:', prescriber?.id);
 
-
     useEffect(() => {
         const fetchPrescription = async () => {
             if (prescription?.rx_number) {
                 try {
                     const response = await fetch(`http://localhost:8000/prescriptions/${rx_number}`);
+                    console.log('Prescription response status:', response.status);
                     const data = await response.json();
-                    console.log(prescription.rx_number);
+                    console.log('Fetched Prescription Data:', data);
                     setFetchedPrescription(data);
-                    console.log('Fetched Prescription:', data);
                 } catch (error) {
                     console.error('Error fetching prescription data:', error);
                 }
@@ -33,45 +32,33 @@ const ViewRx: React.FC = () => {
         };
 
         fetchPrescription();
-    }, [prescription]);
-
+    }, [prescription, rx_number]);
 
     useEffect(() => {
         const fetchPrescriber = async () => {
-            if (!prescriber || !prescriber.id) {
-                console.error('Prescriber or Prescriber ID is missing or prescriber is undefined');
-                return;
-            }
-    
-            try {
-                console.log('Fetching prescriber data for ID:', prescriber.id); 
-                const response = await fetch(`http://localhost:8000/prescribers/${prescriber.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-    
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+            if (prescriber?.id) {
+                try {
+                    console.log('Fetching prescriber data for ID:', prescriber.id);
+                    const response = await fetch(`http://localhost:8000/prescribers/${prescriber.id}`);
+                    console.log('Prescriber response status:', response.status);
+                    const data = await response.json();
+                    console.log('Fetched Prescriber Data:', data);
+                    setFetchedPrescriber(data);
+                } catch (error) {
+                    console.error('Error fetching prescriber data:', error);
                 }
-    
-                const data = await response.json();
-                console.log('Fetched Prescriber Data:', data);
-                setFetchedPrescriber(data); 
-            } catch (error) {
-                console.error('Error fetching prescriber data:', error);
+            } else {
+                console.error('Prescriber ID is missing');
             }
         };
 
         fetchPrescriber();
     }, [prescriber]);
 
-    console.log('Patient:', patient);
-    console.log('Prescriber:', prescriber);
-    console.log('Prescription:', prescription);
-    console.log('Fetched Prescriber:', fetchedPrescriber);
-    console.log('Fetched Prescription:', fetchedPrescription);
+    useEffect(() => {
+        console.log('Fetched Prescription updated:', fetchedPrescription);
+        console.log('Fetched Prescriber updated:', fetchedPrescriber);
+    }, [fetchedPrescription, fetchedPrescriber]);
 
     
     return (
@@ -173,7 +160,9 @@ const ViewRx: React.FC = () => {
                     </table>
                 </div>
                 <div className={styles.NewRxButtons}>
-                    <button type="button">Back</button>
+                    <Link to={`/patient/rx-history/${patient?.id}`}>
+                        <button type="button">Cancel</button>
+                    </Link>
                 </div>
 
                 <table className={styles.RxDateInfo}>
@@ -251,10 +240,10 @@ const ViewRx: React.FC = () => {
                 </div>
 
                 <div className={styles.displayPrescriberInfo}>
-                    {prescriber ? (
+                    {fetchedPrescriber ? (
                         <div>
                             <h6>Prescriber Information: </h6>
-                            <p>Name: {fetchedPrescriber.first_name} {fetchedPrescriber.last_name}, {fetchedPrescriber.prescriber_type}</p>
+                            <p>Name: {fetchedPrescriber?.first_name || 'N/A'} {fetchedPrescriber?.last_name || 'N/A'}, {fetchedPrescriber?.prescriber_type || 'N/A'}</p>
                             <p>DEA: {fetchedPrescriber.dea} &nbsp;&nbsp;&nbsp;&nbsp; NPI: {fetchedPrescriber.npi}</p>
                             <p>Address: {fetchedPrescriber.street}</p>
                             <p>{fetchedPrescriber.city}, {fetchedPrescriber.state} {fetchedPrescriber.zipcode}</p>
