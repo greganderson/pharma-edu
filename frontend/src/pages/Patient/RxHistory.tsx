@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import styles from './RxHistory.module.css';
 import { Patient, PrescriptionHistory } from "./PatientModels";
@@ -15,7 +15,7 @@ const RxHistory: React.FC = () => {
     const { patient_id } = useParams<{ patient_id: string }>();
 
     const [tableData, setTableData] = useState<TableData>({
-        columns: ['rx_item_name', 'rx_item_strength', 'quantity', 'refills', 'prescribed_date', 'prescription_status'],
+        columns: ['rx_number', 'rx_item_name', 'rx_item_strength', 'quantity', 'refills', 'prescribed_date', 'prescription_status'],
         data: [],
     });
 
@@ -33,10 +33,10 @@ const RxHistory: React.FC = () => {
             try {
                 const patientResponse = await fetch(`http://localhost:8000/patients/${patient_id}`);
                 const patientData = await patientResponse.json();
+                console.log(patientData);
                 setPatient(patientData);
 
                 const prescriptions = patientData.prescriptions.map((prescription: PrescriptionHistory) => ({
-                    id: prescription.id,
                     rx_number: prescription.rx_number,
                     rx_item_name: prescription.rx_item_name,
                     rx_item_strength: prescription.rx_item_strength,
@@ -50,7 +50,7 @@ const RxHistory: React.FC = () => {
                     prescriber_type: prescription.prescriber_type,
                     prescription_status: prescription.prescription_status
                 }));
-
+                console.log(prescriptions);
                 setTableData({
                     columns: ['rx_item_name', 'rx_item_strength', 'quantity', 'refills', 'prescribed_date', 'prescription_status'],
                     data: prescriptions,
