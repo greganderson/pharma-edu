@@ -47,7 +47,7 @@ const NewRx: React.FC = () => {
         quantity_dispensed: 0,
         refills: 0,
         tech_initials: "",
-        status: ""
+        prescription_status: ""
     });
 
 
@@ -288,7 +288,7 @@ const NewRx: React.FC = () => {
     
         const updatedPrescriptionData = {
             ...prescriptionData,
-            status: "pending"
+            prescription_status: "pending"
         };
     
         console.log("Submitting prescription with pending status:", updatedPrescriptionData);
@@ -314,6 +314,54 @@ const NewRx: React.FC = () => {
     
         submitRx();
     };
+
+    // const handleSaveRx = async () => {
+    //     setIsSubmitting(true);
+    //     const updatedPrescriptionData = {
+    //         ...prescriptionData,
+    //         status: "pending" // Set the status to pending for Save Rx
+    //     };
+    
+    //     try {
+    //         const result = await postPrescription(updatedPrescriptionData);
+    //         if (result && result.rx_number) {
+    //             setSubmitted(true);
+    //             alert(`Prescription Submitted. Rx Number: ${result.rx_number}`);
+    //             console.log(`Rx Number: ${result.rx_number}`);
+    //         } else {
+    //             throw new Error("Rx number not received in the response.");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //         alert("An error occurred while saving the prescription.");
+    //     } finally {
+    //         setIsSubmitting(false);
+    //     }
+    // };
+    
+    const handlePrintLabel = async () => {
+        // setIsSubmitting(true);
+        const updatedPrescriptionData = {
+            ...prescriptionData,
+            prescription_status: "completed" // Set status to completed for Print Label
+        };
+        console.log(updatedPrescriptionData);
+        alert(`Prescription printed. Rx Number: ${updatedPrescriptionData.rx_number}`)
+    };
+    
+    //     try {
+    //         if (prescriptionData.rx_number) {
+    //             alert(`Prescription printed. Rx Number: ${prescriptionData.rx_number}`);
+    //         } else {
+    //             throw new Error("Error while printing.");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //         alert("An error occurred while printing the label.");
+    //     } finally {
+    //         setIsSubmitting(false);
+    //     }
+    // };
 
 
     return (
@@ -463,7 +511,9 @@ const NewRx: React.FC = () => {
                 </div>
                 <div className={styles.NewRxButtons}>
                     <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
-                    <button type='submit'>Print Label</button>
+                    <button type="button" onClick={handlePrintLabel}>
+                    {isSubmitting ? 'Printing...' : 'Print Label'}
+                    </button>
                 </div>
 
                 <table className={styles.RxDateInfo}>
@@ -544,7 +594,7 @@ const NewRx: React.FC = () => {
                         <div>
                             <h6>Prescriber Information: </h6>
                             <p>Name: {selectedPrescriber.first_name} {selectedPrescriber.last_name}, {selectedPrescriber.prescriber_type}</p>
-                            <p>DEA: {selectedPrescriber.dea} NPI: {selectedPrescriber.npi}</p>
+                            <p>DEA: {selectedPrescriber.dea}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NPI: {selectedPrescriber.npi}</p>
                             <p>Address: {selectedPrescriber.street}</p>
                             <p>{selectedPrescriber.city}, {selectedPrescriber.state} {selectedPrescriber.zipcode}</p>
                             <p>Phone #: {selectedPrescriber.contact_number}</p>
@@ -558,7 +608,7 @@ const NewRx: React.FC = () => {
                 <p>Scan Image</p>
             </div>
             <div className={styles.scanButton}>
-                <button type='submit'>Scan Rx</button>
+                <button type='button'>Scan Rx</button>
             </div>
         </main>
     );

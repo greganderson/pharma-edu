@@ -24,6 +24,22 @@ export interface Patient {
     insurance_person_code: string;
 };
 
+export interface PrescriptionHistory {
+    id: number;
+    rx_number: string;
+    rx_item_name: string;
+    rx_item_strength: string;
+    quantity: number;
+    refills: number;
+    directions: string;
+    prescribed_date: string;
+    prescriber_id: number;
+    prescriber_first_name: string;
+    prescriber_last_name: string;
+    prescriber_type: string;
+    prescription_status: string;
+}
+
 export const states = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
     "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",

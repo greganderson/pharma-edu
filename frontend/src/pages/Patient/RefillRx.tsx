@@ -5,6 +5,7 @@ import { Prescriber } from '../Prescriber/PrescriberModels';
 import { RxItem } from '../RxSearch/RxItemModel';
 import { Patient } from '../Patient/PatientModels';
 import styles from '../Rx.module.css';
+import style from './viewRx.module.css';
 
 const RefillRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -12,21 +13,17 @@ const RefillRx: React.FC = () => {
     const location = useLocation();
 
     // Patients
-    const [searchTermPatient, setSearchTermPatient] = useState('');
     const [patients, setPatients] = useState<Patient[]>([]);
-    const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
     // Prescribers
-    const [searchTermPrescriber, setSearchTermPrescriber] = useState('');
     const [prescribers, setPrescribers] = useState<Prescriber[]>([]);
-    const [filteredPrescribers, setFilteredPrescribers] = useState<Prescriber[]>([]);
     const [selectedPrescriber, setSelectedPrescriber] = useState<Prescriber | null>(null);
+    const [prescriberDetails, setPrescriberDetails] = useState<Prescriber | null>(null);
 
     // Rx Item
     const [searchTermItem, setSearchTermItem] = useState('');
     const [items, setItems] = useState<RxItem[]>([]);
-    const [filteredItems, setFilteredItems] = useState<RxItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<RxItem | null>(null);
 
     // Prescription
@@ -47,12 +44,12 @@ const RefillRx: React.FC = () => {
         quantity_dispensed: 0,
         refills: 0,
         tech_initials: "",
-        status: ""
+        prescription_status: ""
     });
 
 
+    // Update prescription data when patient, prescriber, or item is selected
     useEffect(() => {
-        console.log("Updating prescription data with selected patient/prescriber/item");
         setPrescriptionData(prevData => ({
             ...prevData,
             patient_id: selectedPatient ? selectedPatient.id : null,
@@ -63,7 +60,7 @@ const RefillRx: React.FC = () => {
 
 
     const postPrescription = async (prescriptionData: any) => {
-        console.log("Prescription Data: ", prescriptionData);
+        console.log("Prescription Data: !!!!!!!!! ", prescriptionData);
         try {
             const response = await fetch('http://localhost:8000/prescriptions', {
                 method: 'POST',
@@ -90,30 +87,72 @@ const RefillRx: React.FC = () => {
 // If the state is passed in from the previous page information will be loaded.
 //
     
-    // If patient data is passed via state, use it
+    // If state is passed, update the selected patient, prescriber, and item
     useEffect(() => {
-        if (location.state && location.state.patient) {
-            setSelectedPatient(location.state.patient);
-        }
-    }, [location.state]);
-
-    // If prescriber data is passed via state, use it
-    useEffect(() => {
-        if (location.state && location.state.prescriber) {
-            setSelectedPrescriber(location.state.prescriber);
-        }
-    }, [location.state]);
-
-    // If rx item data is passed via state, use it
-    useEffect(() => {
-        if (location.state && location.state.prescription) {
-            setSelectedItem(location.state.prescription);
+        if (location.state) {
+            const { patient, prescriber, prescription } = location.state;
+            if (patient) {
+                setSelectedPatient(patient);
+                setPrescriptionData(prevData => ({
+                    ...prevData,
+                    patient_id: patient.id
+                }));
+            }
+            if (prescriber) {
+                setSelectedPrescriber(prescriber);
+                setPrescriptionData(prevData => ({
+                    ...prevData,
+                    prescriber_id: prescriber.id
+                }));
+            }
+            if (prescription) {
+                const itemDetails = `${prescription.rx_item_name} ${prescription.rx_item_strength} ${prescription.rx_item_dosage_form}`;
+                setSelectedItem(prescription);
+                console.log("IS THIS THE ONE???????", prescription);
+                setPrescriptionData(prevData => ({
+                    ...prevData,
+                    rx_item_id: prescription.rx_item_id,
+                    rx_item: prescription.rx_item_name,
+                    rx_item_strength: prescription.rx_item_strength,
+                    directions: prescription.directions,
+                    quantity: prescription.quantity,
+                    refills: prescription.refills,
+                    prescribed_date: prescription.prescribed_date
+                }));
+                setSearchTermItem(itemDetails);
+            }
         }
     }, [location.state]);
 
 //
 // Fetch
 //
+
+    // GET prescriber by ID from the ID that is passed in from RxHistory
+    useEffect(() => {
+        if (selectedPrescriber && selectedPrescriber.id) {
+            const fetchPrescriberDetails = async () => {
+                try {
+                    const response = await fetch(`http://localhost:8000/prescribers/${selectedPrescriber.id}`);
+                    if (response.ok) {
+                        const data: Prescriber = await response.json();
+                        console.log("Prescriber Info", data);
+                        setPrescriberDetails(data);
+                        setPrescriptionData(prevData => ({
+                            ...prevData,
+                            prescriber_id: data.id,
+                            prescriber: `${data.first_name} ${data.last_name} ${data.prescriber_type} ${data.dea}`
+                        }));
+                    } else {
+                        console.error('Failed to fetch prescriber details');
+                    }
+                } catch (error) {
+                    console.error('Error fetching prescriber details:', error);
+                }
+            };
+            fetchPrescriberDetails();
+        }
+    }, [selectedPrescriber]);
 
 
     useEffect(() => {
@@ -172,119 +211,10 @@ const RefillRx: React.FC = () => {
         fetchRxItems();
     }, []);
 
-//
-// FILTER
-//
-
-    useEffect(() => {
-        if (searchTermPatient.trim() === '') {
-            setFilteredPatients([]);
-        } else {
-            const filtered = patients.filter(patient =>
-                `${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`
-                    .toLowerCase()
-                    .includes(searchTermPatient.toLowerCase())
-            );
-            setFilteredPatients(filtered);
-        }
-    }, [searchTermPatient, patients]);
-
-
-    useEffect(() => {
-        if (searchTermPrescriber.trim() === '') {
-            setFilteredPrescribers([]);
-        } else {
-            const filteredPrescribers = prescribers.filter(prescriber =>
-                `${prescriber.first_name} ${prescriber.last_name} ${prescriber.dea}`
-                    .toLowerCase()
-                    .includes(searchTermPrescriber.toLowerCase())
-            );
-            setFilteredPrescribers(filteredPrescribers);
-        }
-    }, [searchTermPrescriber, prescribers]);
-
-
-    useEffect(() => {
-        if (searchTermItem.trim() === '') {
-            setFilteredItems([]);
-        } else {
-            const filteredItems = items.filter(item =>
-                `${item.name} ${item.strength}`
-                    .toLowerCase()
-                    .includes(searchTermItem.toLowerCase())
-            );
-            setFilteredItems(filteredItems);
-        }
-    }, [searchTermItem, items]);
 
 //
 // HANDLERS
 //
-
-    const handleSelectPatient = (patient: Patient) => {
-        console.log('Selected Patient:', patient);
-        
-        const fetchPatientId = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/patients/${patient.id}`);
-                if (response.ok) {
-                    const data: Patient = await response.json();
-                    setSelectedPatient(data);
-                    setSearchTermPatient(`${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`);
-                    setPrescriptionData(prevData => ({
-                        ...prevData,
-                        patient_id: patient.id,
-                        patient: `${patient.first_name} ${patient.last_name} ${patient.date_of_birth}`
-                    }));
-                } else {
-                    console.error('Failed to fetch patients');
-                }
-            } catch (error) {
-                console.error('Error fetching patients:', error);
-            }
-        };
-        fetchPatientId();
-        setFilteredPatients([]);
-    };
-
-
-    const handleSelectPrescriber = (prescriber: Prescriber) => {
-        console.log('Selected Prescriber:', prescriber);
-        const fetchPrescriberId = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/prescribers/${prescriber.id}`);
-                if (response.ok) {
-                    const data: Prescriber = await response.json();
-                    setSelectedPrescriber(data);
-                    setSearchTermPrescriber(`${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`);
-                    setPrescriptionData((prevData) => ({
-                        ...prevData,
-                        prescriber_id: prescriber.id,
-                        prescriber: `${prescriber.first_name} ${prescriber.last_name} ${prescriber.prescriber_type} ${prescriber.dea}`
-                    }));
-                } else { 
-                    console.error("Failed to fetch prescriber");
-                }
-            } catch (error) {
-                console.error("Error fetching prescribers: ", error);
-            }
-        };
-        fetchPrescriberId();
-        setFilteredPrescribers([]);
-    };
-
-
-    const handleSelectItem = (rx_item: RxItem) => {
-        console.log('Selected Rx Item:', rx_item);
-        setSearchTermItem(`${rx_item.name} ${rx_item.strength} ${rx_item.dosage_form}`);
-        setSelectedItem(rx_item);
-        setPrescriptionData((prevData) => ({
-            ...prevData,
-            rx_item_id: rx_item.id,
-            rx_item: `${rx_item.name} ${rx_item.strength} ${rx_item.dosage_form}`
-        }));
-        setFilteredItems([]);
-    };
 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -302,7 +232,8 @@ const RefillRx: React.FC = () => {
     
         const updatedPrescriptionData = {
             ...prescriptionData,
-            status: "pending"
+            prescription_status: "pending",
+            refills: prescriptionData.refills - 1
         };
     
         console.log("Submitting prescription with pending status:", updatedPrescriptionData);
@@ -329,7 +260,24 @@ const RefillRx: React.FC = () => {
         submitRx();
     };
 
+    const handlePrintLabel = async () => {
+        const updatedPrescriptionData = {
+            ...prescriptionData,
+            prescription_status: "completed"
+        };
+        console.log(updatedPrescriptionData);
+        alert(`Prescription printed. ${updatedPrescriptionData.prescription_status}`)
+    };
 
+    const handleSoldRx = async () => {
+        const updatedPrescriptionData = {
+            ...prescriptionData,
+            prescription_status: "sold"
+        };
+        console.log(updatedPrescriptionData);
+        alert(`Prescription Sold. ${updatedPrescriptionData.prescription_status}`)
+    };
+    
     return (
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>Refill Rx</h1>
@@ -345,24 +293,11 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="search"
-                                    value={searchTermPatient}
-                                    onChange={(e) => setSearchTermPatient(e.target.value)}
-                                    placeholder="Search by name or date of birth..."
+                                    value={selectedPatient ? `${selectedPatient.first_name} ${selectedPatient.last_name}` : ''}
+                                    placeholder="Search for a patient"
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
-                                {filteredPatients.length > 0 && (
-                                    <ul className={styles.dropdown} role="listbox" title='dropdown'>
-                                        {filteredPatients.map((patient) => (
-                                            <li
-                                                key={patient.id}
-                                                onClick={() => handleSelectPatient(patient)}
-                                                className={styles.dropdownItem}
-                                                role="option"
-                                            >
-                                                {patient.first_name} {patient.last_name} (DOB: {patient.date_of_birth})
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
                             </td>
                         </tr>
                         <tr>
@@ -373,24 +308,10 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="prescriber"
-                                    value={searchTermPrescriber}
-                                    onChange={(e) => setSearchTermPrescriber(e.target.value)}
-                                    placeholder='Search by name or DEA#...'
+                                    value={selectedPrescriber ? `${selectedPrescriber.first_name} ${selectedPrescriber.last_name}, ${selectedPrescriber.prescriber_type}` : ''}
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
-                                {filteredPrescribers.length > 0 && (
-                                    <ul className={styles.dropdown} role="listbox" title="dropdown">
-                                        {filteredPrescribers.map((prescriber) => (
-                                            <li
-                                                key={prescriber.id}
-                                                onClick={() => handleSelectPrescriber(prescriber)}
-                                                className={styles.dropdownItem}
-                                                role="option"
-                                            >
-                                                {prescriber.first_name} {prescriber.last_name} {prescriber.prescriber_type} (DEA: {prescriber.dea})
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
                             </td>
                         </tr>
                         <tr>
@@ -402,23 +323,9 @@ const RefillRx: React.FC = () => {
                                     type="text"
                                     id="item"
                                     value={searchTermItem}
-                                    onChange={(e) => setSearchTermItem(e.target.value)}
-                                    placeholder='Search by name...'
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
-                                {filteredItems.length > 0 && (
-                                    <ul className={styles.dropdown} role="listbox" title="dropdown">
-                                        {filteredItems.map((rx_item) => (
-                                            <li
-                                                key={rx_item.id}
-                                                onClick={() => handleSelectItem(rx_item)}
-                                                className={styles.dropdownItem}
-                                                role="option"
-                                            >
-                                                {rx_item.name} {rx_item.strength} {rx_item.dosage_form}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
                             </td>
                         </tr>
                         <tr>
@@ -442,7 +349,7 @@ const RefillRx: React.FC = () => {
                                 </td>
                                 <td>
                                     <input type="number" id="quantity" value={prescriptionData.quantity} 
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} readOnly className={style.readOnlyField}/>
                                 </td>
                                 <td>
                                     <label htmlFor="quantity_dispensed">Quantity Dispensed: </label>
@@ -456,7 +363,7 @@ const RefillRx: React.FC = () => {
                                 </td>
                                 <td>
                                     <input type="number" id="refills" value={prescriptionData.refills}
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} readOnly className={style.readOnlyField}/>
                                 </td>
                             </tr>
                         </tbody>
@@ -476,9 +383,11 @@ const RefillRx: React.FC = () => {
                     </table>
                 </div>
                 <div className={styles.NewRxButtons}>
-                    <button type="button">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
-                    <button type='button'>Print Label</button>
-                    <button type="button">Rx Sold</button>
+                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
+                    <button type="button" onClick={handlePrintLabel}>
+                    {isSubmitting ? 'Printing...' : 'Print Label'}
+                    </button>
+                    <button type="button" onClick={handleSoldRx}>Sold Rx</button>
                 </div>
 
                 <table className={styles.RxDateInfo}>
@@ -493,6 +402,8 @@ const RefillRx: React.FC = () => {
                                     id="prescribed_date"
                                     value={prescriptionData.prescribed_date}
                                     onChange={handleInputChange}
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
                             </td>
                         </tr>
@@ -555,14 +466,14 @@ const RefillRx: React.FC = () => {
                 </div>
 
                 <div className={styles.displayPrescriberInfo}>
-                    {selectedPrescriber ? (
+                    {prescriberDetails ? (
                         <div>
                             <h6>Prescriber Information: </h6>
-                            <p>Name: {selectedPrescriber.first_name} {selectedPrescriber.last_name}, {selectedPrescriber.prescriber_type}</p>
-                            <p>DEA: {selectedPrescriber.dea} NPI: {selectedPrescriber.npi}</p>
-                            <p>Address: {selectedPrescriber.street}</p>
-                            <p>{selectedPrescriber.city}, {selectedPrescriber.state} {selectedPrescriber.zipcode}</p>
-                            <p>Phone #: {selectedPrescriber.contact_number}</p>
+                            <p>Name: {prescriberDetails.first_name} {prescriberDetails.last_name}, {prescriberDetails.prescriber_type}</p>
+                            <p>DEA: {prescriberDetails.dea} &nbsp;&nbsp;&nbsp;&nbsp; NPI: {prescriberDetails.npi}</p>
+                            <p>Address: {prescriberDetails.street}</p>
+                            <p>{prescriberDetails.city}, {prescriberDetails.state} {prescriberDetails.zipcode}</p>
+                            <p>Phone #: {prescriberDetails.contact_number}</p>
                         </div>
                     ) : (
                         <p>No prescriber selected</p>

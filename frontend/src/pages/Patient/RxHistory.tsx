@@ -2,28 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 
 import styles from './RxHistory.module.css';
-import { Patient } from "./PatientModels";
-
-interface Prescription {
-    id: number;
-    rx_item_name: string;
-    rx_item_strength: string;
-    quantity: number;
-    refills: number;
-    prescribed_date: string;
-    prescription_status: string;
-}
+import { Patient, PrescriptionHistory } from "./PatientModels";
 
 interface TableData {
-    columns: (keyof Prescription)[];
-    data: Prescription[];
+    columns: (keyof PrescriptionHistory)[];
+    data: PrescriptionHistory[];
 }
 
 const RxHistory: React.FC = () => {
     const [patient, setPatient] = useState<Patient | null>(null);
-    const [selectedPrescription, setSelectedPrescription] = useState<Prescription | null>(null);
+    const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionHistory | null>(null);
     const { patient_id } = useParams<{ patient_id: string }>();
-    const location = useLocation();
 
     const [tableData, setTableData] = useState<TableData>({
         columns: ['rx_item_name', 'rx_item_strength', 'quantity', 'refills', 'prescribed_date', 'prescription_status'],
@@ -40,26 +29,25 @@ const RxHistory: React.FC = () => {
     };
 
     useEffect(() => {
-        if (location.state && location.state.patient) {
-            setPatient(location.state.patient);
-        }
-    }, [location.state]);
-
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 const patientResponse = await fetch(`http://localhost:8000/patients/${patient_id}`);
                 const patientData = await patientResponse.json();
-                console.log(patientData);
                 setPatient(patientData);
 
-                const prescriptions = patientData.prescriptions.map((prescription: Prescription) => ({
+                const prescriptions = patientData.prescriptions.map((prescription: PrescriptionHistory) => ({
                     id: prescription.id,
+                    rx_number: prescription.rx_number,
                     rx_item_name: prescription.rx_item_name,
                     rx_item_strength: prescription.rx_item_strength,
                     quantity: prescription.quantity,
                     refills: prescription.refills,
+                    directions: prescription.directions,
                     prescribed_date: prescription.prescribed_date,
+                    prescriber_id: prescription.prescriber_id,
+                    prescriber_first_name: prescription.prescriber_first_name,
+                    prescriber_last_name: prescription.prescriber_last_name,
+                    prescriber_type: prescription.prescriber_type,
                     prescription_status: prescription.prescription_status
                 }));
 
@@ -117,13 +105,31 @@ const RxHistory: React.FC = () => {
             <div className={styles.buttonContainer}>
                 <Link
                     to={`/patient/refill-rx/${patient_id}`}
-                    state={{ patient, prescription: selectedPrescription }}
+                    state={{ 
+                        patient, 
+                        prescription: selectedPrescription,
+                        prescriber: selectedPrescription ? {
+                            id: selectedPrescription.prescriber_id,
+                            first_name: selectedPrescription.prescriber_first_name,
+                            last_name: selectedPrescription.prescriber_last_name,
+                            prescriber_type: selectedPrescription.prescriber_type
+                            
+                        } : null 
+                    }}
                 >
                     <button type="button" disabled={!selectedPrescription}>Refill Rx</button>
                 </Link>
                 <Link
                     to={`/patient/view-rx/${patient_id}`}
-                    state={{ patient, prescription: selectedPrescription }}
+                    state={{ 
+                        patient, 
+                        prescription: selectedPrescription,
+                        prescriber: selectedPrescription ? {
+                            id: selectedPrescription.prescriber_id,
+                            first_name: selectedPrescription.prescriber_first_name,
+                            last_name: selectedPrescription.prescriber_last_name
+                        } : null 
+                    }}
                 >
                     <button type="button" disabled={!selectedPrescription}>View Rx</button>
                 </Link>
