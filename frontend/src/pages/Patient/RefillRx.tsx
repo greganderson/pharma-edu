@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 import { Prescriber } from '../Prescriber/PrescriberModels';
 import { RxItem } from '../RxSearch/RxItemModel';
 import { Patient } from '../Patient/PatientModels';
 import styles from '../Rx.module.css';
-import style from './viewRx.module.css';
+import style from './ViewRx.module.css';
 
 const RefillRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -388,6 +388,9 @@ const RefillRx: React.FC = () => {
                     {isSubmitting ? 'Printing...' : 'Print Label'}
                     </button>
                     <button type="button" onClick={handleSoldRx}>Sold Rx</button>
+                    <Link to={`/patient/rx-history/${selectedPatient?.id}`}>
+                        <button type="button">Cancel</button>
+                    </Link>
                 </div>
 
                 <table className={styles.RxDateInfo}>

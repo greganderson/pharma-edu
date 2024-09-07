@@ -7,6 +7,7 @@ import AddPatient from './AddPatient';
 import UpdatePatient from './UpdatePatient';
 import RxHistory from './RxHistory';
 import RefillRx from './RefillRx';
+import ViewRx from './ViewRx';
 
 const Patient:React.FC = () => {
     return (
@@ -19,6 +20,7 @@ const Patient:React.FC = () => {
             <Route path="/update-patient/:patient_id" element={<UpdatePatient />} />
             <Route path="/rx-history/:patient_id" element={<RxHistory />} />
             <Route path="/refill-rx/:patient_id" element={<RefillRx />} />
+            <Route path="/view-rx/:rx_number" element={<ViewRx />} />
         </Routes>
     );
 }

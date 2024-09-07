@@ -120,14 +120,15 @@ const RxHistory: React.FC = () => {
                     <button type="button" disabled={!selectedPrescription}>Refill Rx</button>
                 </Link>
                 <Link
-                    to={`/patient/view-rx/${patient_id}`}
+                    to={`/patient/view-rx/${selectedPrescription?.rx_number}`}
                     state={{ 
                         patient, 
                         prescription: selectedPrescription,
                         prescriber: selectedPrescription ? {
                             id: selectedPrescription.prescriber_id,
                             first_name: selectedPrescription.prescriber_first_name,
-                            last_name: selectedPrescription.prescriber_last_name
+                            last_name: selectedPrescription.prescriber_last_name,
+                            prescriber_type: selectedPrescription.prescriber_type
                         } : null 
                     }}
                 >
