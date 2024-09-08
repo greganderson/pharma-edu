@@ -152,7 +152,7 @@ const ViewRx: React.FC = () => {
                                     <label htmlFor='tech_initials'>Tech Initials:</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="tech_initials" value={prescription.tech_initials} 
+                                    <input type="text" id="tech_initials" value={fetchedPrescription.tech_initials} 
                                         readOnly className={style.readOnlyField} />
                                 </td>
                             </tr>

@@ -154,7 +154,7 @@
 }
 
 .quantityTable input {
-    width: 37px;
+    width: 35px;
     font-size: 0.9rem;
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
@@ -162,6 +162,7 @@
     justify-content: center;
     align-items: center;
     align-self: center;
+    text-align: center;
 }
   
 .quantityTable td {
