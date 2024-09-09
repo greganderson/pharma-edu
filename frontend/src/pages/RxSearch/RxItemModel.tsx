@@ -4,7 +4,7 @@ export const deaSchedule = [
 
 
 export interface RxItem {
-    id: number,
+    rx_item_id: number;
     name: string,
     strength: string,
     ndc: string,

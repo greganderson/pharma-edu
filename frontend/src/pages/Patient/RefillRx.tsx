@@ -7,6 +7,7 @@ import { Patient } from '../Patient/PatientModels';
 import styles from '../Rx.module.css';
 import style from './ViewRx.module.css';
 
+
 const RefillRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
@@ -25,6 +26,8 @@ const RefillRx: React.FC = () => {
     // Rx Item
     const [searchTermItem, setSearchTermItem] = useState('');
     const [items, setItems] = useState<RxItem[]>([]);
+    const [item, setItem] = useState<RxItem[]>([]);
+    const [itemDetails, setItemDetails] = useState<RxItem | null>(null);
     const [selectedItem, setSelectedItem] = useState<RxItem | null>(null);
 
     // Prescription
@@ -38,8 +41,10 @@ const RefillRx: React.FC = () => {
         dispense_date: "",
         discard_date: "",
         expiration_date: "",
-        rx_item_id: selectedItem ? selectedItem.id : null, 
+        rx_item_id: selectedItem ? selectedItem.rx_item_id : null, 
         rx_item: "",
+        dosage_form: "",
+        strength: "",
         directions: "",
         quantity: 0,
         quantity_dispensed: 0,
@@ -49,19 +54,8 @@ const RefillRx: React.FC = () => {
     });
 
 
-    // Update prescription data when patient, prescriber, or item is selected
-    useEffect(() => {
-        setPrescriptionData(prevData => ({
-            ...prevData,
-            patient_id: selectedPatient ? selectedPatient.id : null,
-            prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
-            rx_item_id: selectedItem ? selectedItem.id : null
-        }));
-    }, [selectedPatient, selectedPrescriber, selectedItem]);
-
-
     const postPrescription = async (prescriptionData: any) => {
-        console.log("Prescription Data: ", prescriptionData);
+        console.log("Post Prescription Data: ", prescriptionData);
         try {
             const response = await fetch('http://localhost:8000/prescriptions', {
                 method: 'POST',
@@ -92,28 +86,31 @@ const RefillRx: React.FC = () => {
     useEffect(() => {
         if (location.state) {
             const { patient, prescriber, prescription } = location.state;
-            if (patient) {
+            if (patient && patient.id) {
                 setSelectedPatient(patient);
                 setPrescriptionData(prevData => ({
                     ...prevData,
-                    patient_id: patient.id
+                    patient_id: patient.id,
+                    patient: `${patient.first_name} ${patient.last_name}`,
                 }));
             }
             if (prescriber) {
                 setSelectedPrescriber(prescriber);
                 setPrescriptionData(prevData => ({
                     ...prevData,
-                    prescriber_id: prescriber.id
+                    prescriber_id: prescriber.id,
+                    prescriber: `${prescriber.first_name} ${prescriber.last_name}, ${prescriber.physician_type}`
                 }));
             }
             if (prescription) {
                 const itemDetails = `${prescription.rx_item_name} ${prescription.rx_item_strength} ${prescription.rx_item_dosage_form}`;
                 setSelectedItem(prescription);
-                console.log("Prescription: ", prescription);
                 setPrescriptionData(prevData => ({
                     ...prevData,
                     rx_item_id: prescription.rx_item_id,
+                    rx_number: prescription.rx_number,
                     rx_item: prescription.rx_item_name,
+                    dosage_form: prescription.dosage_form,
                     rx_item_strength: prescription.rx_item_strength,
                     directions: prescription.directions,
                     quantity: prescription.quantity,
@@ -124,6 +121,11 @@ const RefillRx: React.FC = () => {
             }
         }
     }, [location.state]);
+
+
+    useEffect(() => {
+        console.log("Selected Item after setting:", selectedItem);
+    }, [selectedItem]);
 
 //
 // Fetch
@@ -154,6 +156,68 @@ const RefillRx: React.FC = () => {
             fetchPrescriberDetails();
         }
     }, [selectedPrescriber]);
+
+    useEffect(() => {
+        if (selectedItem && prescriptionData.rx_number) {
+            const fetchRxDetails = async () => {
+                try {
+                    const response = await fetch(`http://localhost:8000/prescriptions/${prescriptionData.rx_number}`);
+                    if (response.ok) {
+                        const data: RxItem = await response.json();
+                        console.log("Rx Item Info:", data);
+                        
+                        if (data.rx_item_id) {
+                            setPrescriptionData(prevData => ({
+                                ...prevData,
+                                rx_item_id: data.rx_item_id,
+                                rx_item: data.name || prevData.rx_item,
+                                dosage_form: data.dosage_form || prevData.dosage_form,
+                                strength: data.strength || prevData.strength
+                            }));
+                            console.log("Rx item ID matched.", data.rx_item_id, selectedItem?.rx_item_id);
+                        } else {
+                            console.log("Rx item ID does not match the selected item.", data.rx_item_id, selectedItem?.rx_item_id);
+                        }
+                    } else {
+                        console.error('Failed to fetch rx item details');
+                    }
+                } catch (error) {
+                    console.error('Error fetching rx item details:', error);
+                }
+            };
+            fetchRxDetails();
+        }
+    }, [selectedItem, prescriptionData.rx_number]);
+
+
+    useEffect(() => {
+        if (selectedItem && prescriptionData.rx_item_id) {
+            const fetchRxItemById = async () => {
+                try {
+                    const response = await fetch(`http://localhost:8000/rx-items/${prescriptionData.rx_item_id}`);
+                    if (response.ok) {
+                        const data: RxItem = await response.json();
+                        console.log("Fetch Rx Item by Id", data);
+
+                        console.log("IS THE RX ITEM ID HERE?", data);
+                        setPrescriptionData(prevData => ({
+                            ...prevData,
+                            rx_item_id: prescriptionData.rx_item_id,
+                            rx_item: prescriptionData.rx_item,
+                            dosage_form: data.dosage_form,
+                            strength: data.strength
+                        }));
+                    console.log(prescriptionData);
+                    } else {
+                        console.error('Failed to fetch rx item details');
+                    }
+                } catch (error) {
+                    console.error('Error fetching rx item details:', error);
+                }
+            };
+            fetchRxItemById();
+        }
+    }, [selectedItem, prescriptionData.rx_item_id, selectedItem?.rx_item_id, prescriptionData.dosage_form, selectedItem?.dosage_form]);
 
 
     useEffect(() => {
@@ -234,7 +298,9 @@ const RefillRx: React.FC = () => {
         const updatedPrescriptionData = {
             ...prescriptionData,
             prescription_status: "pending",
-            refills: prescriptionData.refills - 1
+            refills: prescriptionData.refills - 1,
+            rx_item_id: selectedItem?.rx_item_id || prescriptionData.rx_item_id,
+            dosage_form: prescriptionData.dosage_form
         };
     
         console.log("Submitting prescription with pending status:", updatedPrescriptionData);
@@ -290,6 +356,17 @@ const RefillRx: React.FC = () => {
         }
     };
 
+        // Update prescription data when patient, prescriber, or item is selected
+        useEffect(() => {
+            setPrescriptionData(prevData => ({
+                ...prevData,
+                patient_id: selectedPatient ? selectedPatient.id : null,
+                prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
+                rx_item_id: selectedItem ? selectedItem.rx_item_id : null
+            }));
+        }, [selectedPatient, selectedPrescriber, selectedItem]);
+        // console.log("Prescription Data Initially: ", prescriptionData);
+
     
     return (
         <main className={styles.mainNewRx}>
@@ -335,7 +412,7 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="item"
-                                    value={searchTermItem}
+                                    value={`${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}`}
                                     readOnly
                                     className={style.readOnlyField}
                                 />

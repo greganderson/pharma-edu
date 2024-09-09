@@ -25,6 +25,7 @@ export interface Patient {
 };
 
 export interface PrescriptionHistory {
+    rx_item_id: number;
     rx_number: string;
     rx_item_name: string;
     rx_item_strength: string;
