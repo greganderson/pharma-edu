@@ -1,72 +1,179 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
-
 import styles from '../Rx.module.css';
 import style from './ViewRx.module.css';
+// import RxItem from '../RxSearch/RxItem';
+
+
+interface Prescription {
+    rx_number: number;
+    patient_id: number;
+    prescriber_id: number;
+    rx_item_id: number;
+    status: string;
+    directions?: string;
+    quantity?: number;
+    quantity_dispensed?: number;
+    refills?: number;
+    prescribed_date?: string;
+    dispense_date?: string;
+    discard_date?: string;
+    expiration_date?: string;
+    rx_item_name?: string;
+    rx_item_strength?: string;
+    tech_initials?:string;
+}
+
 
 const ViewRx: React.FC = () => {
     const { rx_number } = useParams<{ rx_number: string }>();
     const location = useLocation();
-
     const { patient, prescription, prescriber } = location.state || {};
-    const [fetchedPrescription, setFetchedPrescription] = useState<any | null>(null);
-    const [fetchedPrescriber, setFetchedPrescriber] = useState<any | null>(null);
+    
+    const [fetchedPrescription, setFetchedPrescription] = useState<Prescription | null>(prescription || null);
+    const [fetchedPrescriber, setFetchedPrescriber] = useState<any | null>(prescriber || null);
+    const [fetchedPatient, setFetchedPatient] = useState<any | null>(patient || null);
+    const [fetchedItem, setFetchedItem] = useState<any | null>(prescription || null);
 
-    console.log('Location state:', location.state);
-    console.log('Prescription rx_number:', prescription?.rx_number);
-    console.log('Prescriber ID:', prescriber?.id);
+    // console.log(patient);
+    // console.log(prescription);
+    // console.log(prescriber);
 
     useEffect(() => {
         const fetchPrescription = async () => {
-            if (prescription?.rx_number) {
+            if (rx_number) {
                 try {
                     const response = await fetch(`http://localhost:8000/prescriptions/${rx_number}`);
-                    console.log('Prescription response status:', response.status);
-                    const data = await response.json();
-                    console.log('Fetched Prescription Data:', data);
-                    setFetchedPrescription(data);
+                    if (!response.ok) throw new Error('Failed to fetch prescription');
+                        const data = await response.json();
+                        setFetchedPrescription(data);
+                        // console.log(data);
                 } catch (error) {
                     console.error('Error fetching prescription data:', error);
                 }
             }
         };
 
-        fetchPrescription();
-    }, [prescription, rx_number]);
-
-    useEffect(() => {
-        const fetchPrescriber = async () => {
-            if (prescriber?.id) {
+        const fetchItem = async () => {
+            if (fetchedPrescription?.rx_item_id) {
                 try {
-                    console.log('Fetching prescriber data for ID:', prescriber.id);
-                    const response = await fetch(`http://localhost:8000/prescribers/${prescriber.id}`);
-                    console.log('Prescriber response status:', response.status);
+                    const response = await fetch(`http://localhost:8000/rx-items/${fetchedPrescription.rx_item_id}`);
+                    if (!response.ok) throw new Error('Failed to fetch rx-item');
                     const data = await response.json();
-                    console.log('Fetched Prescriber Data:', data);
-                    setFetchedPrescriber(data);
+                    setFetchedItem(data);
+                    // console.log("Fetched Item: ", data);
+                } catch (error) {
+                    console.error('Error fetching rx-item data:', error);
+                }
+            }
+        };
+        const fetchPrescriber = async () => {
+            if (fetchedPrescription?.prescriber_id) {
+                try {
+                    const response = await fetch(`http://localhost:8000/prescribers/${fetchedPrescription.prescriber_id}`);
+                    if (!response.ok) throw new Error('Failed to fetch prescriber');
+                        const data = await response.json();
+                        setFetchedPrescriber(data);
                 } catch (error) {
                     console.error('Error fetching prescriber data:', error);
                 }
-            } else {
-                console.error('Prescriber ID is missing');
             }
         };
 
+        const fetchPatient = async () => {
+            if (fetchedPrescription?.patient_id) {
+                try {
+                    const response = await fetch(`http://localhost:8000/patients/${fetchedPrescription.patient_id}`);
+                    if (!response.ok) throw new Error('Failed to fetch patient');
+                        const data = await response.json();
+                        setFetchedPatient(data);
+                } catch (error) {
+                    console.error('Error fetching patient data:', error);
+                }
+            }
+        };
+
+
+        fetchPrescription();
+        fetchItem();
         fetchPrescriber();
-    }, [prescriber]);
+        fetchPatient();
+    }, [rx_number, fetchedPrescription]);
 
-    useEffect(() => {
-        console.log('Fetched Prescription updated:', fetchedPrescription);
-        console.log('Fetched Prescriber updated:', fetchedPrescriber);
-    }, [fetchedPrescription, fetchedPrescriber]);
 
+    const isButtonVisible = fetchedPrescription?.status === 'pending' || fetchedPrescription?.status === 'completed';
+
+    const handleSellRx = async () => {
+        if (fetchedPrescription) {
+            try {
+                const response = await fetch(`http://localhost:8000/prescriptions/${fetchedPrescription.rx_number}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...fetchedPrescription,
+                        status: 'sold',
+                    }),
+                });
     
+                if (!response.ok) throw new Error('Failed to update prescription status');
+    
+                // Update local state with the correct type
+                setFetchedPrescription((prev: Prescription | null) => prev ? {
+                    ...prev,
+                    status: 'sold',
+                } : null);
+    
+                alert('Prescription status updated to sold');
+            } catch (error) {
+                console.error('Error updating prescription status:', error);
+                alert('Failed to update prescription status');
+            }
+        }
+    };
+
+    const handlePrintLabel = async () => {
+        if (fetchedPrescription) {
+            try {
+                const response = await fetch(`http://localhost:8000/prescriptions/${fetchedPrescription.rx_number}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...fetchedPrescription,
+                        status: 'completed',
+                    }),
+                });
+    
+                if (!response.ok) throw new Error('Failed to update prescription status');
+    
+                // Update local state with the correct type
+                setFetchedPrescription((prev: Prescription | null) => prev ? {
+                    ...prev,
+                    status: 'completed',
+                } : null);
+    
+                alert('Prescription status updated to complete');
+            } catch (error) {
+                console.error('Error updating prescription status:', error);
+                alert('Failed to update prescription status');
+            }
+        }
+    };
+    
+    // console.log("Fetched Item: ", fetchedItem);
+    // console.log("Fetched Patient: ", fetchedPatient);
+    // console.log("Fetched Prescriber: ", fetchedPrescriber);
+    // console.log("Fetched Prescription: ", fetchedPrescription);
+
     return (
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>View Rx</h1>
-            <hr className={styles.hr}></hr>
+            <hr className={styles.hr} />
             <form className={styles.NewRxForm}>
-            <table className={styles.enterPatientInfo}>
+                <table className={styles.enterPatientInfo}>
                     <tbody>
                         <tr>
                             <td><label htmlFor='patient'>Patient: </label></td>
@@ -74,7 +181,7 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="patient"
-                                    value={patient ? `${patient.first_name} ${patient.last_name}` : ''}
+                                    value={fetchedPatient ? `${fetchedPatient.first_name} ${fetchedPatient.last_name}` : ''}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
@@ -86,7 +193,7 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="prescriber"
-                                    value={prescriber ? `${prescriber.first_name} ${prescriber.last_name}, ${prescriber.prescriber_type}` : ''}
+                                    value={fetchedPrescriber ? `${fetchedPrescriber.first_name} ${fetchedPrescriber.last_name}, ${fetchedPrescriber.prescriber_type}` : ''}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
@@ -98,7 +205,7 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="item"
-                                    value={prescription ? `${prescription.rx_item_name} ${prescription?.rx_item_strength}` : ''}
+                                    value={fetchedItem ? `${fetchedItem.name} ${fetchedItem.strength} ${fetchedItem.dosage_form}` : 'No item information'}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
@@ -109,7 +216,7 @@ const ViewRx: React.FC = () => {
                             <td>
                                 <textarea
                                     id="directions"
-                                    value={prescription?.directions || ''}
+                                    value={fetchedPrescription?.directions || ''}
                                     readOnly
                                     className={style.readOnlyField}
                                 ></textarea>
@@ -125,22 +232,37 @@ const ViewRx: React.FC = () => {
                                     <label htmlFor="quantity">Quantity Written: </label>
                                 </td>
                                 <td>
-                                    <input type="number" id="quantity" value={prescription.quantity} 
-                                        readOnly className={style.readOnlyField}/>
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        value={fetchedPrescription?.quantity || ''}
+                                        readOnly
+                                        className={style.readOnlyField}
+                                    />
                                 </td>
                                 <td>
                                     <label htmlFor="quantity_dispensed">Quantity Dispensed: </label>
                                 </td>
                                 <td>
-                                    <input type="number" id="quantity_dispensed" value={prescription.quantity_dispensed}
-                                        readOnly className={style.readOnlyField}/>
+                                    <input
+                                        type="number"
+                                        id="quantity_dispensed"
+                                        value={fetchedPrescription?.quantity_dispensed || ''}
+                                        readOnly
+                                        className={style.readOnlyField}
+                                    />
                                 </td>
                                 <td>
                                     <label htmlFor="refills">Refills: </label>
                                 </td>
                                 <td>
-                                    <input type="number" id="refills" value={prescription.refills}
-                                       readOnly className={style.readOnlyField}/>
+                                    <input
+                                        type="number"
+                                        id="refills"
+                                        value={fetchedPrescription?.refills || ''}
+                                        readOnly
+                                        className={style.readOnlyField}
+                                    />
                                 </td>
                             </tr>
                         </tbody>
@@ -152,19 +274,36 @@ const ViewRx: React.FC = () => {
                                     <label htmlFor='tech_initials'>Tech Initials:</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="tech_initials" value={fetchedPrescription.tech_initials} 
-                                        readOnly className={style.readOnlyField} />
+                                    <input
+                                        type="text"
+                                        id="tech_initials"
+                                        value={fetchedPrescription?.tech_initials || ''}
+                                        readOnly
+                                        className={style.readOnlyField}
+                                    />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div className={styles.NewRxButtons}>
-                    <Link to={`/patient/rx-history/${patient?.id}`}>
-                        <button type="button">Cancel</button>
+                    <Link to={`/patient/rx-history/${fetchedPatient?.id}`}>
+                        <button type="button">Patient Rx History</button>
                     </Link>
+                    {/* <Link to={`/rx-queue`}>
+                        <button type="button">Prescriptio Queue</button>
+                    </Link> */}
+                    {isButtonVisible && (
+                        <button type='button' className={styles.actionButton} onClick={handleSellRx}>
+                            Sell Rx
+                        </button>
+                    )}
+                    {isButtonVisible && (
+                        <button type='button' onClick={handlePrintLabel}>
+                            Print Label
+                        </button>
+                    )}
                 </div>
-
                 <table className={styles.RxDateInfo}>
                     <tbody>
                         <tr>
@@ -175,7 +314,7 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="date"
                                     id="prescribed_date"
-                                    value={prescription.prescribed_date}
+                                    value={fetchedPrescription?.prescribed_date || ''}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
@@ -189,8 +328,9 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="date"
                                     id="dispense_date"
-                                    value={prescription.dispense_date}
-                                    readOnly className={style.readOnlyField}
+                                    value={fetchedPrescription?.dispense_date || ''}
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
                             </td>
                         </tr>
@@ -202,8 +342,9 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="date"
                                     id="discard_date"
-                                    value={prescription.discard_date}
-                                    readOnly className={style.readOnlyField}
+                                    value={fetchedPrescription?.discard_date || ''}
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
                             </td>
                         </tr>
@@ -215,8 +356,9 @@ const ViewRx: React.FC = () => {
                                 <input
                                     type="date"
                                     id="expiration_date"
-                                    value={prescription.expiration_date}
-                                    readOnly className={style.readOnlyField}
+                                    value={fetchedPrescription?.expiration_date || ''}
+                                    readOnly
+                                    className={style.readOnlyField}
                                 />
                             </td>
                         </tr>
@@ -225,14 +367,14 @@ const ViewRx: React.FC = () => {
             </form>
 
                 <div className={styles.displayPatientInfo}>
-                    {patient ? (
+                    {fetchedPatient ? (
                         <div>
                             <h6>Patient Information: </h6>
-                            <p>Name: {patient.first_name} {patient.last_name}</p>
-                            <p>DOB: {patient.date_of_birth}</p>
-                            <p>Address: {patient.street}</p>
-                            <p>{patient.city}, {patient.state} {patient.zipcode}</p>
-                            <p>Phone #: {patient.phone_number}</p>
+                            <p>Name: {fetchedPatient.first_name} {fetchedPatient.last_name}</p>
+                            <p>DOB: {fetchedPatient.date_of_birth}</p>
+                            <p>Address: {fetchedPatient.street}</p>
+                            <p>{fetchedPatient.city}, {fetchedPatient.state} {fetchedPatient.zipcode}</p>
+                            <p>Phone #: {fetchedPatient.phone_number}</p>
                         </div>
                     ) : (
                         <p>No patient selected</p>
@@ -257,9 +399,9 @@ const ViewRx: React.FC = () => {
             <div className={styles.displayRxScan}>
                 <p>Scan Image</p>
             </div>
-            <div className={styles.scanButton}>
+            {/* <div className={styles.scanButton}>
                 <button type='submit'>Scan Rx</button>
-            </div>
+            </div> */}
         </main>
     );
 }

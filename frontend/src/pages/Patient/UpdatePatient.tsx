@@ -112,7 +112,7 @@ const UpdatePatient: React.FC = () => {
                                 </tr>
                                 <tr>
                                     <td><label htmlFor='date_of_birth'>DOB: </label></td>
-                                    <td><input type="text" id="date_of_birth" value={patient.date_of_birth} onChange={handleInputChange} /></td>
+                                    <td><input type="date" id="date_of_birth" value={patient.date_of_birth} onChange={handleInputChange} /></td>
                                 </tr>
                                 <tr>
                                     <td><label htmlFor='street'>Street Address: </label></td>

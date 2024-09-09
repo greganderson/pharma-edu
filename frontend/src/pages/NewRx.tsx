@@ -10,6 +10,7 @@ const NewRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const location = useLocation();
+    const [isFormLocked, setIsFormLocked] = useState<boolean>(false);
 
     // Patients
     const [searchTermPatient, setSearchTermPatient] = useState('');
@@ -291,20 +292,17 @@ const NewRx: React.FC = () => {
             prescription_status: "pending"
         };
     
-        console.log("Submitting prescription with pending status:", updatedPrescriptionData);
-    
         const submitRx = async () => {
             try {
                 const result = await postPrescription(updatedPrescriptionData);
                 if (result && result.rx_number) {
                     setSubmitted(true);
+                    setIsFormLocked(true); // Lock the form
                     alert(`Prescription Submitted. Rx Number: ${result.rx_number}`);
-                    console.log(`Rx Number: ${result.rx_number}`);
                 } else {
                     throw new Error("Rx number not received in the response.");
                 }
             } catch (error) {
-                console.log(updatedPrescriptionData);
                 console.error('Error:', error);
                 alert("An error occurred while creating the prescription.");
             } finally {
@@ -315,53 +313,34 @@ const NewRx: React.FC = () => {
         submitRx();
     };
 
-    // const handleSaveRx = async () => {
-    //     setIsSubmitting(true);
-    //     const updatedPrescriptionData = {
-    //         ...prescriptionData,
-    //         status: "pending" // Set the status to pending for Save Rx
-    //     };
-    
-    //     try {
-    //         const result = await postPrescription(updatedPrescriptionData);
-    //         if (result && result.rx_number) {
-    //             setSubmitted(true);
-    //             alert(`Prescription Submitted. Rx Number: ${result.rx_number}`);
-    //             console.log(`Rx Number: ${result.rx_number}`);
-    //         } else {
-    //             throw new Error("Rx number not received in the response.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //         alert("An error occurred while saving the prescription.");
-    //     } finally {
-    //         setIsSubmitting(false);
-    //     }
-    // };
-    
-    const handlePrintLabel = async () => {
-        // setIsSubmitting(true);
-        const updatedPrescriptionData = {
-            ...prescriptionData,
-            prescription_status: "completed" // Set status to completed for Print Label
-        };
-        console.log(updatedPrescriptionData);
-        alert(`Prescription printed. Rx Number: ${updatedPrescriptionData.rx_number}`)
+
+const handlePrintLabel = async () => {
+    const updatedPrescriptionData = {
+        ...prescriptionData,
+        prescription_status: 'completed'
     };
     
-    //     try {
-    //         if (prescriptionData.rx_number) {
-    //             alert(`Prescription printed. Rx Number: ${prescriptionData.rx_number}`);
-    //         } else {
-    //             throw new Error("Error while printing.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //         alert("An error occurred while printing the label.");
-    //     } finally {
-    //         setIsSubmitting(false);
-    //     }
-    // };
+    try {
+        const response = await fetch(`http://localhost:8000/prescriptions/${prescriptionData.rx_number}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedPrescriptionData),
+        });
+        
+        if (response.ok) {
+            alert(`Prescription printed. Rx Number: ${updatedPrescriptionData.rx_number}`);
+        } else {
+            const errorData = await response.json();
+            console.error('Server response:', errorData);
+            throw new Error(errorData.message || 'Failed to update prescription.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert("An error occurred while updating the prescription.");
+    }
+};
 
 
     return (
@@ -372,33 +351,33 @@ const NewRx: React.FC = () => {
                 <table className={styles.enterPatientInfo}>
                     <tbody>
                     <tr>
-                            <td>
-                                <label htmlFor='patient'>Patient: </label>
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    id="search"
-                                    value={searchTermPatient}
-                                    onChange={(e) => setSearchTermPatient(e.target.value)}
-                                    placeholder="Search by name or date of birth..."
-                                />
-                                {filteredPatients.length > 0 && (
-                                    <ul className={styles.dropdown} role="listbox" title='dropdown'>
-                                        {filteredPatients.map((patient) => (
-                                            <li
-                                                key={patient.id}
-                                                onClick={() => handleSelectPatient(patient)}
-                                                className={styles.dropdownItem}
-                                                role="option"
-                                            >
-                                                {patient.first_name} {patient.last_name} DOB: {patient.date_of_birth}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </td>
-                        </tr>
+                        <td><label htmlFor='patient'>Patient: </label></td>
+                        <td>
+                            <input
+                                type="text"
+                                id="search"
+                                value={searchTermPatient}
+                                onChange={(e) => setSearchTermPatient(e.target.value)}
+                                placeholder="Search by name or date of birth..."
+                                disabled={isFormLocked}
+                                readOnly={isFormLocked}
+                            />
+                            {filteredPatients.length > 0 && !isFormLocked && (
+                                <ul className={styles.dropdown} role="listbox" title='dropdown'>
+                                    {filteredPatients.map((patient) => (
+                                        <li
+                                            key={patient.id}
+                                            onClick={() => handleSelectPatient(patient)}
+                                            className={styles.dropdownItem}
+                                            role="option"
+                                        >
+                                            {patient.first_name} {patient.last_name} DOB: {patient.date_of_birth}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </td>
+                    </tr>
                         <tr>
                             <td>
                                 <label htmlFor='prescriber'>Prescriber: </label>
@@ -410,6 +389,8 @@ const NewRx: React.FC = () => {
                                     value={searchTermPrescriber}
                                     onChange={(e) => setSearchTermPrescriber(e.target.value)}
                                     placeholder='Search by name or DEA#...'
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                                 {filteredPrescribers.length > 0 && (
                                     <ul className={styles.dropdown} role="listbox" title="dropdown">
@@ -438,6 +419,8 @@ const NewRx: React.FC = () => {
                                     value={searchTermItem}
                                     onChange={(e) => setSearchTermItem(e.target.value)}
                                     placeholder='Search by name...'
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                                 {filteredItems.length > 0 && (
                                     <ul className={styles.dropdown} role="listbox" title="dropdown">
@@ -461,7 +444,8 @@ const NewRx: React.FC = () => {
                             </td>
                             <td>
                                 <textarea id="directions" value={prescriptionData.directions}
-                                    onChange={handleInputChange} required>           
+                                    onChange={handleInputChange} disabled={isFormLocked}
+                                    readOnly={isFormLocked} required>           
                                 </textarea>
                             </td>
                         </tr>
@@ -476,21 +460,24 @@ const NewRx: React.FC = () => {
                                 </td>
                                 <td>
                                     <input type="number" id="quantity" value={prescriptionData.quantity} 
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} disabled={isFormLocked}
+                                        readOnly={isFormLocked} required/>
                                 </td>
                                 <td>
                                     <label htmlFor="quantity_dispensed">Quantity Dispensed: </label>
                                 </td>
                                 <td>
                                     <input type="number" id="quantity_dispensed" value={prescriptionData.quantity_dispensed}
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} disabled={isFormLocked}
+                                        readOnly={isFormLocked} required/>
                                 </td>
                                 <td>
                                     <label htmlFor="refills">Refills: </label>
                                 </td>
                                 <td>
                                     <input type="number" id="refills" value={prescriptionData.refills}
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} disabled={isFormLocked}
+                                        readOnly={isFormLocked} required/>
                                 </td>
                             </tr>
                         </tbody>
@@ -503,17 +490,26 @@ const NewRx: React.FC = () => {
                                 </td>
                                 <td>
                                     <input type="text" id="tech_initials" value={prescriptionData.tech_initials} 
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} disabled={isFormLocked} className={styles.uppercaseInput}
+                                        readOnly={isFormLocked} required/>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div className={styles.NewRxButtons}>
-                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
-                    <button type="button" onClick={handlePrintLabel}>
-                    {isSubmitting ? 'Printing...' : 'Print Label'}
+                {/* Save Rx button disappears after Rx has been saved */}
+                {!submitted && (
+                    <button type="submit">
+                        {isSubmitting ? 'Saving...' : 'Save Rx'}
                     </button>
+                )}
+                {/* Render the Print Label button only after submission */}
+                {submitted && (
+                    <button type="button" onClick={handlePrintLabel}>
+                        {isSubmitting ? 'Printing...' : 'Print Label'}
+                    </button>
+                )}
                 </div>
 
                 <table className={styles.RxDateInfo}>
@@ -528,6 +524,8 @@ const NewRx: React.FC = () => {
                                     id="prescribed_date"
                                     value={prescriptionData.prescribed_date}
                                     onChange={handleInputChange}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                             </td>
                         </tr>
@@ -541,12 +539,14 @@ const NewRx: React.FC = () => {
                                     id="dispense_date"
                                     value={prescriptionData.dispense_date}
                                     onChange={handleInputChange}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='discard_date'>Discard: </label>
+                                <label htmlFor='discard_date'>Discard After: </label>
                             </td>
                             <td>
                                 <input
@@ -554,12 +554,14 @@ const NewRx: React.FC = () => {
                                     id="discard_date"
                                     value={prescriptionData.discard_date}
                                     onChange={handleInputChange}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='expiration_date'>Rx Expire: </label>
+                                <label htmlFor='expiration_date'>Rx Expires: </label>
                             </td>
                             <td>
                                 <input
@@ -567,6 +569,8 @@ const NewRx: React.FC = () => {
                                     id="expiration_date"
                                     value={prescriptionData.expiration_date}
                                     onChange={handleInputChange}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                             </td>
                         </tr>
@@ -608,7 +612,9 @@ const NewRx: React.FC = () => {
                 <p>Scan Image</p>
             </div>
             <div className={styles.scanButton}>
-                <button type='button'>Scan Rx</button>
+                {!submitted && (
+                    <button type='button'>Scan Rx</button>
+                )}
             </div>
         </main>
     );

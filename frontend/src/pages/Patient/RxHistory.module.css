@@ -1,6 +1,6 @@
 .RxHistoryMain {
     padding: 20px;
-    max-width: 75%;
+    max-width: 60%;
     margin: 5vh auto;
 }
 
@@ -29,12 +29,6 @@
 .RxHistory_tr.selected {
     background-color: #f1f1f1;
 }
-
-.selected-row {
-    background-color: #b3d9ff;
-    color: #000;
-}
-
 
 .buttonContainer {
     display: flex;

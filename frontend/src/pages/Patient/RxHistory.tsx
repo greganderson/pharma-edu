@@ -72,7 +72,7 @@ const RxHistory: React.FC = () => {
     return (
         <main className={styles.RxHistoryMain}>
             <h1>{patient ? `${patient.first_name} ${patient.last_name} Medication History` : 'Loading...'}</h1>
-            <hr className='hr'></hr>
+            <hr className={styles.hr}></hr>
 
             <div>
                 {tableData.data.length > 0 ? (
