@@ -259,7 +259,7 @@ const ViewRx: React.FC = () => {
                                     <input
                                         type="number"
                                         id="refills"
-                                        value={fetchedPrescription?.refills || ''}
+                                        value={fetchedPrescription?.refills ?? 0}
                                         readOnly
                                         className={style.readOnlyField}
                                     />

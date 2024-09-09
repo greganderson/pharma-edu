@@ -26,8 +26,8 @@ const RefillRx: React.FC = () => {
     // Rx Item
     const [searchTermItem, setSearchTermItem] = useState('');
     const [items, setItems] = useState<RxItem[]>([]);
-    const [item, setItem] = useState<RxItem[]>([]);
-    const [itemDetails, setItemDetails] = useState<RxItem | null>(null);
+    // const [item, setItem] = useState<RxItem[]>([]);
+    // const [itemDetails, setItemDetails] = useState<RxItem | null>(null);
     const [selectedItem, setSelectedItem] = useState<RxItem | null>(null);
 
     // Prescription
@@ -114,7 +114,7 @@ const RefillRx: React.FC = () => {
                 }));
             }
             if (prescription) {
-                const itemDetails = `${prescription.rx_item_name} ${prescription.rx_item_strength} ${prescription.rx_item_dosage_form}`;
+                const itemDetails = `${prescription.rx_item_name} ${prescription.strength} ${prescription.rx_item_dosage_form}`;
                 setSelectedItem(prescription);
                 setPrescriptionData(prevData => ({
                     ...prevData,
@@ -122,7 +122,7 @@ const RefillRx: React.FC = () => {
                     rx_number: prescription.rx_number,
                     rx_item: prescription.rx_item_name,
                     dosage_form: prescription.dosage_form,
-                    rx_item_strength: prescription.rx_item_strength,
+                    strength: prescription.strength,
                     directions: prescription.directions,
                     quantity: prescription.quantity,
                     refills: prescription.refills,
@@ -183,7 +183,10 @@ const RefillRx: React.FC = () => {
                                 rx_item_id: data.rx_item_id,
                                 rx_item: data.name || prevData.rx_item,
                                 dosage_form: data.dosage_form || prevData.dosage_form,
-                                strength: data.strength || prevData.strength
+                                strength: data.strength || prevData.strength,
+                                refills: data.refills || prevData.refills,
+                                quantity: data.quantity || prevData.quantity,
+                                prescribed_date: data.prescribed_date || prevData.prescribed_date
                             }));
                             console.log("Rx item ID matched.", data.rx_item_id, selectedItem?.rx_item_id);
                         } else {
@@ -213,12 +216,12 @@ const RefillRx: React.FC = () => {
                         console.log("IS THE RX ITEM ID HERE?", data);
                         setPrescriptionData(prevData => ({
                             ...prevData,
-                            rx_item_id: prescriptionData.rx_item_id,
-                            rx_item: prescriptionData.rx_item,
+                            rx_item_id: data.id,
+                            rx_item: data.name,
                             dosage_form: data.dosage_form,
-                            strength: data.strength
+                            strength: data.strength,
                         }));
-                    console.log(prescriptionData);
+                    console.log("PRESCRIPTION DATA: ", prescriptionData);
                     } else {
                         console.error('Failed to fetch rx item details');
                     }
@@ -297,7 +300,7 @@ const RefillRx: React.FC = () => {
         const { id, value } = event.target;
         setPrescriptionData((prevData) => ({
             ...prevData,
-            [id]: value
+            [id]: id === 'quantity_dispensed' || id === 'quantity' ? Number(value) : value
         }));
     };
 
@@ -412,7 +415,8 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="item"
-                                    value={`${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}`}
+                                    value={selectedItem ? `${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}` : ''}
+                                    // value={`${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}`}
                                     readOnly
                                     className={style.readOnlyField}
                                 />

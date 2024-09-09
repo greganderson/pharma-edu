@@ -117,7 +117,7 @@ const RxQueue: React.FC = () => {
 
     const handleRowClick = (rowIndex: number) => {
         setSelectedPrescription(tableData.data[rowIndex]);
-        // console.log("Select Row: ", tableData.data[rowIndex]);
+        console.log("Select Row: ", tableData.data[rowIndex]);
     };
 
     return (
