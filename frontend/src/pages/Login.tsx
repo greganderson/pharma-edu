@@ -29,7 +29,7 @@ const Login:React.FC = () => {
         <Modal show={isModalOpen}>
             <main className={styles.mainBox}>
                 <div className={styles.logo}></div>
-                <form onSubmit={handleSubmit} className={styles.loginForm}>
+                <form onSubmit={handleSubmit} className={styles.loginForm} autoComplete="off">
                     <h1 className={styles.h1SignIn}>Pharmacy Sign In</h1>
                     <div className={styles.inputFields}>
                         <label htmlFor='username'></label>

@@ -95,7 +95,7 @@ const UpdatePatient: React.FC = () => {
         <main className={styles.PatientMain}>
             <h1 className={styles.Patient_h1}>Update Patient</h1>
             <hr></hr>
-            <form onSubmit={handleSubmit} className={styles.formContainer}>
+            <form onSubmit={handleSubmit} className={styles.formContainer} autoComplete="off">
                 <div className={styles.PatientGridContainer}>
                     {/* General Information */}
                     <div>

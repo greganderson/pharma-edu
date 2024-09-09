@@ -51,6 +51,7 @@ const RxSearch:React.FC = () => {
                         id="search"
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder='Search by name...'
+                        autoComplete="off"
                     />
                      {filteredRxItem.length > 0 ? (
                         <ul className={styles.dropdown} role="listbox" title='dropdown'>

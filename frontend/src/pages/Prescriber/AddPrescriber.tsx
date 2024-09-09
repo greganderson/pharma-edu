@@ -80,7 +80,7 @@ const AddPerscriber:React.FC = () => {
         <main className={styles.addPrescriberMain}>
             <h2 className={styles.AddPrescriber_h1}>Add Prescriber</h2>
             <hr className={styles.hr}></hr>
-            <form onSubmit={handleSubmit} className={styles.NewPresciberForm}>
+            <form onSubmit={handleSubmit} className={styles.NewPresciberForm} autoComplete="off">
                 <div className={styles.gridContainer}>
                     {/* Left Column */}
                     <div className={styles.column}>

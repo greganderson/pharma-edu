@@ -96,7 +96,7 @@ const UpdateMedication:React.FC = () => {
         <main className={styles.addItemMain}>
         <h2 className={styles.AddItem_h1}>Update Medication</h2>
         <hr className='hr'></hr>
-        <form onSubmit={handleSubmit} className={styles.addRxForm}>
+        <form onSubmit={handleSubmit} className={styles.addRxForm} autoComplete="off">
         <div className={styles.gridContainerItem}>
                 {/* Left Column */}
                 <div className={styles.itemColumn}>

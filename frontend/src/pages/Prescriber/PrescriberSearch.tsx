@@ -52,6 +52,7 @@ const PrescriberSearch:React.FC = () => {
                     id="search"
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder='Search by name or DEA...'
+                    autoComplete="off"
                 />
                 {filteredPrescriber.length > 0 ? (
                     <ul className={styles.dropdown} role="listbox" title='dropdown'>
