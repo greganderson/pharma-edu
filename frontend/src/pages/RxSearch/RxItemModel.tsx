@@ -12,7 +12,6 @@ export interface RxItem {
     lot_number: string,
     dea_schedule: string,
     dosage_form: string,
-    refills: number
 };
 
 export type RxItemBasics = {

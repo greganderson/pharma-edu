@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { Prescriber } from '../Prescriber/PrescriberModels';
 import { RxItem } from '../RxSearch/RxItemModel';
@@ -188,6 +188,8 @@ const RefillRx: React.FC = () => {
                                 quantity: data.quantity || prevData.quantity,
                                 prescribed_date: data.prescribed_date || prevData.prescribed_date
                             }));
+                            console.log("PRESCRIPTION DATA:", prescriptionData);
+                            console.log("REFILLS: ", prescriptionData.refills);
                             console.log("Rx item ID matched.", data.rx_item_id, selectedItem?.rx_item_id);
                         } else {
                             console.log("Rx item ID does not match the selected item.", data.rx_item_id, selectedItem?.rx_item_id);
@@ -300,7 +302,7 @@ const RefillRx: React.FC = () => {
         const { id, value } = event.target;
         setPrescriptionData((prevData) => ({
             ...prevData,
-            [id]: id === 'quantity_dispensed' || id === 'quantity' ? Number(value) : value
+            [id]: value
         }));
     };
 
@@ -312,7 +314,7 @@ const RefillRx: React.FC = () => {
         const updatedPrescriptionData = {
             ...prescriptionData,
             prescription_status: "pending",
-            refills: prescriptionData.refills - 1,
+            refills: prescriptionData.refills > 0 ? prescriptionData.refills - 1 : 0,
             rx_item_id: selectedItem?.rx_item_id || prescriptionData.rx_item_id,
             dosage_form: prescriptionData.dosage_form
         };
