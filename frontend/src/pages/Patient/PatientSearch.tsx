@@ -41,10 +41,10 @@ const PatientSearch: React.FC = () => {
     };
 
     return (
-        <main className={styles.mainSearch}>
+        <main className={styles.mainSearch} >
             <h2>Patient Search</h2>
             <hr className={styles.hr} />
-            <div className={styles.container}>
+            <div className={styles.container} >
                 <label htmlFor='search'>Quick Search: </label>
                 <div className={styles.inputDropdownMatch}>
                     <input
@@ -53,6 +53,7 @@ const PatientSearch: React.FC = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Search by name or date of birth..."
+                        autoComplete="off"
                     />
 
                     {filteredPatients.length > 0 ? (

@@ -53,6 +53,17 @@ const RefillRx: React.FC = () => {
         prescription_status: ""
     });
 
+    // Update prescription data when patient, prescriber, or item is selected
+    useEffect(() => {
+        setPrescriptionData(prevData => ({
+            ...prevData,
+            patient_id: selectedPatient ? selectedPatient.id : null,
+            prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
+            rx_item_id: selectedItem ? selectedItem.rx_item_id : null
+        }));
+    }, [selectedPatient, selectedPrescriber, selectedItem]);
+    // console.log("Prescription Data Initially: ", prescriptionData);
+
 
     const postPrescription = async (prescriptionData: any) => {
         console.log("Post Prescription Data: ", prescriptionData);
@@ -356,23 +367,12 @@ const RefillRx: React.FC = () => {
         }
     };
 
-        // Update prescription data when patient, prescriber, or item is selected
-        useEffect(() => {
-            setPrescriptionData(prevData => ({
-                ...prevData,
-                patient_id: selectedPatient ? selectedPatient.id : null,
-                prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
-                rx_item_id: selectedItem ? selectedItem.rx_item_id : null
-            }));
-        }, [selectedPatient, selectedPrescriber, selectedItem]);
-        // console.log("Prescription Data Initially: ", prescriptionData);
-
     
     return (
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>Refill Rx</h1>
             <hr className={styles.hr}></hr>
-            <form onSubmit={handleSubmit} className={styles.NewRxForm}>
+            <form onSubmit={handleSubmit} className={styles.NewRxForm} autoComplete="off">
                 <table className={styles.enterPatientInfo}>
                     <tbody>
                     <tr>

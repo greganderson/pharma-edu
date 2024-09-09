@@ -38,6 +38,7 @@ const RxHistory: React.FC = () => {
 
                 const prescriptions = patientData.prescriptions.map((prescription: PrescriptionHistory) => ({
                     rx_number: prescription.rx_number,
+                    rx_item_id: prescription.rx_item_id,
                     rx_item_name: prescription.rx_item_name,
                     rx_item_strength: prescription.rx_item_strength,
                     quantity: prescription.quantity,
@@ -107,7 +108,9 @@ const RxHistory: React.FC = () => {
                     to={`/patient/refill-rx/${patient_id}`}
                     state={{ 
                         patient, 
-                        prescription: selectedPrescription,
+                        prescription: selectedPrescription ? {
+                            rx_item_id: selectedPrescription.rx_item_id
+                        }: null,
                         prescriber: selectedPrescription ? {
                             id: selectedPrescription.prescriber_id,
                             first_name: selectedPrescription.prescriber_first_name,

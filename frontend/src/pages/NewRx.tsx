@@ -265,10 +265,12 @@ const NewRx: React.FC = () => {
         console.log('Selected Rx Item:', rx_item);
         setSearchTermItem(`${rx_item.name} ${rx_item.strength} ${rx_item.dosage_form}`);
         setSelectedItem(rx_item);
-        setPrescriptionData((prevData) => ({
+        setPrescriptionData(prevData => ({
             ...prevData,
             rx_item_id: rx_item.id,
-            rx_item: `${rx_item.name} ${rx_item.strength} ${rx_item.dosage_form}`
+            rx_item: rx_item.name,
+            dosage_form: rx_item.dosage_form,
+            rx_item_strength: rx_item.strength,
         }));
         setFilteredItems([]);
     };
