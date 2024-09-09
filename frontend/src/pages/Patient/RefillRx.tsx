@@ -11,6 +11,7 @@ const RefillRx: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const location = useLocation();
+    const [isFormLocked, setIsFormLocked] = useState<boolean>(false);
 
     // Patients
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -60,7 +61,7 @@ const RefillRx: React.FC = () => {
 
 
     const postPrescription = async (prescriptionData: any) => {
-        console.log("Prescription Data: !!!!!!!!! ", prescriptionData);
+        console.log("Prescription Data: ", prescriptionData);
         try {
             const response = await fetch('http://localhost:8000/prescriptions', {
                 method: 'POST',
@@ -108,7 +109,7 @@ const RefillRx: React.FC = () => {
             if (prescription) {
                 const itemDetails = `${prescription.rx_item_name} ${prescription.rx_item_strength} ${prescription.rx_item_dosage_form}`;
                 setSelectedItem(prescription);
-                console.log("IS THIS THE ONE???????", prescription);
+                console.log("Prescription: ", prescription);
                 setPrescriptionData(prevData => ({
                     ...prevData,
                     rx_item_id: prescription.rx_item_id,
@@ -243,6 +244,7 @@ const RefillRx: React.FC = () => {
                 const result = await postPrescription(updatedPrescriptionData);
                 if (result && result.rx_number) {
                     setSubmitted(true);
+                    setIsFormLocked(true);
                     alert(`Prescription Submitted. Rx Number: ${result.rx_number}`);
                     console.log(`Rx Number: ${result.rx_number}`);
                 } else {
@@ -263,20 +265,31 @@ const RefillRx: React.FC = () => {
     const handlePrintLabel = async () => {
         const updatedPrescriptionData = {
             ...prescriptionData,
-            prescription_status: "completed"
+            prescription_status: 'completed'
         };
-        console.log(updatedPrescriptionData);
-        alert(`Prescription printed. ${updatedPrescriptionData.prescription_status}`)
+        
+        try {
+            const response = await fetch(`http://localhost:8000/prescriptions/${prescriptionData.rx_number}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedPrescriptionData),
+            });
+            
+            if (response.ok) {
+                alert(`Prescription printed. Rx Number: ${updatedPrescriptionData.rx_number}`);
+            } else {
+                const errorData = await response.json();
+                console.error('Server response:', errorData);
+                throw new Error(errorData.message || 'Failed to update prescription.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert("An error occurred while updating the prescription.");
+        }
     };
 
-    const handleSoldRx = async () => {
-        const updatedPrescriptionData = {
-            ...prescriptionData,
-            prescription_status: "sold"
-        };
-        console.log(updatedPrescriptionData);
-        alert(`Prescription Sold. ${updatedPrescriptionData.prescription_status}`)
-    };
     
     return (
         <main className={styles.mainNewRx}>
@@ -334,7 +347,8 @@ const RefillRx: React.FC = () => {
                             </td>
                             <td>
                                 <textarea id="directions" value={prescriptionData.directions}
-                                    onChange={handleInputChange} required>           
+                                    onChange={handleInputChange} disabled={isFormLocked}
+                                    readOnly={isFormLocked} required>           
                                 </textarea>
                             </td>
                         </tr>
@@ -356,7 +370,8 @@ const RefillRx: React.FC = () => {
                                 </td>
                                 <td>
                                     <input type="number" id="quantity_dispensed" value={prescriptionData.quantity_dispensed}
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} disabled={isFormLocked}
+                                        readOnly={isFormLocked} required/>
                                 </td>
                                 <td>
                                     <label htmlFor="refills">Refills: </label>
@@ -376,21 +391,26 @@ const RefillRx: React.FC = () => {
                                 </td>
                                 <td>
                                     <input type="text" id="tech_initials" value={prescriptionData.tech_initials} 
-                                        onChange={handleInputChange} required/>
+                                        onChange={handleInputChange} disabled={isFormLocked}
+                                        readOnly={isFormLocked} required/>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div className={styles.NewRxButtons}>
-                    <button type="submit">{isSubmitting ? 'Saving...' : 'Save Rx'}</button>
-                    <button type="button" onClick={handlePrintLabel}>
-                    {isSubmitting ? 'Printing...' : 'Print Label'}
+                {/* Save Rx button disappears after Rx has been saved */}
+                {!submitted && (
+                    <button type="submit">
+                        {isSubmitting ? 'Saving...' : 'Save Rx'}
                     </button>
-                    <button type="button" onClick={handleSoldRx}>Sold Rx</button>
-                    <Link to={`/patient/rx-history/${selectedPatient?.id}`}>
-                        <button type="button">Cancel</button>
-                    </Link>
+                )}
+                {/* Render the Print Label button only after submission */}
+                {submitted && (
+                    <button type="button" onClick={handlePrintLabel}>
+                        {isSubmitting ? 'Printing...' : 'Print Label'}
+                    </button>
+                )}
                 </div>
 
                 <table className={styles.RxDateInfo}>
@@ -419,6 +439,8 @@ const RefillRx: React.FC = () => {
                                     type="date"
                                     id="dispense_date"
                                     value={prescriptionData.dispense_date}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                     onChange={handleInputChange}
                                 />
                             </td>
@@ -432,6 +454,8 @@ const RefillRx: React.FC = () => {
                                     type="date"
                                     id="discard_date"
                                     value={prescriptionData.discard_date}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                     onChange={handleInputChange}
                                 />
                             </td>
@@ -446,6 +470,8 @@ const RefillRx: React.FC = () => {
                                     id="expiration_date"
                                     value={prescriptionData.expiration_date}
                                     onChange={handleInputChange}
+                                    disabled={isFormLocked}
+                                    readOnly={isFormLocked}
                                 />
                             </td>
                         </tr>
@@ -487,7 +513,9 @@ const RefillRx: React.FC = () => {
                 <p>Scan Image</p>
             </div>
             <div className={styles.scanButton}>
-                <button type='submit'>Scan Rx</button>
+                {!submitted && (
+                    <button type='button'>Scan Rx</button>
+                )}
             </div>
         </main>
     );

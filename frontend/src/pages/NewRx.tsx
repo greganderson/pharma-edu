@@ -347,7 +347,7 @@ const handlePrintLabel = async () => {
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>New Rx</h1>
             <hr className={styles.hr}></hr>
-            <form onSubmit={handleSubmit} className={styles.NewRxForm}>
+            <form onSubmit={handleSubmit} className={styles.NewRxForm} autoComplete="off">
                 <table className={styles.enterPatientInfo}>
                     <tbody>
                     <tr>

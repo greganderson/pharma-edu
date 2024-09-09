@@ -34,13 +34,13 @@ const RxQueue: React.FC = () => {
                 // Fetch all prescriptions
                 const prescriptionsResponse = await fetch("http://localhost:8000/prescriptions");
                 const prescriptionsData = await prescriptionsResponse.json();
-                console.log("Prescription Data: ", prescriptionsData);
+                // console.log("Prescription Data: ", prescriptionsData);
 
                 // Fetch all patients
                 const patientsResponse = await fetch("http://localhost:8000/patients");
                 const patientsData = await patientsResponse.json();
                 setPatientsData(patientsData);
-                console.log("Patients Data: ", patientsData);
+                // console.log("Patients Data: ", patientsData);
 
                 // Fetch details for each prescription
                 let updatedPrescriptions: Prescription[] = [];
@@ -48,14 +48,14 @@ const RxQueue: React.FC = () => {
                 await Promise.all(prescriptionsData.map(async (prescription: any) => {
                     const statusResponse = await fetch(`http://localhost:8000/prescriptions/${prescription.rx_number}`);
                     const statusData = await statusResponse.json();
-                    console.log("Status Data: ", statusData);
+                    // console.log("Status Data: ", statusData);
 
                     const rxItemId = statusData.rx_item_id;
                     if (!rxItemId) return;
 
                     const rxItemResponse = await fetch(`http://localhost:8000/rx-items/${rxItemId}`);
                     const rxItemData = await rxItemResponse.json();
-                    console.log("Rx Item Data: ", rxItemData);
+                    // console.log("Rx Item Data: ", rxItemData);
 
                     const patient_id = statusData.patient_id;
                     if (!patient_id) return;
@@ -80,15 +80,15 @@ const RxQueue: React.FC = () => {
                     });
                 }));
 
-                console.log("UPDATED RX: ", updatedPrescriptions);
+                // console.log("UPDATED RX: ", updatedPrescriptions);
 
                 // Check for status values and filter
                 const filteredPrescriptions = updatedPrescriptions.filter((prescription: Prescription) => {
-                    console.log('Filtering Prescription:', prescription);
+                    // console.log('Filtering Prescription:', prescription);
                     return prescription.status === 'completed' || prescription.status === 'pending';
                 });
 
-                console.log("Filtered Prescriptions: ", filteredPrescriptions);
+                // console.log("Filtered Prescriptions: ", filteredPrescriptions);
 
                 const columns = ['Item', 'Patient Name', 'DOB', 'Status'];
                 const data = filteredPrescriptions.map((prescription: Prescription) => {
@@ -117,7 +117,7 @@ const RxQueue: React.FC = () => {
 
     const handleRowClick = (rowIndex: number) => {
         setSelectedPrescription(tableData.data[rowIndex]);
-        console.log("Select Row: ", tableData.data[rowIndex]);
+        // console.log("Select Row: ", tableData.data[rowIndex]);
     };
 
     return (

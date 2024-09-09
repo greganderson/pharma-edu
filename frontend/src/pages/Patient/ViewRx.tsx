@@ -155,7 +155,7 @@ const ViewRx: React.FC = () => {
                     status: 'completed',
                 } : null);
     
-                alert('Prescription status updated to complete');
+                alert('Prescription status is complete. Ready to Print!');
             } catch (error) {
                 console.error('Error updating prescription status:', error);
                 alert('Failed to update prescription status');
@@ -172,7 +172,7 @@ const ViewRx: React.FC = () => {
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>View Rx</h1>
             <hr className={styles.hr} />
-            <form className={styles.NewRxForm}>
+            <form className={styles.NewRxForm} autoComplete="off">
                 <table className={styles.enterPatientInfo}>
                     <tbody>
                         <tr>
