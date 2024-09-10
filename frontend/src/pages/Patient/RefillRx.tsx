@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 import { Prescriber } from '../Prescriber/PrescriberModels';
 import { RxItem } from '../RxSearch/RxItemModel';
@@ -26,8 +26,8 @@ const RefillRx: React.FC = () => {
     // Rx Item
     const [searchTermItem, setSearchTermItem] = useState('');
     const [items, setItems] = useState<RxItem[]>([]);
-    // const [item, setItem] = useState<RxItem[]>([]);
-    // const [itemDetails, setItemDetails] = useState<RxItem | null>(null);
+    const [item, setItem] = useState<RxItem[]>([]);
+    const [itemDetails, setItemDetails] = useState<RxItem | null>(null);
     const [selectedItem, setSelectedItem] = useState<RxItem | null>(null);
 
     // Prescription
@@ -52,17 +52,6 @@ const RefillRx: React.FC = () => {
         tech_initials: "",
         prescription_status: ""
     });
-
-    // Update prescription data when patient, prescriber, or item is selected
-    useEffect(() => {
-        setPrescriptionData(prevData => ({
-            ...prevData,
-            patient_id: selectedPatient ? selectedPatient.id : null,
-            prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
-            rx_item_id: selectedItem ? selectedItem.rx_item_id : null
-        }));
-    }, [selectedPatient, selectedPrescriber, selectedItem]);
-    // console.log("Prescription Data Initially: ", prescriptionData);
 
 
     const postPrescription = async (prescriptionData: any) => {
@@ -114,7 +103,7 @@ const RefillRx: React.FC = () => {
                 }));
             }
             if (prescription) {
-                const itemDetails = `${prescription.rx_item_name} ${prescription.strength} ${prescription.rx_item_dosage_form}`;
+                const itemDetails = `${prescription.rx_item_name} ${prescription.rx_item_strength} ${prescription.rx_item_dosage_form}`;
                 setSelectedItem(prescription);
                 setPrescriptionData(prevData => ({
                     ...prevData,
@@ -122,7 +111,7 @@ const RefillRx: React.FC = () => {
                     rx_number: prescription.rx_number,
                     rx_item: prescription.rx_item_name,
                     dosage_form: prescription.dosage_form,
-                    strength: prescription.strength,
+                    rx_item_strength: prescription.rx_item_strength,
                     directions: prescription.directions,
                     quantity: prescription.quantity,
                     refills: prescription.refills,
@@ -186,10 +175,8 @@ const RefillRx: React.FC = () => {
                                 strength: data.strength || prevData.strength,
                                 refills: data.refills || prevData.refills,
                                 quantity: data.quantity || prevData.quantity,
-                                prescribed_date: data.prescribed_date || prevData.prescribed_date
+                                prescribed_date: data.prescribed_date
                             }));
-                            console.log("PRESCRIPTION DATA:", prescriptionData);
-                            console.log("REFILLS: ", prescriptionData.refills);
                             console.log("Rx item ID matched.", data.rx_item_id, selectedItem?.rx_item_id);
                         } else {
                             console.log("Rx item ID does not match the selected item.", data.rx_item_id, selectedItem?.rx_item_id);
@@ -218,12 +205,12 @@ const RefillRx: React.FC = () => {
                         console.log("IS THE RX ITEM ID HERE?", data);
                         setPrescriptionData(prevData => ({
                             ...prevData,
-                            rx_item_id: data.id,
+                            rx_item_id: prescriptionData.rx_item_id,
                             rx_item: data.name,
                             dosage_form: data.dosage_form,
-                            strength: data.strength,
+                            strength: data.strength
                         }));
-                    console.log("PRESCRIPTION DATA: ", prescriptionData);
+                    console.log(prescriptionData);
                     } else {
                         console.error('Failed to fetch rx item details');
                     }
@@ -314,7 +301,7 @@ const RefillRx: React.FC = () => {
         const updatedPrescriptionData = {
             ...prescriptionData,
             prescription_status: "pending",
-            refills: prescriptionData.refills > 0 ? prescriptionData.refills - 1 : 0,
+            refills: prescriptionData.refills - 1,
             rx_item_id: selectedItem?.rx_item_id || prescriptionData.rx_item_id,
             dosage_form: prescriptionData.dosage_form
         };
@@ -372,12 +359,23 @@ const RefillRx: React.FC = () => {
         }
     };
 
+        // Update prescription data when patient, prescriber, or item is selected
+        useEffect(() => {
+            setPrescriptionData(prevData => ({
+                ...prevData,
+                patient_id: selectedPatient ? selectedPatient.id : null,
+                prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
+                rx_item_id: selectedItem ? selectedItem.rx_item_id : null
+            }));
+        }, [selectedPatient, selectedPrescriber, selectedItem]);
+        // console.log("Prescription Data Initially: ", prescriptionData);
+
     
     return (
         <main className={styles.mainNewRx}>
             <h1 className={styles.NewRx_h1}>Refill Rx</h1>
             <hr className={styles.hr}></hr>
-            <form onSubmit={handleSubmit} className={styles.NewRxForm} autoComplete="off">
+            <form onSubmit={handleSubmit} className={styles.NewRxForm}>
                 <table className={styles.enterPatientInfo}>
                     <tbody>
                     <tr>
@@ -417,8 +415,7 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="item"
-                                    value={selectedItem ? `${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}` : ''}
-                                    // value={`${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}`}
+                                    value={`${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}`}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
