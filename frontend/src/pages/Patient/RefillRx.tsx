@@ -173,9 +173,10 @@ const RefillRx: React.FC = () => {
                                 rx_item: data.name || prevData.rx_item,
                                 dosage_form: data.dosage_form || prevData.dosage_form,
                                 strength: data.strength || prevData.strength,
+                                prescribed_date: data.prescribed_date || prevData.prescribed_date,
                                 refills: data.refills || prevData.refills,
-                                quantity: data.quantity || prevData.quantity,
-                                prescribed_date: data.prescribed_date
+                                quantity: data.quantity || prevData.quantity
+                                // name: data.name || prevData.name
                             }));
                             console.log("Rx item ID matched.", data.rx_item_id, selectedItem?.rx_item_id);
                         } else {
@@ -527,7 +528,7 @@ const RefillRx: React.FC = () => {
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor='discard_date'>Discard: </label>
+                                <label htmlFor='discard_date'>Discard After: </label>
                             </td>
                             <td>
                                 <input
