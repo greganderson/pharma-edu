@@ -1,284 +1,165 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-import { Prescriber } from '../Prescriber/PrescriberModels';
-import { RxItem } from '../RxSearch/RxItemModel';
-import { Patient } from '../Patient/PatientModels';
+// import { Prescriber } from '../Prescriber/PrescriberModels';
+// import { RxItem } from '../RxSearch/RxItemModel';
+// import { Patient } from '../Patient/PatientModels';
 import styles from '../Rx.module.css';
 import style from './ViewRx.module.css';
 
+interface Prescription {
+    rx_number: number;
+    patient_id: number;
+    prescriber_id: number;
+    rx_item_id: number;
+    status: string;
+    directions?: string;
+    quantity?: number;
+    quantity_dispensed?: number;
+    refills?: number;
+    prescribed_date?: string;
+    dispense_date?: string;
+    discard_date?: string;
+    expiration_date?: string;
+    rx_item_name?: string;
+    rx_item_strength?: string;
+    tech_initials?:string;
+}
+
 
 const RefillRx: React.FC = () => {
+    // States to manage form submission status and locking the form
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
-    const location = useLocation();
+    const location = useLocation(); // Hook to access the location state (i.e., data passed from previous page)
     const [isFormLocked, setIsFormLocked] = useState<boolean>(false);
 
-    // Patients
-    const [patients, setPatients] = useState<Patient[]>([]);
-    const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+    const { patient, prescription, prescriber } = location.state || {};
+    const { rx_number } = useParams<{ rx_number: string }>();
+    const [fetchedPrescription, setFetchedPrescription] = useState<Prescription | null>(prescription || null);
+    const [fetchedPrescriber, setFetchedPrescriber] = useState<any | null>(prescriber || null);
+    const [fetchedPatient, setFetchedPatient] = useState<any | null>(patient || null);
+    const [fetchedItem, setFetchedItem] = useState<any | null>(prescription || null);
 
-    // Prescribers
-    const [prescribers, setPrescribers] = useState<Prescriber[]>([]);
-    const [selectedPrescriber, setSelectedPrescriber] = useState<Prescriber | null>(null);
-    const [prescriberDetails, setPrescriberDetails] = useState<Prescriber | null>(null);
 
-    // Rx Item
-    const [searchTermItem, setSearchTermItem] = useState('');
-    const [items, setItems] = useState<RxItem[]>([]);
-    const [item, setItem] = useState<RxItem[]>([]);
-    const [itemDetails, setItemDetails] = useState<RxItem | null>(null);
-    const [selectedItem, setSelectedItem] = useState<RxItem | null>(null);
-
-    // Prescription
+    // State to manage prescription data (including patient, prescriber, and item details)
     const [prescriptionData, setPrescriptionData] = useState({
-        rx_number: "",
-        patient_id: selectedPatient ? selectedPatient.id : null,
-        patient: "",
-        prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
-        prescriber: "",
-        prescribed_date: "",
-        dispense_date: "",
-        discard_date: "",
-        expiration_date: "",
-        rx_item_id: selectedItem ? selectedItem.rx_item_id : null, 
-        rx_item: "",
-        dosage_form: "",
-        strength: "",
-        directions: "",
-        quantity: 0,
-        quantity_dispensed: 0,
-        refills: 0,
-        tech_initials: "",
-        prescription_status: ""
+        rx_number: fetchedPrescription ? fetchedPrescription.rx_number : null, // Prescription number
+        patient_id: fetchedPatient ? fetchedPatient.id : null, // Patient ID (null if not selected)
+        patient: "", // Patient name
+        prescriber_id: fetchedPrescriber ? fetchedPrescriber.id : null, // Prescriber ID (null if not selected)
+        prescriber: "", // Prescriber name
+        prescribed_date: "", // Date when the prescription was prescribed
+        dispense_date: "", // Date when the prescription was dispensed
+        discard_date: "", // Discard date (if applicable)
+        expiration_date: "", // Expiration date of the prescription
+        rx_item_id: fetchedItem ? fetchedItem.id : null, // Rx item ID (null if not selected)
+        rx_item: "", // Name of the Rx item
+        dosage_form: "", // Form of the medication (tablet, liquid, etc.)
+        strength: "", // Strength of the medication
+        directions: "", // Directions for taking the medication
+        quantity: 0, // Quantity of the medication
+        quantity_dispensed: 0, // Quantity that was dispensed
+        refills: 0, // Number of refills available
+        tech_initials: "", // Initials of the technician handling the prescription
+        prescription_status: "" // Status of the prescription (e.g., pending, completed)
     });
 
-
+    // Function to send the prescription data to the server
     const postPrescription = async (prescriptionData: any) => {
         console.log("Post Prescription Data: ", prescriptionData);
         try {
+            // POST request to the server
             const response = await fetch('http://localhost:8000/prescriptions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(prescriptionData),
+                body: JSON.stringify(prescriptionData), // Send prescription data as JSON
             });
     
-            if (!response.ok) {
+            if (!response.ok) { // If response is not ok, handle the error
                 const errorData = await response.json();
                 console.log('Server response:', errorData);
                 throw new Error(errorData.message || 'Failed to create prescription.');
             }
     
-            return response.json();
+            return response.json(); // Return the server response
         } catch (error) {
             console.error('Error:', error);
-            throw error;
+            throw error; // Rethrow the error to handle it outside
         }
     };
 
-//
-// If the state is passed in from the previous page information will be loaded.
-//
+
+    useEffect(() => {
+        const fetchPrescription = async () => {
+            if (rx_number && !fetchedPrescription) { // Only fetch if prescription isn't already fetched
+                try {
+                    const response = await fetch(`http://localhost:8000/prescriptions/${rx_number}`);
+                    if (!response.ok) throw new Error('Failed to fetch prescription');
+                    const data = await response.json();
+                    setFetchedPrescription(data);
     
-    // If state is passed, update the selected patient, prescriber, and item
-    useEffect(() => {
-        if (location.state) {
-            const { patient, prescriber, prescription } = location.state;
-            if (patient && patient.id) {
-                setSelectedPatient(patient);
-                setPrescriptionData(prevData => ({
-                    ...prevData,
-                    patient_id: patient.id,
-                    patient: `${patient.first_name} ${patient.last_name}`,
-                }));
-            }
-            if (prescriber) {
-                setSelectedPrescriber(prescriber);
-                setPrescriptionData(prevData => ({
-                    ...prevData,
-                    prescriber_id: prescriber.id,
-                    prescriber: `${prescriber.first_name} ${prescriber.last_name}, ${prescriber.physician_type}`
-                }));
-            }
-            if (prescription) {
-                const itemDetails = `${prescription.rx_item_name} ${prescription.rx_item_strength} ${prescription.rx_item_dosage_form}`;
-                setSelectedItem(prescription);
-                setPrescriptionData(prevData => ({
-                    ...prevData,
-                    rx_item_id: prescription.rx_item_id,
-                    rx_number: prescription.rx_number,
-                    rx_item: prescription.rx_item_name,
-                    dosage_form: prescription.dosage_form,
-                    rx_item_strength: prescription.rx_item_strength,
-                    directions: prescription.directions,
-                    quantity: prescription.quantity,
-                    refills: prescription.refills,
-                    prescribed_date: prescription.prescribed_date
-                }));
-                setSearchTermItem(itemDetails);
-            }
-        }
-    }, [location.state]);
-
-
-    useEffect(() => {
-        console.log("Selected Item after setting:", selectedItem);
-    }, [selectedItem]);
-
-//
-// Fetch
-//
-
-    // GET prescriber by ID from the ID that is passed in from RxHistory
-    useEffect(() => {
-        if (selectedPrescriber && selectedPrescriber.id) {
-            const fetchPrescriberDetails = async () => {
-                try {
-                    const response = await fetch(`http://localhost:8000/prescribers/${selectedPrescriber.id}`);
-                    if (response.ok) {
-                        const data: Prescriber = await response.json();
-                        console.log("Prescriber Info", data);
-                        setPrescriberDetails(data);
-                        setPrescriptionData(prevData => ({
-                            ...prevData,
-                            prescriber_id: data.id,
-                            prescriber: `${data.first_name} ${data.last_name} ${data.prescriber_type} ${data.dea}`
-                        }));
-                    } else {
-                        console.error('Failed to fetch prescriber details');
-                    }
+                    // Update prescriptionData with fetched values
+                    setPrescriptionData((prevData) => ({
+                        ...prevData,
+                        refills: data.refills || 0,
+                        prescribed_date: data.prescribed_date || '',
+                        quantity: data.quantity || 0,
+                    }));
                 } catch (error) {
-                    console.error('Error fetching prescriber details:', error);
+                    console.error('Error fetching prescription data:', error);
                 }
-            };
-            fetchPrescriberDetails();
-        }
-    }, [selectedPrescriber]);
-
-    useEffect(() => {
-        if (selectedItem && prescriptionData.rx_number) {
-            const fetchRxDetails = async () => {
-                try {
-                    const response = await fetch(`http://localhost:8000/prescriptions/${prescriptionData.rx_number}`);
-                    if (response.ok) {
-                        const data: RxItem = await response.json();
-                        console.log("Rx Item Info:", data);
-                        
-                        if (data.rx_item_id) {
-                            setPrescriptionData(prevData => ({
-                                ...prevData,
-                                rx_item_id: data.rx_item_id,
-                                rx_item: data.name || prevData.rx_item,
-                                dosage_form: data.dosage_form || prevData.dosage_form,
-                                strength: data.strength || prevData.strength,
-                                prescribed_date: data.prescribed_date || prevData.prescribed_date,
-                                refills: data.refills || prevData.refills,
-                                quantity: data.quantity || prevData.quantity
-                                // name: data.name || prevData.name
-                            }));
-                            console.log("Rx item ID matched.", data.rx_item_id, selectedItem?.rx_item_id);
-                        } else {
-                            console.log("Rx item ID does not match the selected item.", data.rx_item_id, selectedItem?.rx_item_id);
-                        }
-                    } else {
-                        console.error('Failed to fetch rx item details');
-                    }
-                } catch (error) {
-                    console.error('Error fetching rx item details:', error);
-                }
-            };
-            fetchRxDetails();
-        }
-    }, [selectedItem, prescriptionData.rx_number]);
-
-
-    useEffect(() => {
-        if (selectedItem && prescriptionData.rx_item_id) {
-            const fetchRxItemById = async () => {
-                try {
-                    const response = await fetch(`http://localhost:8000/rx-items/${prescriptionData.rx_item_id}`);
-                    if (response.ok) {
-                        const data: RxItem = await response.json();
-                        console.log("Fetch Rx Item by Id", data);
-
-                        console.log("IS THE RX ITEM ID HERE?", data);
-                        setPrescriptionData(prevData => ({
-                            ...prevData,
-                            rx_item_id: prescriptionData.rx_item_id,
-                            rx_item: data.name,
-                            dosage_form: data.dosage_form,
-                            strength: data.strength
-                        }));
-                    console.log(prescriptionData);
-                    } else {
-                        console.error('Failed to fetch rx item details');
-                    }
-                } catch (error) {
-                    console.error('Error fetching rx item details:', error);
-                }
-            };
-            fetchRxItemById();
-        }
-    }, [selectedItem, prescriptionData.rx_item_id, selectedItem?.rx_item_id, prescriptionData.dosage_form, selectedItem?.dosage_form]);
-
-
-    useEffect(() => {
-        const fetchPatients = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/patients');
-                if (response.ok) {
-                    const data: Patient[] = await response.json();
-                    setPatients(data);
-                } else {
-                    console.error('Failed to fetch patients');
-                }
-            } catch (error) {
-                console.error('Error fetching patients:', error);
             }
         };
-
-        fetchPatients();
-    }, []);
-
-
-    useEffect(() => {
-        const fetchPrescribers = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/prescribers');
-                if (response.ok) {
-                    const data: Prescriber[] = await response.json();
-                    setPrescribers(data);
-                } else {
-                    console.error('Failed to fetch prescribers');
+    
+        const fetchItem = async () => {
+            if (fetchedPrescription?.rx_item_id && !fetchedItem) { // Only fetch if item isn't already fetched
+                try {
+                    const response = await fetch(`http://localhost:8000/rx-items/${fetchedPrescription.rx_item_id}`);
+                    if (!response.ok) throw new Error('Failed to fetch rx-item');
+                    const data = await response.json();
+                    setFetchedItem(data);
+                } catch (error) {
+                    console.error('Error fetching rx-item data:', error);
                 }
-            } catch (error) {
-                console.error('Error fetching prescribers:', error);
             }
         };
-
-        fetchPrescribers();
-    }, []);
-
-
-    useEffect(() => {
-        const fetchRxItems = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/rx-items');
-                if (response.ok) {
-                    const data: RxItem[] = await response.json();
-                    setItems(data);
-                } else {
-                    console.error('Failed to fetch items');
+    
+        const fetchPrescriber = async () => {
+            if (fetchedPrescription?.prescriber_id && !fetchedPrescriber) { // Only fetch if prescriber isn't already fetched
+                try {
+                    const response = await fetch(`http://localhost:8000/prescribers/${fetchedPrescription.prescriber_id}`);
+                    if (!response.ok) throw new Error('Failed to fetch prescriber');
+                    const data = await response.json();
+                    setFetchedPrescriber(data);
+                } catch (error) {
+                    console.error('Error fetching prescriber data:', error);
                 }
-            } catch (error) {
-                console.error('Error fetching items:', error);
             }
         };
-
-        fetchRxItems();
-    }, []);
+    
+        const fetchPatient = async () => {
+            if (fetchedPrescription?.patient_id && !fetchedPatient) { // Only fetch if patient isn't already fetched
+                try {
+                    const response = await fetch(`http://localhost:8000/patients/${fetchedPrescription.patient_id}`);
+                    if (!response.ok) throw new Error('Failed to fetch patient');
+                    const data = await response.json();
+                    setFetchedPatient(data);
+                } catch (error) {
+                    console.error('Error fetching patient data:', error);
+                }
+            }
+        };
+    
+        fetchPrescription();
+        if (fetchedPrescription) {
+            fetchItem();
+            fetchPrescriber();
+            fetchPatient();
+        }
+    }, [rx_number, fetchedPrescription, fetchedItem, fetchedPrescriber, fetchedPatient]);
 
 
 //
@@ -286,90 +167,96 @@ const RefillRx: React.FC = () => {
 //
 
 
+    // Handle changes to form inputs (input, textarea, or select elements)
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { id, value } = event.target;
+        const { id, value } = event.target; // Extract 'id' and 'value' from the input
         setPrescriptionData((prevData) => ({
             ...prevData,
-            [id]: value
+            [id]: value // Dynamically update the prescription data based on the field's id
         }));
     };
 
-
+    // Handle form submission
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setIsSubmitting(true);
-    
+        event.preventDefault(); // Prevent the default form submission behavior
+        setIsSubmitting(true); // Set the form submission status to 'true'
+
+        // Prepare updated prescription data
         const updatedPrescriptionData = {
             ...prescriptionData,
-            prescription_status: "pending",
-            refills: prescriptionData.refills - 1,
-            rx_item_id: selectedItem?.rx_item_id || prescriptionData.rx_item_id,
-            dosage_form: prescriptionData.dosage_form
+            prescription_status: "pending", // Set prescription status to 'pending'
+            refills: prescriptionData.refills - 1, // Decrease refills by 1
+            rx_item_id: prescriptionData.rx_item_id, // Ensure the correct rx_item_id is used
+            dosage_form: prescriptionData.dosage_form // Ensure dosage form is included
         };
-    
+
         console.log("Submitting prescription with pending status:", updatedPrescriptionData);
-    
+
+        // Function to submit prescription asynchronously
         const submitRx = async () => {
             try {
+                // Call postPrescription and handle the result
                 const result = await postPrescription(updatedPrescriptionData);
                 if (result && result.rx_number) {
-                    setSubmitted(true);
-                    setIsFormLocked(true);
-                    alert(`Prescription Submitted. Rx Number: ${result.rx_number}`);
+                    setSubmitted(true); // Mark form as submitted
+                    setIsFormLocked(true); // Lock the form from further editing
+                    alert(`Prescription Submitted. Rx Number: ${result.rx_number}`); // Show success alert with Rx number
                     console.log(`Rx Number: ${result.rx_number}`);
                 } else {
-                    throw new Error("Rx number not received in the response.");
+                    throw new Error("Rx number not received in the response."); // Handle case where Rx number is missing
                 }
             } catch (error) {
-                console.log(updatedPrescriptionData);
-                console.error('Error:', error);
-                alert("An error occurred while creating the prescription.");
+                console.log(updatedPrescriptionData); // Log the prescription data for debugging
+                console.error('Error:', error); // Log the error
+                alert("An error occurred while creating the prescription."); // Show error alert to the user
             } finally {
-                setIsSubmitting(false);
+                setIsSubmitting(false); // Set submission status back to 'false' after completion
             }
         };
-    
-        submitRx();
+
+        submitRx(); // Call the asynchronous function to submit the prescription
     };
 
+    // Handle printing of prescription labels
     const handlePrintLabel = async () => {
         const updatedPrescriptionData = {
             ...prescriptionData,
-            prescription_status: 'completed'
+            prescription_status: 'completed' // Set prescription status to 'completed' when printing
         };
-        
+
         try {
+            // Make a PATCH request to update the prescription with 'completed' status
             const response = await fetch(`http://localhost:8000/prescriptions/${prescriptionData.rx_number}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedPrescriptionData),
+                body: JSON.stringify(updatedPrescriptionData), // Send updated prescription data
             });
-            
+
             if (response.ok) {
-                alert(`Prescription printed. Rx Number: ${updatedPrescriptionData.rx_number}`);
+                alert(`Prescription printed. Rx Number: ${updatedPrescriptionData.rx_number}`); // Show success message
             } else {
                 const errorData = await response.json();
-                console.error('Server response:', errorData);
+                console.error('Server response:', errorData); // Log server response in case of failure
                 throw new Error(errorData.message || 'Failed to update prescription.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert("An error occurred while updating the prescription.");
+            console.error('Error:', error); // Log any errors
+            alert("An error occurred while updating the prescription."); // Show error alert to the user
         }
     };
 
-        // Update prescription data when patient, prescriber, or item is selected
-        useEffect(() => {
-            setPrescriptionData(prevData => ({
-                ...prevData,
-                patient_id: selectedPatient ? selectedPatient.id : null,
-                prescriber_id: selectedPrescriber ? selectedPrescriber.id : null,
-                rx_item_id: selectedItem ? selectedItem.rx_item_id : null
-            }));
-        }, [selectedPatient, selectedPrescriber, selectedItem]);
-        // console.log("Prescription Data Initially: ", prescriptionData);
+    // Update prescription data when patient, prescriber, or item is selected
+    useEffect(() => {
+        setPrescriptionData(prevData => ({
+            ...prevData,
+            patient_id: fetchedPatient ? fetchedPatient.id : null, // Set patient ID if patient is selected
+            prescriber_id: fetchedPrescriber ? fetchedPrescriber.id : null, // Set prescriber ID if prescriber is selected
+            rx_item_id: fetchedItem ? fetchedItem.id : null // Set Rx item ID if an item is selected
+        }));
+    }, [fetchedPatient, fetchedPrescriber, fetchedItem]); // Runs when any of these dependencies change
+    // console.log("Prescription Data Initially: ", prescriptionData);
 
     
     return (
@@ -387,7 +274,7 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="search"
-                                    value={selectedPatient ? `${selectedPatient.first_name} ${selectedPatient.last_name}` : ''}
+                                    value={fetchedPatient ? `${fetchedPatient.first_name} ${fetchedPatient.last_name}` : ''}
                                     placeholder="Search for a patient"
                                     readOnly
                                     className={style.readOnlyField}
@@ -402,7 +289,7 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="prescriber"
-                                    value={selectedPrescriber ? `${selectedPrescriber.first_name} ${selectedPrescriber.last_name}, ${selectedPrescriber.prescriber_type}` : ''}
+                                    value={fetchedPrescriber ? `${fetchedPrescriber.first_name} ${fetchedPrescriber.last_name}, ${fetchedPrescriber.prescriber_type}` : ''}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
@@ -416,7 +303,7 @@ const RefillRx: React.FC = () => {
                                 <input
                                     type="text"
                                     id="item"
-                                    value={`${prescriptionData.rx_item} ${prescriptionData.strength} ${prescriptionData.dosage_form}`}
+                                    value={`${fetchedItem.name} ${fetchedItem.strength} ${fetchedItem.dosage_form}`}
                                     readOnly
                                     className={style.readOnlyField}
                                 />
@@ -561,14 +448,14 @@ const RefillRx: React.FC = () => {
             </form>
 
                 <div className={styles.displayPatientInfo}>
-                    {selectedPatient ? (
+                    {fetchedPatient ? (
                         <div>
                             <h6>Patient Information: </h6>
-                            <p>Name: {selectedPatient.first_name} {selectedPatient.last_name}</p>
-                            <p>DOB: {selectedPatient.date_of_birth}</p>
-                            <p>Address: {selectedPatient.street}</p>
-                            <p>{selectedPatient.city}, {selectedPatient.state} {selectedPatient.zipcode}</p>
-                            <p>Phone #: {selectedPatient.phone_number}</p>
+                            <p>Name: {fetchedPatient.first_name} {fetchedPatient.last_name}</p>
+                            <p>DOB: {fetchedPatient.date_of_birth}</p>
+                            <p>Address: {fetchedPatient.street}</p>
+                            <p>{fetchedPatient.city}, {fetchedPatient.state} {fetchedPatient.zipcode}</p>
+                            <p>Phone #: {fetchedPatient.phone_number}</p>
                         </div>
                     ) : (
                         <p>No patient selected</p>
@@ -576,14 +463,14 @@ const RefillRx: React.FC = () => {
                 </div>
 
                 <div className={styles.displayPrescriberInfo}>
-                    {prescriberDetails ? (
+                    {fetchedPrescriber ? (
                         <div>
                             <h6>Prescriber Information: </h6>
-                            <p>Name: {prescriberDetails.first_name} {prescriberDetails.last_name}, {prescriberDetails.prescriber_type}</p>
-                            <p>DEA: {prescriberDetails.dea} &nbsp;&nbsp;&nbsp;&nbsp; NPI: {prescriberDetails.npi}</p>
-                            <p>Address: {prescriberDetails.street}</p>
-                            <p>{prescriberDetails.city}, {prescriberDetails.state} {prescriberDetails.zipcode}</p>
-                            <p>Phone #: {prescriberDetails.contact_number}</p>
+                            <p>Name: {fetchedPrescriber.first_name} {fetchedPrescriber.last_name}, {fetchedPrescriber.prescriber_type}</p>
+                            <p>DEA: {fetchedPrescriber.dea} &nbsp;&nbsp;&nbsp;&nbsp; NPI: {fetchedPrescriber.npi}</p>
+                            <p>Address: {fetchedPrescriber.street}</p>
+                            <p>{fetchedPrescriber.city}, {fetchedPrescriber.state} {fetchedPrescriber.zipcode}</p>
+                            <p>Phone #: {fetchedPrescriber.contact_number}</p>
                         </div>
                     ) : (
                         <p>No prescriber selected</p>

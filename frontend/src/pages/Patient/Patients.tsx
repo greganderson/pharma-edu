@@ -19,7 +19,7 @@ const Patient:React.FC = () => {
             <Route path="/add-patient" element={<AddPatient />} />
             <Route path="/update-patient/:patient_id" element={<UpdatePatient />} />
             <Route path="/rx-history/:patient_id" element={<RxHistory />} />
-            <Route path="/refill-rx/:patient_id" element={<RefillRx />} />
+            <Route path="/refill-rx/:rx_number" element={<RefillRx />} />
             <Route path="/view-rx/:rx_number" element={<ViewRx />} />
         </Routes>
     );
