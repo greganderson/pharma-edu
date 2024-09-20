@@ -1,0 +1,53 @@
+.new-rx-container {
+  display: flex;
+  height: calc(90vh - 60px);
+}
+
+.new-rx-left-side,
+.scan-image {
+  flex: 1; /* Each side takes up equal space */
+  padding: 0 2rem;
+}
+
+.separator {
+  width: 1px;
+  background-color: #ccc;
+}
+
+.new-rx-left-side div {
+  display: flex; /* Align items horizontally */
+  align-items: center; /* Center the label and input vertically */
+  margin-bottom: 1rem;
+}
+
+.new-rx-left-side label {
+  margin-right: 1rem; /* Space between the label and the input */
+  width: 150px; /* Set a fixed width for labels */
+  text-align: right; /* Align label text to the right for better spacing */
+}
+
+.new-rx-left-side input {
+  flex-grow: 1; /* Allow input to take up the remaining space */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.new-rx-left-side {
+  padding: 20px;
+}
+
+.new-rx-left-side textarea.directions-textarea {
+  flex-grow: 1; /* Allow the textarea to take up the remaining space */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  min-height: 100px; /* Set a minimum height */
+  resize: vertical; /* Allow the user to resize the textarea vertically */
+}
+
+.scan-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
