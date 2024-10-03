@@ -132,6 +132,7 @@ def upgrade() -> None:
                 "NMD",
                 "DVM",
                 "PhD",
+                "NP",
                 name="doctortype",
             ),
             nullable=False,

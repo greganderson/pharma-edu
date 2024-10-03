@@ -71,6 +71,7 @@ class PrescriberType(str, Enum):
     NMD = "NMD"
     DVM = "DVM"
     PhD = "PhD"
+    NP = "NP"
 
     def description(self):
         match self:
@@ -98,6 +99,8 @@ class PrescriberType(str, Enum):
                 return "Doctor of Veterinary Medicine"
             case PrescriberType.PhD:
                 return "Doctor of Philosophy in Medical Field"
+            case PrescriberType.NP:
+                return "Nurse Practitioner"
             case _:
                 return "Unknown Prescriber Type"
 
