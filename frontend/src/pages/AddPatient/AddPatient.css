@@ -1,0 +1,40 @@
+.add-new-patient-container {
+  display: flex;
+  height: calc(90vh - 60px);
+}
+
+.pt-left-side,
+.pt-right-side {
+  flex: 1; /* Each side takes up equal space */
+  padding: 0 2rem;
+}
+
+.separator {
+  width: 1px;
+  background-color: #ccc;
+}
+
+.pt-left-side div,
+.pt-right-side div {
+  display: flex; /* Align items horizontally */
+  align-items: center; /* Center the label and input vertically */
+  margin-bottom: 1rem;
+}
+
+.pt-left-side label,
+.pt-right-side label {
+  margin-right: 1rem; /* Space between the label and the input */
+  width: 150px; /* Set a fixed width for labels */
+  text-align: right; /* Align label text to the right for better spacing */
+}
+
+.pt-left-side input,
+.pt-right-side input {
+  flex-grow: 1; /* Allow input to take up the remaining space */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+.pt-left-side {
+  padding: 20px;
+}

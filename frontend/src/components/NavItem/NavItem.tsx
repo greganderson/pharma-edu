@@ -6,7 +6,7 @@ interface NavItemProps {
   path: string;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ name, path }) => {
+const NavItem: React.FC<NavItemProps> = ({ path, name }) => {
   return (
     <li>
       <Link to={path}>{name}</Link>

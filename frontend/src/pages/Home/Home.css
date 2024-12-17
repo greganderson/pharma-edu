@@ -1,0 +1,13 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center the logo vertically */
+  height: 100vh; /* Make sure the container takes up the full viewport height */
+  background-color: #2E3F59;
+}
+
+.logo-image {
+  margin-bottom: 150px;
+  width: 800px; /* Adjust this value to make the logo smaller */
+}
